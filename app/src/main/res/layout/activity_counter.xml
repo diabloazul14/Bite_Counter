@@ -8,6 +8,16 @@
   <RadioButton
       android:layout_width="32dp"
       android:layout_height="32dp"
-      android:text="@string/radio"/>
+      android:text="@string/radio"
+      android:id="@+id/radioButton" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/myChange"
+        android:id="@+id/textView"
+        android:layout_below="@+id/radioButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
