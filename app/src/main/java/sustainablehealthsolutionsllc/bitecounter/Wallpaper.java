@@ -1,15 +1,35 @@
 package sustainablehealthsolutionsllc.bitecounter;
 
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.ActionBarActivity;
+import android.app.WallpaperManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+public class Wallpaper extends ActionBarActivity{
 
-public class Counter extends ActionBarActivity {
+    public String filePath = "";
+
+    public String getFilePath() {
+        return null;
+    }
+
+    public void setFilePath() {
+
+    }
+    private void changeWallpaper(String filePath) {
+        Bitmap bitmap = BitmapFactory.decodeFile(filePath);
+        BitmapDrawable bitmapDrawable = new BitmapDrawable(bitmap);
+//        setBackgroundDrawable(Drawable);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +46,8 @@ public class Counter extends ActionBarActivity {
                 layout.setBackgroundResource(R.drawable.wall2);
             }
         });
-    }
 
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -50,4 +70,5 @@ public class Counter extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }
