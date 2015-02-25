@@ -1,63 +1,98 @@
 package sustainablehealthsolutionsllc.bitecounter;
 
-import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.ProgressBar;
+public class Counter {
+    int numBites;
+    int limit;
+    boolean pastLimit;
 
-
-public class BiteCounter extends ActionBarActivity {
-
-    //is it the first run?
-    private boolean isFirstRun;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_counter);
+    /**
+     * This is the default constructor for the Counter class.
+     */
+    Counter() {
+        this.numBites = 0;
+        this.limit = 0;
+        this.pastLimit = false;
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_counter, menu);
-        return true;
+    /**
+     * This is a constructor for the Counter class that
+     * sets the Limit when it is constructed.
+     * @param newLimit
+     */
+    Counter(int newLimit) {
+        this.numBites = 0;
+        this.limit = newLimit;
+        this.pastLimit = false;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    /**
+     * This is a mutator function that sets the
+     * number of bites.
+     * @param newNumBites
+     */
+    public void setNumBites(int newNumBites) {
+        this.numBites = newNumBites;
     }
 
-    //we don't need run or main we need to separate responsibilities
-
-    public void runProgressBar() {
-
-        cicularProgressBar progressBar = new circularProgressBar();
-
+    /**
+     * This is an accessor function that returns
+     * the Counter objects number of bites.
+     * @return
+     */
+    public int getNumBites() {
+        return this.numBites;
     }
 
-
-   public void setIsFirstRun(boolean firstRun) {
-
-       firstRun = this.isFirstRun;
-
+    /**
+     * This is a mutator function that sets
+     * the limit.
+     * @param newLimit
+     */
+    public void setLimit(int newLimit) {
+        this.limit = newLimit;
     }
 
-    public boolean getIsFirstRun() {
+    /**
+     * This is an accessor function that returns the
+     * limit of the counter class.
+     * @return
+     */
+    public int getLimit() {
+        return this.limit;
+    }
 
-        return isFirstRun;
+    /**
+     * This is a mutator that sets the isLimit value
+     * of the class.
+     * @param newIsLimit
+     */
+    public void setPastLimit(boolean newIsLimit) {
+        this.pastLimit = newIsLimit;
+    }
+
+    /**
+     * This getter determines whether or not
+     * the number of bites is higher than the limit.
+     * If it returns true than it's past the limit.
+     * If it returns false it isn't past the limit.
+     * @return
+     */
+    public boolean getPastLimit() {
+        return (this.getNumBites() > this.getLimit());
+    }
+
+    /**
+     * This function increments the number of bites by 1.
+     */
+    public void incrementBite() {
+        this.numBites += 1;
+    }
+
+    /**
+     * This function takes the current limit and reduces it
+     * by 20 percent.
+     */
+    public void reduceBy20() {
+        this.limit = this.limit - (this.limit / 5);
     }
 }
