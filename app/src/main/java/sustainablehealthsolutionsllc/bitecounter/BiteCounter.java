@@ -4,9 +4,13 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 
 
-public class Counter extends ActionBarActivity {
+public class BiteCounter extends ActionBarActivity {
+
+    //is it the first run?
+    private boolean isFirstRun;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,5 +39,25 @@ public class Counter extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    //we don't need run or main we need to separate responsibilities
+
+    public void runProgressBar() {
+
+        cicularProgressBar progressBar = new circularProgressBar();
+
+    }
+
+
+   public void setIsFirstRun(boolean firstRun) {
+
+       firstRun = this.isFirstRun;
+
+    }
+
+    public boolean getIsFirstRun() {
+
+        return isFirstRun;
     }
 }
