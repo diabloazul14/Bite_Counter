@@ -5,7 +5,6 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
@@ -14,6 +13,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
@@ -42,13 +42,11 @@ public class Wallpaper extends ActionBarActivity{
     // To handle when an image is selected from the browser, add this to the Activity
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if (resultCode == RESULT_OK) {
 
             // currImageURI is used to hold the content:// URI of the image
             Uri selectedImageUri = data.getData();
-            String path = getRealPathFromURI(selectedImageUri);
-            filePath = path;
+            filePath = getRealPathFromURI(selectedImageUri);
 //            editText1.setText(path);
         }
     }

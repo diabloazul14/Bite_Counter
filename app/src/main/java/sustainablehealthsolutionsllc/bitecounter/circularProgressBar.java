@@ -25,9 +25,9 @@ public class circularProgressBar {
                 piece = 100/limit;
                 float newPiece = 0;
 
-           newCircle = (ProgressBar) findViewById(R.id.circularProgressbar);
-
-                if()
+//           newCircle = (ProgressBar) findViewById(R.id.circularProgressbar);
+//
+//                if()
 
             }
         });

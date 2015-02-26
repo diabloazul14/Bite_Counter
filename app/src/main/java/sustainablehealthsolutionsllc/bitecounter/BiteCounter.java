@@ -1,22 +1,35 @@
 package sustainablehealthsolutionsllc.bitecounter;
 
+
 /**
  * Created by john on 2/25/15.
  */
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
-    import android.os.Bundle;
-    import android.view.Menu;
-    import android.view.MenuItem;
 
-
-    public class BiteCounter extends ActionBarActivity {
+public class BiteCounter extends ActionBarActivity {
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_counter);
+            // Create Change Wallpaper Button
+//            Button b = (Button) findViewById(R.id.wallpaperBtn);
+//            b.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    // Use intent to start WallpaperBrowser Activity
+//                    Intent intent = new Intent(BiteCounter.this, WallpaperBrowser.class);
+//                    startActivity(intent);
+//                }
+//            });
         }
 
 
