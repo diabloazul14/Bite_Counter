@@ -1,34 +1,72 @@
 package sustainablehealthsolutionsllc.bitecounter;
 
+import android.content.Intent;
+import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
-import android.app.WallpaperManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 public class Wallpaper extends ActionBarActivity{
 
-    public String filePath = "";
+    private String filePath = "";
 
     public String getFilePath() {
-        return null;
+        return filePath;
     }
 
-    public void setFilePath() {
-
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
+
     private void changeWallpaper(String filePath) {
+        Resources res = getResources();
         Bitmap bitmap = BitmapFactory.decodeFile(filePath);
-        BitmapDrawable bitmapDrawable = new BitmapDrawable(bitmap);
-//        setBackgroundDrawable(Drawable);
+        BitmapDrawable bitmapDrawable = new BitmapDrawable(res, bitmap);
+        View view = findViewById(R.id.activity_counter);
+        // API16+
+        view.setBackground(bitmapDrawable);
+        // < API16
+        //view.setBackgroundDrawable(bitmapDrawable);
+    }
+    // To handle when an image is selected from the browser, add this to the Activity
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (resultCode == RESULT_OK) {
+
+            // currImageURI is used to hold the content:// URI of the image
+            Uri selectedImageUri = data.getData();
+            String path = getRealPathFromURI(selectedImageUri);
+            filePath = path;
+//            editText1.setText(path);
+        }
+    }
+
+    // And to convert the image URI to the direct file system path of the image file
+    public String getRealPathFromURI(Uri contentUri) {
+
+        // can post image
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query(contentUri,
+                projection, // Which columns to return
+                null,       // WHERE clause; which rows to return (all rows)
+                null,       // WHERE clause selection arguments (none)
+                null); // Order-by clause (ascending by name)
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+
+        return cursor.getString(column_index);
     }
 
     @Override
@@ -36,18 +74,17 @@ public class Wallpaper extends ActionBarActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counter);
 
-        Button btn = (Button) findViewById(R.id.wallpaperBtn);
-
-        btn.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                RelativeLayout layout = (RelativeLayout) findViewById(R.id.activity_counter);
-                layout.setBackgroundResource(R.drawable.wall2);
-            }
-        });
-
-    }
+//        Button btn = (Button) findViewById(R.id.wallpaperBtn);
+//
+//        btn.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                RelativeLayout layout = (RelativeLayout) findViewById(R.id.activity_counter);
+//                layout.setBackgroundResource(R.drawable.wall2);
+//            }
+//        });
+        }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
