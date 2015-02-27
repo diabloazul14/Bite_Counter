@@ -7,5 +7,6 @@
     <string name="action_settings">Settings</string>
     <string name="radio">You are a radio</string>
     <string name="wallpaperBtn">Change Wallpaper</string>
+    <string name="BMI">BMI</string>
 
 </resources>
