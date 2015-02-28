@@ -60,7 +60,7 @@ public class Tester {
         }
     }
 
-    private void bmiTest()  {
+    private void bmiTest() {
         BMI bmi = new BMI();
         bmi.setHeight(72);
         bmi.setWeight(280);
@@ -68,4 +68,45 @@ public class Tester {
         System.out.println("The BMI is " + bmi.getBmi());
 
     }
+        /***
+         * bmiTest1
+         * by John Decker
+         */
+    private void bmiTest1() {
+
+    BMI bmiTest = new BMI();
+
+        //I am trying to break it
+        bmiTest.setBmi(300000000);
+        bmiTest.calcBmi();
+        bmiTest.setIsEntered();
+        bmiTest.height = 10000;
+        bmiTest.bmi = -55550;
+
+       //this is to check if we have entered information
+        assert((bmiTest.getIsEntered() != true));
+
+        bmiTest.calcBmi();
+        bmiTest.setWeight(-400000);
+        bmiTest.calcBmi();
+        System.out.println("The BMI is " + bmiTest.getBmi());
+    }
+
+   private void bmiTest2() {
+
+       BMI bmiTest2 = new BMI();
+
+
+       for(int i = -2000; i < 4000; ++i) {
+          bmiTest2.setWeight(i);
+          bmiTest2.setHeight(i*34);
+
+           //lets see if it is entered?
+          assert(bmiTest2.getIsEntered());
+
+
+       }
+
+   }
+
 }
