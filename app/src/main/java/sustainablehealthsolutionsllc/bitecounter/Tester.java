@@ -11,7 +11,7 @@ public class Tester {
 
     private void run(String[] args)  {
         if (args[0].equals("counter"))  {
-            countTest();
+            counterTest();
         }
 
         if (args[0].equals("converter"))  {
@@ -20,8 +20,6 @@ public class Tester {
 
         if (args[0].equals("bmi"))  {
             bmiTest();
-            bmiTest1();
-            bmiTest2();
         }
         System.out.println("Tests Completed :)");
 
@@ -62,7 +60,7 @@ public class Tester {
         }
     }
 
-    private void bmiTest() {
+    private void bmiTest()  {
         BMI bmi = new BMI();
         bmi.setHeight(72);
         bmi.setWeight(280);
@@ -70,48 +68,10 @@ public class Tester {
         System.out.println("The BMI is " + bmi.getBmi());
 
     }
-    /***
-     * bmiTest1
-     * by John Decker
-     */
-    private void bmiTest1() {
 
-        BMI bmiTest = new BMI();
-
-        //I am trying to break it
-        bmiTest.setBmi(300000000);
-        bmiTest.calcBmi();
-        bmiTest.setIsEntered();
-        bmiTest.height = 10000;
-        bmiTest.bmi = -55550;
-
-        //this is to check if we have entered information
-        assert((bmiTest.getIsEntered() != true));
-
-        bmiTest.calcBmi();
-        bmiTest.setWeight(-400000);
-        bmiTest.calcBmi();
-        System.out.println("The BMI is " + bmiTest.getBmi());
-    }
-
-    private void bmiTest2() {
-
-        BMI bmiTest2 = new BMI();
-
-
-        for(int i = -2000; i < 4000; ++i) {
-            bmiTest2.setWeight(i);
-            bmiTest2.setHeight(i*34);
-
-            //lets see if it is entered?
-            assert(bmiTest2.getIsEntered());
-
-
-        }
-
-    }
-
+    // Test 1 Passed
     private void countTest() {
+        System.out.println("\nTest1:\n---------");
         Counter counter = new Counter();
         int count = 0;
         for (int i = 0; i <= 100; i++)
@@ -125,5 +85,55 @@ public class Tester {
         System.out.println("Limit After Reduce: " + counter.getLimit());
     }
 
+    // Test 2 Try to Assert but still display negative numbers
+    private void countTest2() {
+        System.out.println("\n\n\nTest2:\n---------");
+        Counter counter = new Counter();
+
+        // Limit NOW = 100 bites
+        counter.setLimit(100);
+        System.out.println("Limit (100): " + counter.getLimit());
+        System.out.println("Num Bites (0): " + counter.getNumBites());
+
+//		counter.setPastLimit(false);
+        for (int i = 1; i <= 111; i++)
+        {
+            // Counter
+            counter.incrementBite();
+
+            // If limit > 100 bites, update New Limit
+            if (counter.getPastLimit()) {
+                counter.setLimit(counter.getNumBites());
+            }
+        }
+
+        // NOW LIMIT = 111; NUMBITES = 111
+        System.out.println("\nNew Limit (111): " + counter.getLimit());
+        System.out.println("NumBites (111): " + counter.getNumBites());
+
+        // TEST WITH NEGATIVE LIMIT
+        counter.setLimit(-100);
+        System.out.println("\nNegative Limit (-100): " + counter.getLimit());
+        // ASSERT NON-NEGATIVE LIMIT
+        assert (counter.getLimit() >= 0);
+        System.out.println("Limit (Assert): " + counter.getLimit());
+
+
+        // TEST REDUCE BY 20 2 TIMES
+        counter.reduceBy20();
+        System.out.println("\nLimit Reduce (-80): " + counter.getLimit());
+        counter.reduceBy20();
+        System.out.println("Limit Reduce (-64): " + counter.getLimit());
+
+        // TEST NUMBITES
+        System.out.println("\nNumBites (111): " + counter.getNumBites());
+        counter.setNumBites(-2000);
+        System.out.println("NumBites (-2000): " + counter.getNumBites());
+        counter.setNumBites(-300);
+        System.out.println("NumBites (-300): " + counter.getNumBites());
+        // ASSERT NON-NEGATIVE NUMBITES
+        assert (counter.getNumBites() >= 0);
+        System.out.println("NumBites (Assert): " + counter.getNumBites());
+    }
 
 }
