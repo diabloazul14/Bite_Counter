@@ -11,7 +11,7 @@ public class Tester {
 
     private void run(String[] args)  {
         if (args[0].equals("counter"))  {
-            counterTest();
+            countTest();
         }
 
         if (args[0].equals("converter"))  {
@@ -20,6 +20,8 @@ public class Tester {
 
         if (args[0].equals("bmi"))  {
             bmiTest();
+            bmiTest1();
+            bmiTest2();
         }
         System.out.println("Tests Completed :)");
 
@@ -68,13 +70,13 @@ public class Tester {
         System.out.println("The BMI is " + bmi.getBmi());
 
     }
-        /***
-         * bmiTest1
-         * by John Decker
-         */
+    /***
+     * bmiTest1
+     * by John Decker
+     */
     private void bmiTest1() {
 
-    BMI bmiTest = new BMI();
+        BMI bmiTest = new BMI();
 
         //I am trying to break it
         bmiTest.setBmi(300000000);
@@ -83,7 +85,7 @@ public class Tester {
         bmiTest.height = 10000;
         bmiTest.bmi = -55550;
 
-       //this is to check if we have entered information
+        //this is to check if we have entered information
         assert((bmiTest.getIsEntered() != true));
 
         bmiTest.calcBmi();
@@ -92,21 +94,36 @@ public class Tester {
         System.out.println("The BMI is " + bmiTest.getBmi());
     }
 
-   private void bmiTest2() {
+    private void bmiTest2() {
 
-       BMI bmiTest2 = new BMI();
-
-
-       for(int i = -2000; i < 4000; ++i) {
-          bmiTest2.setWeight(i);
-          bmiTest2.setHeight(i*34);
-
-           //lets see if it is entered?
-          assert(bmiTest2.getIsEntered());
+        BMI bmiTest2 = new BMI();
 
 
-       }
+        for(int i = -2000; i < 4000; ++i) {
+            bmiTest2.setWeight(i);
+            bmiTest2.setHeight(i*34);
 
-   }
+            //lets see if it is entered?
+            assert(bmiTest2.getIsEntered());
+
+
+        }
+
+    }
+
+    private void countTest() {
+        Counter counter = new Counter();
+        int count = 0;
+        for (int i = 0; i <= 100; i++)
+        {
+            counter.incrementBite();
+            count = i;
+        }
+        counter.setLimit(count);
+        System.out.println("Limit: " + counter.getLimit());
+        counter.reduceBy20();
+        System.out.println("Limit After Reduce: " + counter.getLimit());
+    }
+
 
 }
