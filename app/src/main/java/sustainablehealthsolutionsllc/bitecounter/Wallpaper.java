@@ -33,9 +33,9 @@ public class Wallpaper extends ActionBarActivity{
         Resources res = getResources();
         Bitmap bitmap = BitmapFactory.decodeFile(filePath);
         BitmapDrawable bitmapDrawable = new BitmapDrawable(res, bitmap);
-        View view = findViewById(R.id.activity_counter);
+//        View view = findViewById(R.id.activity_counter);
         // API16+
-        view.setBackground(bitmapDrawable);
+//        view.setBackground(bitmapDrawable);
         // < API16
         //view.setBackgroundDrawable(bitmapDrawable);
     }
