@@ -1,9 +1,9 @@
-package sustainablehealthsolutionsllc.bitecounter;
-
 
 /**
  * Created by john on 2/25/15.
  */
+
+package sustainablehealthsolutionsllc.bitecounter;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;

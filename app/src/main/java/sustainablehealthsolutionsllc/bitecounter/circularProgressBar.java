@@ -9,44 +9,44 @@ import android.widget.ProgressBar;
 public class circularProgressBar {
 
    //holds the data for the bar
-   private float limit  = 0;
+   private int limit  = 0;
    private ProgressBar newCircle;
 
-    /**
-     *
-     */
-    public void counterProgress(View view) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+    circularProgressBar(int limits) {
 
-                float piece = 0;
-
-                piece = 100/limit;
-                float newPiece = 0;
-
-//           newCircle = (ProgressBar) findViewById(R.id.circularProgressbar);
-//
-//                if()
-
-            }
-        });
-
+        limit = limits;
     }
 
     /**
      *
-     * @param limit
      */
-    public void setLimit(float limit) {
-        this.limit = limit;
+    public int counterProgress(final boolean isPushed) {
+
+        int piece;
+
+                //doesn't take floats
+                piece = 100/limit;
+
+                if(isPushed) {
+                    piece++;
+                }
+
+        return piece;
+    }
+
+    /**
+     *
+     * @param limits
+     */
+    public void setLimit(int limits) {
+        this.limit = limits;
     }
 
     /**
      *
      * @return
      */
-    public float getLimit() {
+    public int getLimit() {
         return limit;
     }
 
