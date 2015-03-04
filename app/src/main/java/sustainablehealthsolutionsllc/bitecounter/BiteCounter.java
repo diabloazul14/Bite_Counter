@@ -5,6 +5,7 @@ package sustainablehealthsolutionsllc.bitecounter;
  * Created by john on 2/25/15.
  */
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.app.AlertDialog;
 
 
 public class BiteCounter extends ActionBarActivity {
@@ -30,6 +32,7 @@ public class BiteCounter extends ActionBarActivity {
 //                    startActivity(intent);
 //                }
 //            });
+
         }
 
 
@@ -53,6 +56,25 @@ public class BiteCounter extends ActionBarActivity {
             }
 
             return super.onOptionsItemSelected(item);
+        }
+
+        public void startAlertDialog (View view) {
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setTitle("Please enter your weight and height");
+            alertDialog.setMessage("Are you sure?");
+            alertDialog.setButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    // here you can add functions
+                }
+            });
+            alertDialog.setButton2("Confirm", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    // here you can add functions
+                }
+            });
+//          alertDialog.setIcon(R.drawable.icon);
+            alertDialog.show();
+
         }
     }
 
