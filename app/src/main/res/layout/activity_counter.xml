@@ -35,6 +35,13 @@
         android:indeterminate="false"
         android:progressDrawable="@drawable/circle_progress_foreground"
         />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="startAlertDialog"
+        android:layout_marginTop="400dp"
+        android:layout_marginLeft="130dp"
+        android:text="BMI"/>
 
     <ImageButton
         android:id="@+id/imageButton1"
