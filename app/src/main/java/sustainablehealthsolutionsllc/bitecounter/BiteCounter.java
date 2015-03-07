@@ -32,7 +32,7 @@ import android.widget.Toast;
 
 public class BiteCounter extends ActionBarActivity {
 
-    Context context = getApplicationContext();
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +40,7 @@ public class BiteCounter extends ActionBarActivity {
         setContentView(R.layout.activity_counter);
         addListenerImageButton();
         loadImageToLayout();
+        this.context = getApplicationContext();
     }
 
 
@@ -79,7 +80,7 @@ public class BiteCounter extends ActionBarActivity {
         final TextView weightMessage = new TextView(this);
         weightMessage.setText("Enter your weight in lbs or kg");
         lila1.addView(weightMessage);
-        final EditText weight= new EditText(this);
+        final EditText weight = new EditText(this);
         lila1.addView(weight);
 
 
@@ -108,23 +109,19 @@ public class BiteCounter extends ActionBarActivity {
                 String weightInput = weight.getText().toString();
                 String heightLargeInput = heightLarge.getText().toString();
                 String heightSmallInput = heightSmall.getText().toString();
-                Integer newWeight = Integer.parseInt(weightInput);
-                Integer newHeightLarge = Integer.parseInt(heightLargeInput);
-                Integer newHeightSmall = Integer.parseInt(heightSmallInput);
+
 
                 if (weightInput.equals("") || heightLargeInput.equals("") || heightSmallInput.equals("")) {
-                    Context context = getApplicationContext();
+//                    Context context = getApplicationContext();
                     CharSequence text = "Please reclick the BMI button and enter in all of the fields or we can't calculate your BMI :(";
                     int duration = Toast.LENGTH_LONG;
 
                     Toast toast = Toast.makeText(context, text, duration);
                     toast.show();
-                } else if (newHeightLarge > 10 || newHeightSmall > 100) {
-                    CharSequence text = "Please enter your BMI information again :)";
-                    int duration = Toast.LENGTH_LONG;
-                    Toast toast = Toast.makeText(context, text, duration);
-                    toast.show();
-                } else {
+                }  else {
+                    Integer newWeight = Integer.parseInt(weightInput);
+                    Integer newHeightLarge = Integer.parseInt(heightLargeInput);
+                    Integer newHeightSmall = Integer.parseInt(heightSmallInput);
                     SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putInt("weight", newWeight);
