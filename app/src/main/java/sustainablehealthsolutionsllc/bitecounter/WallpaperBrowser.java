@@ -23,7 +23,6 @@ public class WallpaperBrowser extends ActionBarActivity {
         gridView.setAdapter(new ImageAdapter(this));
 
         gridView.setOnItemClickListener(new OnItemClickListener() {
-            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Intent intent = new Intent(WallpaperBrowser.this, BiteCounter.class);

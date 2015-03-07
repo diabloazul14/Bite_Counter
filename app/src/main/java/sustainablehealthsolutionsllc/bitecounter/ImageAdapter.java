@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
@@ -32,8 +33,13 @@ public class ImageAdapter extends BaseAdapter {
         final ImageView imageView;
         if (convertView == null) {  // if it's not recycled, initialize some attributes
             imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new GridView.LayoutParams(100, 160));
+            // Auto-resize images' thumbnails in gridView
+            LinearLayout.LayoutParams params = new LinearLayout
+                    .LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,
+                                  LinearLayout.LayoutParams.FILL_PARENT);
+            imageView.setLayoutParams(new GridView.LayoutParams(params));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            // Set padding
             imageView.setPadding(0, 0, 0, 0);
 
         } else {
@@ -44,11 +50,11 @@ public class ImageAdapter extends BaseAdapter {
         return imageView;
     }
 
-    // references to our images
+    // references to our images' thumbnails
     private Integer[] mThumbIds = {
-            R.drawable.wall0, R.drawable.wall1,
-            R.drawable.wall2, R.drawable.wall3,
-            R.drawable.wall4, R.drawable.wall5,
-            R.drawable.wall6, R.drawable.wall7
+            R.drawable.grid0, R.drawable.grid1,
+            R.drawable.grid2, R.drawable.grid3,
+            R.drawable.grid4, R.drawable.grid5,
+            R.drawable.grid6, R.drawable.grid7
     };
 }
