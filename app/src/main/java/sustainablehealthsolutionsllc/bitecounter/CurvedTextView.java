@@ -64,28 +64,29 @@ public class CurvedTextView extends TextView {
 
         int viewYCenterOnScreen = getTop() + centerYOnView;
 
-//        float threeDpPad = getResources().getDimension(R.dimen.seventy_dp);
-//
-//
-//        int leftOffset = (int) (viewXCenterOnScreen - (rad + (threeDpPad *4)));
-//
-//        int topOffset = (int) (viewYCenterOnScreen - (rad + (threeDpPad * 3)));
-//
-//        int rightOffset = (int) (viewXCenterOnScreen + (rad +(threeDpPad * 4)));
-//
-//        int bottomOffset = (int) (viewYCenterOnScreen + (rad + threeDpPad));
+        float threeDpPad = getResources().getDimension(R.dimen.seventy_dp);
 
         float rad = getResources().getDimension(R.dimen.seventy_dp);
 
 
-//        RectF oval = new RectF(leftOffset, topOffset, rightOffset, bottomOffset);
+        int leftOffset = (int) (viewXCenterOnScreen - (rad + (threeDpPad *4)));
+
+        int topOffset = (int) (viewYCenterOnScreen - (rad + (threeDpPad * 3)));
+
+        int rightOffset = (int) (viewXCenterOnScreen + (rad +(threeDpPad * 4)));
+
+        int bottomOffset = (int) (viewYCenterOnScreen + (rad + threeDpPad));
+
+
+
+         RectF oval = new RectF(leftOffset, topOffset, rightOffset, bottomOffset);
 
         int textLength = getText().length();
 
         if((textLength %2) != 0)
             textLength++;
 
-//        this.myArc.addArc(oval, -90 -(textLength *2), 90 + textLength + 10);
+        this.myArc.addArc(oval, -90 -(textLength *2), 90 + textLength + 10);
 
         canvas.drawTextOnPath((String) getText(), this.myArc, 0 , 10, this.mPaintText);
     }
