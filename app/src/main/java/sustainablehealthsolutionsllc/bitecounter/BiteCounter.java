@@ -136,5 +136,96 @@ public class BiteCounter extends ActionBarActivity {
         });
         alertDialog.show();
     }
+
+    public void addListenerImageButton(){
+        ImageButton imageButton = (ImageButton) findViewById(R.id.imageButton1);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(BiteCounter.this, WallpaperBrowser.class);
+                startActivity(intent);
+            }
+        });
+    }
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    public void loadImageToLayout() {
+        RelativeLayout rl = (RelativeLayout) findViewById(R.id.bite_counter);
+        SharedPreferences settings = getSharedPreferences("image_data", 0);
+        int encodedImage = settings.getInt("image_data", 0);
+
+        int pos = encodedImage;
+        Drawable wall = loadReadBitmap(encodedImage);
+        rl.setBackground(wall);
+
+        Bundle bundle = getIntent().getExtras();
+        if (getIntent().getIntExtra("imageID", 99) != 99) {
+            pos = bundle.getInt("imageID");
+        }
+//        int pos = getIntent().getExtras().getInt("imageID");
+
+        switch (pos) {
+            case 0:
+                Drawable wall0 = loadReadBitmap(pos);
+                rl.setBackground(wall0);
+                saveCurrentBackground(pos);
+                break;
+            case 1:
+                Drawable wall1 = loadReadBitmap(pos);
+                rl.setBackground(wall1);
+//                    wall = wall1.getConstantState().newDrawable();
+                saveCurrentBackground(pos);
+                break;
+            case 2:
+                Drawable wall2 = loadReadBitmap(pos);
+                rl.setBackground(wall2);
+                saveCurrentBackground(pos);
+                break;
+            case 3:
+                Drawable wall3 = loadReadBitmap(pos);
+                rl.setBackground(wall3);
+                saveCurrentBackground(pos);
+                break;
+            case 4:
+                Drawable wall4 = loadReadBitmap(pos);
+                rl.setBackground(wall4);
+                saveCurrentBackground(pos);
+                break;
+            case 5:
+                Drawable wall5 = loadReadBitmap(pos);
+                rl.setBackground(wall5);
+                saveCurrentBackground(pos);
+                break;
+            case 6:
+                Drawable wall6 = loadReadBitmap(pos);
+                rl.setBackground(wall6);
+                saveCurrentBackground(pos);
+                break;
+            case 7:
+                Drawable wall7 = loadReadBitmap(pos);
+                rl.setBackground(wall7);
+                saveCurrentBackground(pos);
+                break;
+            default:
+                break;
+        }
+    }
+    public void saveCurrentBackground(int pos) {
+        SharedPreferences settings = getSharedPreferences("image_data", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt("image_data", pos);
+        editor.apply();
+    }
+    public Drawable loadReadBitmap(int position){
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), mThumbIds[position]);
+        return new BitmapDrawable(getResources(), bitmap);
+    }
+
+    private Integer[] mThumbIds = {
+            R.drawable.wall0, R.drawable.wall1,
+            R.drawable.wall2, R.drawable.wall3,
+            R.drawable.wall4, R.drawable.wall5,
+            R.drawable.wall6, R.drawable.wall7,
+    };
     }
 
