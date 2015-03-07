@@ -75,6 +75,8 @@ public class CurvedTextView extends TextView {
 //
 //        int bottomOffset = (int) (viewYCenterOnScreen + (rad + threeDpPad));
 
+        float rad = getResources().getDimension(R.dimen.seventy_dp);
+
 
 //        RectF oval = new RectF(leftOffset, topOffset, rightOffset, bottomOffset);
 

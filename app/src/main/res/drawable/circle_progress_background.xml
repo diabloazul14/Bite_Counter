@@ -8,7 +8,7 @@
 
             <gradient
                 android:startColor="@color/red"
-                android:endColor="@color/red"
+                android:endColor="@color/pink"
                 android:type="sweep" />
 
             </shape>

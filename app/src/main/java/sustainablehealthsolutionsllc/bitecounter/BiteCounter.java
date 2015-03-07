@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,6 +22,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.app.AlertDialog;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -33,6 +37,11 @@ import android.widget.Toast;
 public class BiteCounter extends ActionBarActivity {
 
     Context context;
+    private static final int PROGRESS = 0x1;
+    private ProgressBar circleProgress;
+    private int pStatus;
+    private Counter counter = new Counter();
+    private CurvedTextView mCurvedTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +49,45 @@ public class BiteCounter extends ActionBarActivity {
         setContentView(R.layout.activity_counter);
         addListenerImageButton();
         loadImageToLayout();
-        this.context = getApplicationContext();
+        this.context = getApplicationContext();   
+
+            //set up to convert count to a text view
+
+            circleProgress = (ProgressBar) findViewById(R.id.circle_progress_bar);
+
+            TextView viewText = (TextView) findViewById(R.id.countView);
+
+            String starText = Integer.toString(0);
+
+            viewText.setText(starText,TextView.BufferType.EDITABLE);
+
+            CharSequence chars = starText;
+
+        }
+
+    public void counter(View view) {
+
+        TextView text = (TextView) findViewById(R.id.countView);
+
+        counter.incrementBite();
+
+        pStatus = counter.getNumBites();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                circleProgress.setProgress(pStatus);
+
+            }
+        });
+
+        String num = Integer.toString(counter.getNumBites());
+
+        text.setText(num, TextView.BufferType.EDITABLE);
+
+        CharSequence charse = num;
+
     }
 
 
