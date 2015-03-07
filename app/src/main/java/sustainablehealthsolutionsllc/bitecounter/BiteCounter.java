@@ -1,10 +1,11 @@
+package sustainablehealthsolutionsllc.bitecounter;
+
 
 /**
  * Created by john on 2/25/15.
  */
 
-package sustainablehealthsolutionsllc.bitecounter;
-
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -12,6 +13,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.app.AlertDialog;
+import android.widget.EditText;
 
 
 public class BiteCounter extends ActionBarActivity {
@@ -30,6 +33,7 @@ public class BiteCounter extends ActionBarActivity {
 //                    startActivity(intent);
 //                }
 //            });
+
         }
 
 
@@ -53,6 +57,40 @@ public class BiteCounter extends ActionBarActivity {
             }
 
             return super.onOptionsItemSelected(item);
+        }
+
+        public void startAlertDialog (View view) {
+            BMI bmi = new BMI();
+
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setTitle("Please enter your weight and height");
+
+            alertDialog.setMessage("Enter your weight in lbs or kg");
+            final EditText weight= new EditText(this);
+            alertDialog.setView(weight);
+
+            alertDialog.setMessage("Enter your height in feet or meters");
+            final EditText heightLarge = new EditText(this);
+            alertDialog.setView(heightLarge);
+
+            alertDialog.setMessage("Enter your height in inches or centimeters");
+            final EditText heightSmall = new EditText(this);
+            alertDialog.setView(heightSmall);
+
+            alertDialog.setButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    // No updates are done, so it exits the alert dialog.
+                }
+            });
+            alertDialog.setButton2("Confirm", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    // here you can add functions
+                    String weightInput = weight.getText().toString();
+                    String heightLargeInput = heightLarge.getText().toString();
+                    String heightSmallInput = heightSmall.getText().toString();
+                }
+            });
+            alertDialog.show();
         }
     }
 
