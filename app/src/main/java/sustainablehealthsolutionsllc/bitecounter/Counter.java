@@ -87,8 +87,9 @@ public class Counter {
     /**
      * This function increments the number of bites by 1.
      */
-    public void incrementBite() {
+    public void incrementBite(Context context) {
         this.numBites += 1;
+        saveBites(context);
     }
 
     /**

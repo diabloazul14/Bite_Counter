@@ -57,7 +57,7 @@ public class BiteCounter extends ActionBarActivity {
 
             TextView viewText = (TextView) findViewById(R.id.countView);
 
-            String starText = Integer.toString(0);
+            String starText = Integer.toString(this.counter.retrieveBites(this.context));
 
             viewText.setText(starText,TextView.BufferType.EDITABLE);
 
@@ -69,7 +69,7 @@ public class BiteCounter extends ActionBarActivity {
 
         TextView text = (TextView) findViewById(R.id.countView);
 
-        counter.incrementBite();
+        counter.incrementBite(this.context);
 
         pStatus = counter.getNumBites();
 
