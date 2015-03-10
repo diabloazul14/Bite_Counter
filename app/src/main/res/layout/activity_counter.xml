@@ -28,10 +28,12 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/gray"
+        android:alpha="0"
         android:layout_marginLeft="120dp"
         android:layout_marginTop="233dp"
         android:onClick="counter"/>
+        <!--android:background="@color/gray"/>-->
+
 
     <ProgressBar
         style="?android:attr/progressBarStyleHorizontal"
@@ -80,6 +82,7 @@
         android:src="@drawable/ic_launcher"
         android:layout_marginRight="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        />
 
 </RelativeLayout>
