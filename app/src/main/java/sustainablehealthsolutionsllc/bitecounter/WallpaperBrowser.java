@@ -27,11 +27,10 @@ public class WallpaperBrowser extends ActionBarActivity {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Intent intent = new Intent(WallpaperBrowser.this, BiteCounter.class);
                 intent.putExtra("imageID", position);
-                finish();
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+                finish();
             }
         });
     }
-
-
 }

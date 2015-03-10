@@ -18,7 +18,8 @@
         </activity>
         <activity
             android:name=".WallpaperBrowser"
-            android:label="@string/second_page">
+            android:label="@string/second_page"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 
