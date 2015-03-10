@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">Bite Counter</string>
+    <string name="second_page">WallpaperBrowser</string>
     <string name="action_settings">Settings</string>
     <string name="wallpaperBtn">Change Wallpaper</string>
     <string name="BMI">BMI</string>

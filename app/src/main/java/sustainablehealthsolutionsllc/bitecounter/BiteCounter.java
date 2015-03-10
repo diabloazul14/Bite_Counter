@@ -91,15 +91,14 @@ public class BiteCounter extends ActionBarActivity {
     }
 
 
-        @Override
-        public boolean onCreateOptionsMenu(Menu menu) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
             // Inflate the menu; this adds items to the action bar if it is present.
             getMenuInflater().inflate(R.menu.menu_counter, menu);
             return true;
         }
-
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
             // Handle action bar item clicks here. The action bar will
             // automatically handle clicks on the Home/Up button, so long
             // as you specify a parent activity in AndroidManifest.xml.
@@ -112,7 +111,6 @@ public class BiteCounter extends ActionBarActivity {
 
             return super.onOptionsItemSelected(item);
         }
-
     public void startAlertDialog (View view) {
         BMI bmi = new BMI();
 
@@ -180,7 +178,6 @@ public class BiteCounter extends ActionBarActivity {
         });
         alertDialog.show();
     }
-
     public void addListenerImageButton(){
         ImageButton imageButton = (ImageButton) findViewById(R.id.imageButton1);
         imageButton.setOnClickListener(new View.OnClickListener() {

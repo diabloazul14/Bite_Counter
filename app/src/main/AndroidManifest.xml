@@ -17,8 +17,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="WallpaperBrowser"
-            android:label="WallpaperBrowser">
+            android:name=".WallpaperBrowser"
+            android:label="@string/second_page">
         </activity>
     </application>
 
