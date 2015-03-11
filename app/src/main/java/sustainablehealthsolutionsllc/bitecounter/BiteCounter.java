@@ -49,7 +49,7 @@ public class BiteCounter extends ActionBarActivity {
         setContentView(R.layout.activity_counter);
         addListenerImageButton();
         loadImageToLayout();
-        this.context = getApplicationContext();   
+        this.context = getApplicationContext();
 
             //set up to convert count to a text view
 
@@ -57,13 +57,34 @@ public class BiteCounter extends ActionBarActivity {
 
             TextView viewText = (TextView) findViewById(R.id.countView);
 
-            String starText = Integer.toString(this.counter.retrieveBites(this.context));
+            String starText = Integer.toString(this.counter.getNumBites());
 
             viewText.setText(starText,TextView.BufferType.EDITABLE);
 
             CharSequence chars = starText;
 
+
         }
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        // Save the user's current bite number and limit
+        savedInstanceState.putInt("bites", this.counter.retrieveBites(this.context));
+        savedInstanceState.putInt("limit", this.counter.retrieveLimit(this.context));
+
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        // Always call the superclass so it can restore the view hierarchy
+        super.onRestoreInstanceState(savedInstanceState);
+
+        // Restore state members from saved instance
+        int restoredBites = savedInstanceState.getInt("bites");
+        int restoredLimit = savedInstanceState.getInt("limit");
+        this.counter.setNumBites(restoredBites);
+        this.counter.setLimit(restoredLimit);
+    }
 
     public void counter(View view) {
 

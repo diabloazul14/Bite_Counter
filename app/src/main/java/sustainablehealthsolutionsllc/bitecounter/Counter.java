@@ -90,6 +90,7 @@ public class Counter {
     public void incrementBite(Context context) {
         this.numBites += 1;
         saveBites(context);
+        saveLimit(context);
     }
 
     /**
@@ -136,4 +137,22 @@ public class Counter {
         int numBites = settings.getInt("numberOfBites", 0);
         return numBites;
     }
+
+    /**
+     *
+     * @param context
+     */
+    public void saveLimit(Context context) {
+        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt("theLimit", this.limit);
+        editor.apply();
+    }
+
+    public int retrieveLimit(Context context)  {
+        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
+        int theLimit = settings.getInt("theLimit", 0);
+        return theLimit;
+    }
 }
+
