@@ -18,6 +18,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,15 +34,20 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import sustainablehealthsolutionsllc.bitecounter.AndroidLayout;
+
+import sustainablehealthsolutionsllc.bitecounter.AndroidView;
 
 public class BiteCounter extends ActionBarActivity {
 
-    Context context;
+    static Context context;
     private static final int PROGRESS = 0x1;
+
+    @AndroidView(R.id.circle_progress_bar)
     private ProgressBar circleProgress;
     private int pStatus;
     private Counter counter = new Counter();
-    private CurvedTextView mCurvedTextView;
+    private static final String LOG_ERROR = "ERROR:Issue with line:";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,15 +59,18 @@ public class BiteCounter extends ActionBarActivity {
 
             //set up to convert count to a text view
 
-            circleProgress = (ProgressBar) findViewById(R.id.circle_progress_bar);
+        circleProgress = (ProgressBar) findViewById(R.id.circle_progress_bar);
 
-            TextView viewText = (TextView) findViewById(R.id.countView);
+        TextView viewText = (TextView) findViewById(R.id.countView);
 
             String starText = Integer.toString(this.counter.getNumBites());
 
             viewText.setText(starText,TextView.BufferType.EDITABLE);
 
-            CharSequence chars = starText;
+            counter.setLimit(100);
+
+            circleProgress.setMax(counter.getLimit());
+            circleProgress.setProgress(0);
 
 
         }
@@ -88,26 +97,24 @@ public class BiteCounter extends ActionBarActivity {
 
     public void counter(View view) {
 
+
         TextView text = (TextView) findViewById(R.id.countView);
 
-        counter.incrementBite(this.context);
+        circleProgress = (ProgressBar) findViewById(R.id.circle_progress_bar);
+
+        circleProgress.setMax(counter.getLimit());
+
+        counter.incrementBite(context);
 
         pStatus = counter.getNumBites();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                circleProgress.setProgress(pStatus);
-
-            }
-        });
+        //need to do this weird set so progress bar will update
+            circleProgress.setProgress(pStatus);
 
         String num = Integer.toString(counter.getNumBites());
 
         text.setText(num, TextView.BufferType.EDITABLE);
 
-        CharSequence charse = num;
 
     }
 
