@@ -9,6 +9,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.graphics.AvoidXfermode;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -109,8 +112,12 @@ public class BiteCounter extends ActionBarActivity {
         pStatus = counter.getNumBites();
 
         //need to do this weird set so progress bar will update
-            circleProgress.setProgress(pStatus);
 
+               circleProgress.setProgress(pStatus);
+
+    if(pStatus == 100) {
+        circleProgress.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+    }
         String num = Integer.toString(counter.getNumBites());
 
         text.setText(num, TextView.BufferType.EDITABLE);
