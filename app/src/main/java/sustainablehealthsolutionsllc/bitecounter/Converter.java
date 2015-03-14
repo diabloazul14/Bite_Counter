@@ -5,11 +5,9 @@ package sustainablehealthsolutionsllc.bitecounter;
  */
 public class Converter {
     boolean isMetric;
-    double height;
-    double feet;
-    double inches;
-    double centimeters;
-    double meters;
+    float height;
+    float weight;
+
 
     /**
      * This mutator function sets whether the
@@ -30,22 +28,6 @@ public class Converter {
         return this.isMetric;
     }
 
-
-    /**
-     * This function sets the height.
-     * It is called when the getter is
-     * called in order for the caller
-     * to receive the height in the right
-     * units of measurement.
-     */
-    public void calcHeight()  {
-        if (this.isMetric)  {
-            this.setHeight(this.meters + (this.centimeters * .01));
-        } else {
-            this.setHeight((this.feet * 12) + this.inches);
-        }
-    }
-
     /**
      * This mutator function sets the height.
      * Although it is best if the user doesn't
@@ -56,7 +38,7 @@ public class Converter {
      * The getter function will do the
      * work for you. So relax.
      */
-    public void setHeight(double newHeight) {
+    public void setHeight(float newHeight) {
         this.height = newHeight;
     }
 
@@ -67,75 +49,40 @@ public class Converter {
      * Then it returns that value to the
      * caller.
      */
-    public double getHeight()  {
-        this.calcHeight();
+    public float getHeight()  {
         return this.height;
     }
 
-    /**
-     * This Mutator function sets the
-     * feet variable in this class.
-     */
-    public void setFeet(double newFeet)  {
-        this.feet = newFeet;
+    public void setWeight(float newWeight) {
+        if(getIsMetric()) {
+            this.weight = newWeight;
+        } else {
+            this.weight = .453592f * newWeight;
+        }
+
     }
 
-    /**
-     * This accessor function returns
-     * the value of the feet in this
-     * class.
-     */
-    public double getFeet()  {
-        return this.feet;
+    public float getWeight () {
+        return this.weight;
     }
 
-    /**
-     * This mutator function sets the
-     * inches of this class.
-     */
-    public void setInches(double newInches)  {
-        this.inches = newInches;
-    }
+    public void parser (float newHeight)  {
+        String height = String.valueOf(newHeight);
+        String delims = "[. ']+";
+        String [] splitHeight = height.split(delims);
+        Float large = Float.valueOf(splitHeight[0]);
+        Float small = Float.valueOf(splitHeight[1]);
+        if (small > 12) {
+            setIsMetric(true);
+            setHeight(large + small);
+        } else {
+            setIsMetric(false);
+            large = large * 12;
+            small = large + small;
+            setHeight(small * .0254f);
+        }
 
-    /**
-     * This accessor function returns
-     * the inches of this class.
-     */
-    public double getInches()  {
-        return this.inches;
-    }
 
-    /**
-     * This mutator function sets the
-     * meters variable of this class.
-     */
-    public void setMeters(double newMeters)  {
-        this.meters = newMeters;
-    }
-
-    /**
-     * This accessor function
-     * returns the meters
-     * variable of this class.
-     */
-    public double getMeters()  {
-        return this.meters;
-    }
-
-    /**
-     * This mutator functions sets the centimeters
-     * of this class.
-     */
-    public void setCentimeters(double newCentimeters)  {
-        this.centimeters = newCentimeters;
-    }
-
-    /**
-     * This accessor function returns the
-     * centimeters of this class
-     */
-    public double getCentimeters()  {
-        return this.centimeters;
     }
 
 }

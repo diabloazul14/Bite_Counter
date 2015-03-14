@@ -37,15 +37,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Calendar;
 import sustainablehealthsolutionsllc.bitecounter.AndroidLayout;
 
 import sustainablehealthsolutionsllc.bitecounter.AndroidView;
 
 public class BiteCounter extends ActionBarActivity {
-
+    private static final String errMsg = "errMsg";
     static Context context;
     private static final int PROGRESS = 0x1;
-
+    BMI bmi = new BMI();
     @AndroidView(R.id.circle_progress_bar)
     private ProgressBar circleProgress;
     private int pStatus;
@@ -72,11 +73,58 @@ public class BiteCounter extends ActionBarActivity {
 
             counter.setLimit(100);
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    Calendar calendar = Calendar.getInstance();
+                    int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+                    int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+                    Log.i(errMsg, Integer.toString(hourOfDay));
+                    Log.i(errMsg, Integer.toString(dayOfWeek));
+                    if (hourOfDay == 0) {
+                        counter.resetCounter();
+                    }
             circleProgress.setMax(counter.getLimit());
             circleProgress.setProgress(0);
 
+                    switch (dayOfWeek) {
+                        case 0:
+                            counter.saveMonday(context);
+                            break;
+                        case 1:
+                            counter.saveTuesday(context);
+                            break;
+                        case 2:
+                            counter.saveWednesday(context);
+                            break;
+                        case 3:
+                            counter.saveThursday(context);
+                            break;
+                        case 4:
+                            counter.saveFriday(context);
+                            break;
+                        case 5:
+                            counter.saveSaturday(context);
+                            break;
+                        case 6:
+                            counter.saveSunday(context);
+                            break;
+                        case 7:
+                            counter.saveSunday(context);
+                            break;
+                        default:
+                            Log.i(errMsg, "The day wasn't saved correctly");
+                            break;
+                    }
+                }
+            }
+        });
 
-        }
+    }
+
+
+
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         // Save the user's current bite number and limit
@@ -85,6 +133,7 @@ public class BiteCounter extends ActionBarActivity {
 
         // Always call the superclass so it can save the view hierarchy state
         super.onSaveInstanceState(savedInstanceState);
+
     }
 
     public void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -110,6 +159,8 @@ public class BiteCounter extends ActionBarActivity {
         counter.incrementBite(context);
 
         pStatus = counter.getNumBites();
+                circleProgress.setProgress(pStatus);
+
 
         //need to do this weird set so progress bar will update
 
@@ -147,15 +198,12 @@ public class BiteCounter extends ActionBarActivity {
             return super.onOptionsItemSelected(item);
         }
     public void startAlertDialog (View view) {
-        BMI bmi = new BMI();
 
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setTitle("Please enter your weight and height");
 
         LinearLayout lila1= new LinearLayout(this);
         lila1.setOrientation(LinearLayout.VERTICAL);
-
-
 
         final TextView weightMessage = new TextView(this);
         weightMessage.setText("Enter your weight in lbs or kg");
@@ -165,16 +213,10 @@ public class BiteCounter extends ActionBarActivity {
 
 
         final TextView heightLargeMessage = new TextView(this);
-        heightLargeMessage.setText("Enter your height in feet or meters");
+        heightLargeMessage.setText("Please enter your height");
         lila1.addView(heightLargeMessage);
         final EditText heightLarge = new EditText(this);
         lila1.addView(heightLarge);
-
-        final TextView heightSmallMessage = new TextView(this);
-        heightSmallMessage.setText("Enter your height in inches or centimeters");
-        lila1.addView(heightSmallMessage);
-        final EditText heightSmall = new EditText(this);
-        lila1.addView(heightSmall);
 
         alertDialog.setView(lila1);
 
@@ -188,25 +230,26 @@ public class BiteCounter extends ActionBarActivity {
                 // here you can add functions
                 String weightInput = weight.getText().toString();
                 String heightLargeInput = heightLarge.getText().toString();
-                String heightSmallInput = heightSmall.getText().toString();
 
-
-                if (weightInput.equals("") || heightLargeInput.equals("") || heightSmallInput.equals("")) {
-//                    Context context = getApplicationContext();
+                if (weightInput.equals("") || heightLargeInput.equals("")){ //|| heightSmallInput.equals("")) {
                     CharSequence text = "Please reclick the BMI button and enter in all of the fields or we can't calculate your BMI :(";
                     int duration = Toast.LENGTH_LONG;
 
                     Toast toast = Toast.makeText(context, text, duration);
                     toast.show();
                 }  else {
-                    Integer newWeight = Integer.parseInt(weightInput);
-                    Integer newHeightLarge = Integer.parseInt(heightLargeInput);
-                    Integer newHeightSmall = Integer.parseInt(heightSmallInput);
+                    Float newWeight = Float.valueOf(weightInput);
+                    Float newHeight = Float.valueOf(heightLargeInput);
+                    Converter converter = new Converter();
+                    converter.parser(newHeight);
+                    converter.setWeight(newWeight);  //Needs to be implemented after converter.parser
+                    bmi.setWeight(converter.getWeight());
+                    bmi.setHeight(converter.getHeight());
+
                     SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
                     SharedPreferences.Editor editor = settings.edit();
-                    editor.putInt("weight", newWeight);
-                    editor.putInt("heightLarge", newHeightLarge);
-                    editor.putInt("heightSmall", newHeightSmall);
+                    editor.putFloat("weight", bmi.getWeight());
+                    editor.putFloat("height", bmi.getHeight());
                     editor.apply();
                 }
             }
