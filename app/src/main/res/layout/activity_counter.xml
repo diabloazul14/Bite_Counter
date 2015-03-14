@@ -17,14 +17,6 @@
         android:id="@+id/button"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/app_name"
-        android:textSize="@dimen/twenty_six_sp"
-        android:textColor="@color/black"
-        android:paddingTop="@dimen/eighty_dp"
-        android:gravity="center_horizontal" />
 
     <ProgressBar
         style="?android:attr/progressBarStyleHorizontal"
