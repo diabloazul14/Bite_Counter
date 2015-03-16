@@ -67,7 +67,7 @@ public class BiteCounter extends ActionBarActivity {
 
         TextView viewText = (TextView) findViewById(R.id.countView);
 
-            String starText = Integer.toString(this.counter.getNumBites());
+            String starText = Integer.toString(counter.retrieveBites(context));
 
             viewText.setText(starText,TextView.BufferType.EDITABLE);
 
@@ -86,7 +86,7 @@ public class BiteCounter extends ActionBarActivity {
                         counter.resetCounter();
                     }
             circleProgress.setMax(counter.getLimit());
-            circleProgress.setProgress(0);
+            circleProgress.setProgress(counter.retrieveBites(context));
 
                     switch (dayOfWeek) {
                         case 0:
@@ -140,13 +140,15 @@ public class BiteCounter extends ActionBarActivity {
         // Always call the superclass so it can restore the view hierarchy
         super.onRestoreInstanceState(savedInstanceState);
 
-        // Restore state members from saved instance
-        int restoredBites = savedInstanceState.getInt("bites");
-        int restoredLimit = savedInstanceState.getInt("limit");
-        this.counter.setNumBites(restoredBites);
-        this.counter.setLimit(restoredLimit);
+    //need to retrieve the states of the last activity
+        this.counter.setNumBites(counter.retrieveBites(context));
+        this.counter.setLimit(counter.retrieveLimit(context));
     }
 
+    /**
+     * Counter: counter method will get a counter objects count and update the progress bar
+     * @param view
+     */
     public void counter(View view) {
 
 
@@ -166,7 +168,7 @@ public class BiteCounter extends ActionBarActivity {
 
                circleProgress.setProgress(pStatus);
 
-    if(pStatus == 100) {
+    if(pStatus >= counter.getLimit()) {
         circleProgress.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
     }
         String num = Integer.toString(counter.getNumBites());
