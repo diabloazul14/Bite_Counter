@@ -1,6 +1,6 @@
 
 /**
- * Created by john on 2/25/15.
+ * Created by Awesome Team on 2/25/15.
  */
 
 package sustainablehealthsolutionsllc.bitecounter;
@@ -60,7 +60,8 @@ public class BiteCounter extends ActionBarActivity {
         addListenerImageButton();
         loadImageToLayout();
         this.context = getApplicationContext();
-
+        counter.setNumBites(counter.retrieveBites(context));
+        counter.setLimit(counter.retrieveLimit(context));
             //set up to convert count to a text view
 
         circleProgress = (ProgressBar) findViewById(R.id.circle_progress_bar);
@@ -71,7 +72,8 @@ public class BiteCounter extends ActionBarActivity {
 
             viewText.setText(starText,TextView.BufferType.EDITABLE);
 
-            counter.setLimit(100);
+            counter.setLimit(100); //THis line needs to be replaced eventually once
+                                    // THe 7 day average function comes into play.
 
         new Thread(new Runnable() {
             @Override
@@ -85,45 +87,75 @@ public class BiteCounter extends ActionBarActivity {
                     if (hourOfDay == 0) {
                         counter.resetCounter();
                     }
-            circleProgress.setMax(counter.getLimit());
-            circleProgress.setProgress(counter.retrieveBites(context));
-
-                    switch (dayOfWeek) {
-                        case 0:
-                            counter.saveMonday(context);
-                            break;
-                        case 1:
-                            counter.saveTuesday(context);
-                            break;
-                        case 2:
-                            counter.saveWednesday(context);
-                            break;
-                        case 3:
-                            counter.saveThursday(context);
-                            break;
-                        case 4:
-                            counter.saveFriday(context);
-                            break;
-                        case 5:
-                            counter.saveSaturday(context);
-                            break;
-                        case 6:
-                            counter.saveSunday(context);
-                            break;
-                        case 7:
-                            counter.saveSunday(context);
-                            break;
-                        default:
-                            Log.i(errMsg, "The day wasn't saved correctly");
-                            break;
-                    }
+                    circleProgress.setMax(counter.getLimit());
+                    circleProgress.setProgress(counter.retrieveBites(context));
                 }
             }
-        });
 
+    public void onStart()  {
+        super.onStart();
+        counter.setNumBites(counter.retrieveBites(context));
+        counter.setLimit(counter.retrieveLimit(context));
     }
 
+    public void onResume() {
+        super.onResume();
+//        counter.setNumBites(counter.retrieveBites(context)); //This line needs to be uncommented but is like this for testing
+        counter.setNumBites(0); //This line needs to be removed onced testing is over.
+        counter.setLimit(counter.retrieveLimit(context));
 
+       Calendar calendar = Calendar.getInstance();
+       int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+       int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+       Log.i(errMsg, Integer.toString(hourOfDay));
+       Log.i(errMsg, Integer.toString(dayOfWeek));
+       if (hourOfDay == 0) {
+          counter.resetCounter();
+           Log.i(errMsg, "The time of the day is ................" + Integer.toString(hourOfDay));
+       }
+        Log.i(errMsg, "The time of the day is ................" + Integer.toString(hourOfDay));
+       circleProgress.setMax(counter.getLimit());
+       circleProgress.setProgress(0);
+       Log.i(errMsg, dayOfWeek + "This is the day of the week!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+       switch (dayOfWeek) {
+          case 1:
+             counter.saveSunday(context);
+             break;
+          case 2:
+             counter.saveMonday(context);
+             break;
+          case 3:
+             counter.saveTuesday(context);
+             break;
+          case 4:
+             counter.saveWednesday(context);
+             break;
+          case 5:
+             counter.saveThursday(context);
+             break;
+          case 6:
+             counter.saveFriday(context);
+             break;
+          case 7:
+            counter.saveSaturday(context);
+             break;
+          default:
+             Log.i(errMsg, "The day wasn't saved correctly");
+             break;
+          }
+    }
+
+    public void onStop() {
+        super.onStop();
+        counter.saveBites(context);
+        counter.saveLimit(context);
+    }
+
+    public void onDestroy() {
+        super.onDestroy();
+        counter.saveBites(context);
+        counter.saveLimit(context);
+    }
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -140,15 +172,13 @@ public class BiteCounter extends ActionBarActivity {
         // Always call the superclass so it can restore the view hierarchy
         super.onRestoreInstanceState(savedInstanceState);
 
-    //need to retrieve the states of the last activity
-        this.counter.setNumBites(counter.retrieveBites(context));
-        this.counter.setLimit(counter.retrieveLimit(context));
+        // Restore state members from saved instance
+        int restoredBites = savedInstanceState.getInt("bites");
+        int restoredLimit = savedInstanceState.getInt("limit");
+        this.counter.setNumBites(restoredBites);
+        this.counter.setLimit(restoredLimit);
     }
 
-    /**
-     * Counter: counter method will get a counter objects count and update the progress bar
-     * @param view
-     */
     public void counter(View view) {
 
 
@@ -168,7 +198,7 @@ public class BiteCounter extends ActionBarActivity {
 
                circleProgress.setProgress(pStatus);
 
-    if(pStatus >= counter.getLimit()) {
+    if(pStatus == 100) {
         circleProgress.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
     }
         String num = Integer.toString(counter.getNumBites());
