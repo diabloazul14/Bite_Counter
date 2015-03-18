@@ -86,9 +86,9 @@ public class BiteCounter extends ActionBarActivity {
     public void onResume() {
         super.onResume();
 //        counter.setNumBites(counter.retrieveBites(context)); //This line needs to be uncommented but is like this for testing
-        counter.setNumBites(0); //This line needs to be removed onced testing is over.
-        counter.setLimit(counter.retrieveLimit(context));
-
+       counter.setNumBites(0); //This line needs to be removed onced testing is over.
+       counter.setLimit(counter.retrieveLimit(context));
+       counter.saveLimit(context);
        Calendar calendar = Calendar.getInstance();
        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);

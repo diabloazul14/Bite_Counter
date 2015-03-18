@@ -253,5 +253,6 @@ public class Counter {
         int dailyNumBites = settings.getInt("sunday", 0);
         return dailyNumBites;
     }
+
 }
 
