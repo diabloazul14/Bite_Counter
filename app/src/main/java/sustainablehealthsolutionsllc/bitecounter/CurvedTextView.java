@@ -1,9 +1,5 @@
 package sustainablehealthsolutionsllc.bitecounter;
 
-/**
- * Created by john on 3/12/15.
- */
-
         import android.annotation.SuppressLint;
         import android.content.Context;
         import android.graphics.Canvas;

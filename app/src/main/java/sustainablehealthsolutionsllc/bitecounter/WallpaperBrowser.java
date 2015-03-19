@@ -11,6 +11,10 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.AdapterView.OnItemClickListener;
 
+/**
+ * Does What?
+ * @author Jason sustainablehealthsolusolutions
+ */
 public class WallpaperBrowser extends ActionBarActivity {
     GridView gridView;
 
@@ -29,7 +33,7 @@ public class WallpaperBrowser extends ActionBarActivity {
                 intent.putExtra("imageID", position);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-                finish();
+                //finish();
             }
         });
     }

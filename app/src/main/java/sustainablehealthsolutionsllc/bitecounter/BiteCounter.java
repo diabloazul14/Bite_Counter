@@ -42,11 +42,15 @@ import sustainablehealthsolutionsllc.bitecounter.AndroidLayout;
 
 import sustainablehealthsolutionsllc.bitecounter.AndroidView;
 
+/**
+ * Bite Counter is the main class that creates the Bite Counter.
+ * @author John Decker, Matthew Hansen, Jason
+ */
 public class BiteCounter extends ActionBarActivity {
     private static final String errMsg = "errMsg";
-    static Context context;
+    public static Context context;
     private static final int PROGRESS = 0x1;
-    BMI bmi = new BMI();
+    private BMI bmi = new BMI();
     @AndroidView(R.id.circle_progress_bar)
     private ProgressBar circleProgress;
     private int pStatus;
@@ -72,21 +76,31 @@ public class BiteCounter extends ActionBarActivity {
 
             viewText.setText(starText,TextView.BufferType.EDITABLE);
 
-            counter.setLimit(100); //THis line needs to be replaced eventually once
-                                    // THe 7 day average function comes into play.
+            counter.setLimit(100); //This line needs to be replaced eventually once
+                                    // The 7 day average function comes into play.
 
     }
 
+    /**
+     * onStart method starts the actions for Bite Counter
+     */
     public void onStart()  {
         super.onStart();
         counter.setNumBites(counter.retrieveBites(context));
         counter.setLimit(counter.retrieveLimit(context));
     }
 
+    /**
+     * onResume is there when the user backs out of the program
+     * as well starts the calendar.
+     */
     public void onResume() {
         super.onResume();
-//        counter.setNumBites(counter.retrieveBites(context)); //This line needs to be uncommented but is like this for testing
-        counter.setNumBites(0); //This line needs to be removed onced testing is over.
+
+        //This line needs to be uncommented but is like this for testing
+        counter.setNumBites(counter.retrieveBites(context));
+
+        //counter.setNumBites(0); //This line needs to be removed once testing is over.
         counter.setLimit(counter.retrieveLimit(context));
 
        Calendar calendar = Calendar.getInstance();
@@ -130,6 +144,9 @@ public class BiteCounter extends ActionBarActivity {
           }
     }
 
+    /**
+     *Saves the bites and the limit when the user stops Bite Counter.
+     */
     public void onStop() {
         super.onStop();
         counter.saveBites(context);
@@ -153,6 +170,10 @@ public class BiteCounter extends ActionBarActivity {
 
     }
 
+    /**
+     * Saves the state of the members at that time.
+     * @param savedInstanceState - this allows us to save the state of the Bite Counter.
+     */
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         // Always call the superclass so it can restore the view hierarchy
         super.onRestoreInstanceState(savedInstanceState);
@@ -164,25 +185,24 @@ public class BiteCounter extends ActionBarActivity {
         this.counter.setLimit(restoredLimit);
     }
 
+    /**
+     * Uses the counter to increment the bite and animates the circle
+     * progress bar.
+     * @param view - This will allow us to change the Text View.
+     */
     public void counter(View view) {
 
-
+        //this will initialize the counter
         TextView text = (TextView) findViewById(R.id.countView);
-
         circleProgress = (ProgressBar) findViewById(R.id.circle_progress_bar);
-
         circleProgress.setMax(counter.getLimit());
 
+        //this will increment the bite and update the progress bar
         counter.incrementBite(context);
-
         pStatus = counter.getNumBites();
-                circleProgress.setProgress(pStatus);
+        circleProgress.setProgress(pStatus);
 
-
-        //need to do this weird set so progress bar will update
-
-               circleProgress.setProgress(pStatus);
-
+        //if the counter is above the limit it turns red
     if(pStatus == 100) {
         circleProgress.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
     }
@@ -214,6 +234,11 @@ public class BiteCounter extends ActionBarActivity {
 
             return super.onOptionsItemSelected(item);
         }
+
+    /**
+     * Needs info here
+     * @param view - needs info here
+     */
     public void startAlertDialog (View view) {
 
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
@@ -243,6 +268,12 @@ public class BiteCounter extends ActionBarActivity {
             }
         });
         alertDialog.setButton2("Confirm", new DialogInterface.OnClickListener() {
+
+            /**
+             * Needs info here
+             * @param dialog - needs info here
+             * @param which - needs info here
+             */
             public void onClick(DialogInterface dialog, int which) {
                 // here you can add functions
                 String weightInput = weight.getText().toString();
@@ -273,6 +304,10 @@ public class BiteCounter extends ActionBarActivity {
         });
         alertDialog.show();
     }
+
+    /**
+     *
+     */
     public void addListenerImageButton(){
         ImageButton imageButton = (ImageButton) findViewById(R.id.imageButton1);
         imageButton.setOnClickListener(new View.OnClickListener() {
@@ -346,17 +381,29 @@ public class BiteCounter extends ActionBarActivity {
                 break;
         }
     }
+
+    /**
+     * Needs info here
+     * @param pos - needs info here
+     */
     public void saveCurrentBackground(int pos) {
         SharedPreferences settings = getSharedPreferences("image_data", 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt("image_data", pos);
         editor.apply();
     }
+
+    /**
+     * Needs info here
+     * @param position - what does a position do?
+     * @return - what are you returning?
+     */
     public Drawable loadReadBitmap(int position){
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), mThumbIds[position]);
         return new BitmapDrawable(getResources(), bitmap);
     }
 
+    /**each of the thumbnail images */
     private Integer[] mThumbIds = {
             R.drawable.wall0, R.drawable.wall1,
             R.drawable.wall2, R.drawable.wall3,

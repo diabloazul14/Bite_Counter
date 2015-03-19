@@ -1,7 +1,7 @@
 package sustainablehealthsolutionsllc.bitecounter;
 
 /**
- * Created by john on 3/12/15.
+ * Created by CardinalSolutions
  */
 
         import java.io.Serializable;

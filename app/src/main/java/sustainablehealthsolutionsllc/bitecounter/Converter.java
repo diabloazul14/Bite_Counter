@@ -2,6 +2,7 @@ package sustainablehealthsolutionsllc.bitecounter;
 
 /**
  * Created by Matthew on 2/25/2015.
+ * @author Matthew Hansen
  */
 public class Converter {
     boolean isMetric;

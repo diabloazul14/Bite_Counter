@@ -8,6 +8,10 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+/**
+ * Who made this?
+ * @author Jason?
+ */
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
 
