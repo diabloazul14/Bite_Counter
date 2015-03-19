@@ -1,6 +1,6 @@
 
 /**
- * Created by john on 2/25/15.
+ * Created by SustainableHealthSolutions on 2/25/15.
  */
 
 package sustainablehealthsolutionsllc.bitecounter;
@@ -76,8 +76,8 @@ public class BiteCounter extends ActionBarActivity {
 
             viewText.setText(starText,TextView.BufferType.EDITABLE);
 
-            counter.setLimit(100); //This line needs to be replaced eventually once
-                                    // The 7 day average function comes into play.
+            counter.setLimit(100); //THis line needs to be replaced eventually once
+                                    // THe 7 day average function comes into play.
 
     }
 
@@ -96,13 +96,10 @@ public class BiteCounter extends ActionBarActivity {
      */
     public void onResume() {
         super.onResume();
-
-        //This line needs to be uncommented but is like this for testing
-        counter.setNumBites(counter.retrieveBites(context));
-
-        //counter.setNumBites(0); //This line needs to be removed once testing is over.
-        counter.setLimit(counter.retrieveLimit(context));
-
+//        counter.setNumBites(counter.retrieveBites(context)); //This line needs to be uncommented but is like this for testing
+       counter.setNumBites(0); //This line needs to be removed onced testing is over.
+       counter.setLimit(counter.retrieveLimit(context));
+       counter.saveLimit(context);
        Calendar calendar = Calendar.getInstance();
        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
@@ -119,24 +116,31 @@ public class BiteCounter extends ActionBarActivity {
        switch (dayOfWeek) {
           case 1:
              counter.saveSunday(context);
+              bmi.saveSundayWeight(context);
              break;
           case 2:
              counter.saveMonday(context);
+              bmi.saveMondayWeight(context);
              break;
           case 3:
              counter.saveTuesday(context);
+              bmi.saveTuesdayWeight(context);
              break;
           case 4:
              counter.saveWednesday(context);
+              bmi.saveWednesdayWeight(context);
              break;
           case 5:
              counter.saveThursday(context);
+              bmi.saveThursdayWeight(context);
              break;
           case 6:
              counter.saveFriday(context);
+              counter.saveFriday(context);
              break;
           case 7:
             counter.saveSaturday(context);
+              bmi.saveSaturdayWeight(context);
              break;
           default:
              Log.i(errMsg, "The day wasn't saved correctly");
@@ -185,22 +189,20 @@ public class BiteCounter extends ActionBarActivity {
         this.counter.setLimit(restoredLimit);
     }
 
-    /**
-     * Uses the counter to increment the bite and animates the circle
-     * progress bar.
-     * @param view - This will allow us to change the Text View.
-     */
     public void counter(View view) {
 
         //this will initialize the counter
         TextView text = (TextView) findViewById(R.id.countView);
+
         circleProgress = (ProgressBar) findViewById(R.id.circle_progress_bar);
+
         circleProgress.setMax(counter.getLimit());
 
         //this will increment the bite and update the progress bar
         counter.incrementBite(context);
+
         pStatus = counter.getNumBites();
-        circleProgress.setProgress(pStatus);
+                circleProgress.setProgress(pStatus);
 
         //if the counter is above the limit it turns red
     if(pStatus == 100) {
@@ -392,18 +394,11 @@ public class BiteCounter extends ActionBarActivity {
         editor.putInt("image_data", pos);
         editor.apply();
     }
-
-    /**
-     * Needs info here
-     * @param position - what does a position do?
-     * @return - what are you returning?
-     */
     public Drawable loadReadBitmap(int position){
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), mThumbIds[position]);
         return new BitmapDrawable(getResources(), bitmap);
     }
 
-    /**each of the thumbnail images */
     private Integer[] mThumbIds = {
             R.drawable.wall0, R.drawable.wall1,
             R.drawable.wall2, R.drawable.wall3,
