@@ -21,6 +21,11 @@
             android:label="@string/second_page"
             android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name=".graphtest"
+            android:label="GraphTest"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>
