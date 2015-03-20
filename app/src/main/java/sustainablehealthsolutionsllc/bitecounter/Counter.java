@@ -11,6 +11,14 @@ public class Counter {
     int limit;
     boolean pastLimit;
 
+    int todayBites;
+    int yesterdayBites;
+    int twoDayAgoBites;
+    int threeDayAgoBites;
+    int fourDayAgoBites;
+    int fiveDayAgoBites;
+    int sixDayAgoBites;
+
     /**
      * This is the default constructor for the Counter class.
      */
@@ -248,11 +256,10 @@ public class Counter {
         editor.apply();
     }
 
-    public int retrieveSunday(Context context)  {
+    public int retrieveSunday(Context context) {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         int dailyNumBites = settings.getInt("sunday", 0);
         return dailyNumBites;
     }
 
 }
-
