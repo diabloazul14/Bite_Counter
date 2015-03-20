@@ -11,6 +11,14 @@ public class Counter {
     int limit;
     boolean pastLimit;
 
+    int todayBites;
+    int yesterdayBites;
+    int twoDayAgoBites;
+    int threeDayAgoBites;
+    int fourDayAgoBites;
+    int fiveDayAgoBites;
+    int sixDayAgoBites;
+
     /**
      * This is the default constructor for the Counter class.
      */
@@ -248,11 +256,51 @@ public class Counter {
         editor.apply();
     }
 
-    public int retrieveSunday(Context context)  {
+    public int retrieveSunday(Context context) {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         int dailyNumBites = settings.getInt("sunday", 0);
         return dailyNumBites;
     }
 
+    public int retrieveToday(Context context) {
+        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
+        int dailyNumBites = settings.getInt("today", 0);
+        return dailyNumBites;
+    }
+    public void saveToday(Context context) {
+        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt("today", 0);
+        editor.apply();
+    }
+    public int retrieveYesterday(Context context) {
+        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
+        int dailyNumBites = settings.getInt("yesterday", 0);
+        return dailyNumBites;
+    }
+    public int retrieve2DayAgo(Context context) {
+        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
+        int dailyNumBites = settings.getInt("twoDayAgo", 0);
+        return dailyNumBites;
+    }
+    public int retrieve3DayAgo(Context context) {
+        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
+        int dailyNumBites = settings.getInt("3DayAgo", 0);
+        return dailyNumBites;
+    }
+    public int retrieve4DayAgo(Context context) {
+        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
+        int dailyNumBites = settings.getInt("4DayAgo", 0);
+        return dailyNumBites;
+    }
+    public int retrieve5DayAgo(Context context) {
+        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
+        int dailyNumBites = settings.getInt("5DayAgo", 0);
+        return dailyNumBites;
+    }
+    public int retrieve6DayAgo(Context context) {
+        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
+        int dailyNumBites = settings.getInt("6DayAgo", 0);
+        return dailyNumBites;
+    }
 }
-

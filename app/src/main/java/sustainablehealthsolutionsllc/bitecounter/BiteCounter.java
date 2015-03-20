@@ -74,6 +74,7 @@ public class BiteCounter extends ActionBarActivity {
 
             counter.setLimit(100); //THis line needs to be replaced eventually once
                                     // THe 7 day average function comes into play.
+        addListenerGraphButton();
 
     }
 
@@ -291,6 +292,17 @@ public class BiteCounter extends ActionBarActivity {
             }
         });
     }
+    public void addListenerGraphButton(){
+        Button graphButton = (Button) findViewById(R.id.button3);
+        graphButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(BiteCounter.this, graphtest.class);
+                startActivity(intent);
+            }
+        });
+    }
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void loadImageToLayout() {
         RelativeLayout rl = (RelativeLayout) findViewById(R.id.bite_counter);
@@ -370,5 +382,5 @@ public class BiteCounter extends ActionBarActivity {
             R.drawable.wall4, R.drawable.wall5,
             R.drawable.wall6, R.drawable.wall7,
     };
-    }
+}
 
