@@ -52,6 +52,7 @@ public class BiteCounter extends ActionBarActivity {
     private int pStatus;
     private Counter counter = new Counter();
     private static final String LOG_ERROR = "ERROR:Issue with line:";
+    Integer date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +77,8 @@ public class BiteCounter extends ActionBarActivity {
                                     // THe 7 day average function comes into play.
         addListenerGraphButton();
 
+        Calendar calendar = Calendar.getInstance();
+        this.date = calendar.get(Calendar.DAY_OF_WEEK);
     }
 
     public void onStart()  {
@@ -86,13 +89,19 @@ public class BiteCounter extends ActionBarActivity {
 
     public void onResume() {
         super.onResume();
-//        counter.setNumBites(counter.retrieveBites(context)); //This line needs to be uncommented but is like this for testing
-       counter.setNumBites(0); //This line needs to be removed onced testing is over.
+        Calendar calendar = Calendar.getInstance();
+        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        if (dayOfWeek == this.date) {
+            counter.setNumBites(counter.retrieveBites(context)); //This line needs to be uncommented but is like this for testing
+        } else {
+            counter.resetCounter();
+            this.date = dayOfWeek;
+        }
+
        counter.setLimit(counter.retrieveLimit(context));
        counter.saveLimit(context);
-       Calendar calendar = Calendar.getInstance();
-       int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
-       int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+
        Log.i(errMsg, Integer.toString(hourOfDay));
        Log.i(errMsg, Integer.toString(dayOfWeek));
        if (hourOfDay == 0) {
