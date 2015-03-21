@@ -14,6 +14,7 @@ import android.graphics.Paint.Align;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -23,6 +24,7 @@ import java.util.Calendar;
 
 public class graphtest extends ActionBarActivity {
     Counter counter = new Counter();
+    String errMsg = "errMsg1";
     BMI bmi = new BMI();
     Context context;
     Calendar calendar = Calendar.getInstance();
@@ -202,7 +204,9 @@ public class graphtest extends ActionBarActivity {
             weights[1] = bmi.retrieveMondayWeight(context);
             weights[0] = bmi.retrieveSundayWeight(context);
         }
+        Log.i(errMsg, "The value of friday is " + Float.toString(bmi.retrieveFridayWeight(context)));
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -210,9 +214,9 @@ public class graphtest extends ActionBarActivity {
         context = getApplicationContext();
 
         // Getting reference to the button btn_chart
-        Button btnChart = (Button) findViewById(R.id.btn_chart);
-        Button btnChart2 = (Button) findViewById(R.id.btn_chart2);
-        Button btnCounter = (Button) findViewById(R.id.btn_counter);
+//        Button btnChart = (Button) findViewById(R.id.btn_chart);
+//        Button btnChart2 = (Button) findViewById(R.id.btn_chart2);
+//        Button btnCounter = (Button) findViewById(R.id.btn_counter);
         Button btnBack = (Button) findViewById(R.id.backButton);
 
         OnClickListener clickListenerBack = new OnClickListener() {
@@ -224,39 +228,42 @@ public class graphtest extends ActionBarActivity {
             }
         };
 
-        OnClickListener clickListenerCounter = new OnClickListener() {
+        openChart();
+        openChart2();
 
-            @Override
-            public void onClick(View v) {
-                // Draw the bites vs Expense Chart
-                int count = counter.getNumBites();
-                count++;
-                counter.setNumBites(count);
-            }
-        };
-
-        // Defining click event listener for the button btn_chart
-        OnClickListener clickListener = new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // Draw the bites vs Expense Chart
-                openChart();
-            }
-        };
-        // Defining click event listener for the button btn_chart
-        OnClickListener clickListener2 = new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // Draw the bites vs Expense Chart
-                openChart2();
-            }
-        };
-        // Setting event click listener for the button btn_chart of the MainActivity layout
-        btnChart.setOnClickListener(clickListener);
-        btnChart2.setOnClickListener(clickListener2);
-        btnCounter.setOnClickListener(clickListenerCounter);
+//        OnClickListener clickListenerCounter = new OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                // Draw the bites vs Expense Chart
+//                int count = counter.getNumBites();
+//                count++;
+//                counter.setNumBites(count);
+//            }
+//        };
+//
+//        // Defining click event listener for the button btn_chart
+//        OnClickListener clickListener = new OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                // Draw the bites vs Expense Chart
+//                openChart();
+//            }
+//        };
+//        // Defining click event listener for the button btn_chart
+//        OnClickListener clickListener2 = new OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                // Draw the bites vs Expense Chart
+//                openChart2();
+//            }
+//        };
+//        // Setting event click listener for the button btn_chart of the MainActivity layout
+//        btnChart.setOnClickListener(clickListener);
+//        btnChart2.setOnClickListener(clickListener2);
+//        btnCounter.setOnClickListener(clickListenerCounter);
         btnBack.setOnClickListener(clickListenerBack);
 
     }
@@ -289,7 +296,7 @@ public class graphtest extends ActionBarActivity {
         XYMultipleSeriesRenderer multiRenderer = new XYMultipleSeriesRenderer();
         multiRenderer.setOrientation(XYMultipleSeriesRenderer.Orientation.HORIZONTAL);
         multiRenderer.setXLabels(0);
-        multiRenderer.setChartTitle("Bite Chart");
+        multiRenderer.setChartTitle("Bites");
 //        multiRenderer.setXTitle("");
 //        multiRenderer.setYTitle("");
 
@@ -343,7 +350,7 @@ public class graphtest extends ActionBarActivity {
         multiRenderer.setYLabels(0); //10
         // setting y axis max value, Since i'm using static values inside the graph so i'm setting y max value to 4000.
         // if you use dynamic values then get the max y value and set here
-        multiRenderer.setYAxisMax(100);
+        multiRenderer.setYAxisMax(counter.retrieveLimit(context));
         multiRenderer.setYAxisMin(0);
         multiRenderer.setXLabelsColor(Color.rgb(88,87,87));
         //setting used to move the graph on x-axis to .5 to the right
@@ -385,31 +392,31 @@ public class graphtest extends ActionBarActivity {
         int[] x = {0, 1, 2, 3, 4, 5, 6};
         weightOfWeek();
 
-        // Creating an XYSeries for bites
-        XYSeries bitesSeries = new XYSeries("bites");
-        // Adding data to bites and Expense Series
+        // Creating an XYSeries for weights
+        XYSeries weightsSeries = new XYSeries("weights");
+        // Adding data to weights and Expense Series
         for(int i=0;i<x.length;i++) {
-            bitesSeries.add(i,bites[i]);
+            weightsSeries.add(i,weights[i]);
         }
 
         // Creating a dataset to hold each series
         XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
-        // Adding bites Series to the dataset
-        dataset.addSeries(bitesSeries);
+        // Adding weights Series to the dataset
+        dataset.addSeries(weightsSeries);
 
-        // Creating XYSeriesRenderer to customize bitesSeries
-        XYSeriesRenderer bitesRenderer = new XYSeriesRenderer();
-        bitesRenderer.setColor(Color.rgb(88,87,87)); //color of the graph set to black
-        bitesRenderer.setFillPoints(true);
-        bitesRenderer.setLineWidth(2);
-        bitesRenderer.setDisplayChartValues(true);
-        bitesRenderer.setDisplayChartValuesDistance(0); // 10 //setting chart value distance
+        // Creating XYSeriesRenderer to customize weightsSeries
+        XYSeriesRenderer weightsRenderer = new XYSeriesRenderer();
+        weightsRenderer.setColor(Color.rgb(88,87,87)); //color of the graph set to black
+        weightsRenderer.setFillPoints(true);
+        weightsRenderer.setLineWidth(2);
+        weightsRenderer.setDisplayChartValues(true);
+        weightsRenderer.setDisplayChartValuesDistance(0); // 10 //setting chart value distance
 
         // Creating a XYMultipleSeriesRenderer to customize the whole chart
         XYMultipleSeriesRenderer multiRenderer = new XYMultipleSeriesRenderer();
         multiRenderer.setOrientation(XYMultipleSeriesRenderer.Orientation.HORIZONTAL);
         multiRenderer.setXLabels(0);
-        multiRenderer.setChartTitle("Weight Chart");
+        multiRenderer.setChartTitle("Weights");
 //        multiRenderer.setXTitle("");
 //        multiRenderer.setYTitle("");
 
@@ -417,9 +424,9 @@ public class graphtest extends ActionBarActivity {
          * Customizing graphs
          */
         // setting text size of chart value
-        bitesRenderer.setChartValuesTextSize(30);
-        bitesRenderer.setChartValuesTextAlign(Align.CENTER);
-        bitesRenderer.setChartValuesSpacing(20);
+        weightsRenderer.setChartValuesTextSize(30);
+        weightsRenderer.setChartValuesTextAlign(Align.CENTER);
+        weightsRenderer.setChartValuesSpacing(20);
         // setting text size of the title
         multiRenderer.setChartTitleTextSize(30); //28
         //setting text size of the axis title
@@ -463,7 +470,7 @@ public class graphtest extends ActionBarActivity {
         multiRenderer.setYLabels(0); //10
         // setting y axis max value, Since i'm using static values inside the graph so i'm setting y max value to 4000.
         // if you use dynamic values then get the max y value and set here
-        multiRenderer.setYAxisMax(500);
+        multiRenderer.setYAxisMax(counter.retrieveLimit(context));
         multiRenderer.setYAxisMin(0);
         multiRenderer.setXLabelsColor(Color.rgb(88,87,87));
         //setting used to move the graph on xaxiz to .5 to the right
@@ -488,10 +495,10 @@ public class graphtest extends ActionBarActivity {
             multiRenderer.addXTextLabel(i, mMonth[i]);
         }
 
-        // Adding bitesRenderer and expenseRenderer to multipleRenderer
+        // Adding weightsRenderer and expenseRenderer to multipleRenderer
         // Note: The order of adding dataseries to dataset and renderers to multipleRenderer
         // should be same
-        multiRenderer.addSeriesRenderer(bitesRenderer);
+        multiRenderer.addSeriesRenderer(weightsRenderer);
 //            multiRenderer.addSeriesRenderer(expenseRenderer);
 
         //this part is used to display graph on the xml
