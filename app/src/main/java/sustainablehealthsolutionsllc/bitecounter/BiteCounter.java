@@ -1,6 +1,6 @@
 
 /**
- * Created by SustainableHealthSolutions on 2/25/15.
+ * Created by john on 2/25/15.
  */
 
 package sustainablehealthsolutionsllc.bitecounter;
@@ -42,15 +42,11 @@ import sustainablehealthsolutionsllc.bitecounter.AndroidLayout;
 
 import sustainablehealthsolutionsllc.bitecounter.AndroidView;
 
-/**
- * Bite Counter is the main class that creates the Bite Counter.
- * @author John Decker, Matthew Hansen, Jason
- */
 public class BiteCounter extends ActionBarActivity {
     private static final String errMsg = "errMsg";
-    public static Context context;
+    static Context context;
     private static final int PROGRESS = 0x1;
-    private BMI bmi = new BMI();
+    BMI bmi = new BMI();
     @AndroidView(R.id.circle_progress_bar)
     private ProgressBar circleProgress;
     private int pStatus;
@@ -85,19 +81,12 @@ public class BiteCounter extends ActionBarActivity {
         this.date = calendar.get(Calendar.DAY_OF_WEEK);
     }
 
-    /**
-     * onStart method starts the actions for Bite Counter
-     */
     public void onStart()  {
         super.onStart();
         counter.setNumBites(counter.retrieveBites(context));
         counter.setLimit(counter.retrieveLimit(context));
     }
 
-    /**
-     * onResume is there when the user backs out of the program
-     * as well starts the calendar.
-     */
     public void onResume() {
         super.onResume();
         Calendar calendar = Calendar.getInstance();
@@ -158,13 +147,46 @@ public class BiteCounter extends ActionBarActivity {
           }
     }
 
-    /**
-     *Saves the bites and the limit when the user stops Bite Counter.
-     */
     public void onStop() {
         super.onStop();
         counter.saveBites(context);
         counter.saveLimit(context);
+        Calendar calendar = Calendar.getInstance();
+        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        switch (dayOfWeek) {
+            case 1:
+                counter.saveSunday(context);
+                bmi.saveSundayWeight(context);
+                break;
+            case 2:
+                counter.saveMonday(context);
+                bmi.saveMondayWeight(context);
+                break;
+            case 3:
+                counter.saveTuesday(context);
+                bmi.saveTuesdayWeight(context);
+                break;
+            case 4:
+                counter.saveWednesday(context);
+                bmi.saveWednesdayWeight(context);
+                break;
+            case 5:
+                counter.saveThursday(context);
+                bmi.saveThursdayWeight(context);
+                break;
+            case 6:
+                counter.saveFriday(context);
+                counter.saveFriday(context);
+                break;
+            case 7:
+                counter.saveSaturday(context);
+                bmi.saveSaturdayWeight(context);
+                break;
+            default:
+                Log.i(errMsg, "The day wasn't saved correctly");
+                break;
+        }
     }
 
     public void onDestroy() {
@@ -184,10 +206,6 @@ public class BiteCounter extends ActionBarActivity {
 
     }
 
-    /**
-     * Saves the state of the members at that time.
-     * @param savedInstanceState - this allows us to save the state of the Bite Counter.
-     */
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         // Always call the superclass so it can restore the view hierarchy
         super.onRestoreInstanceState(savedInstanceState);
@@ -201,20 +219,23 @@ public class BiteCounter extends ActionBarActivity {
 
     public void counter(View view) {
 
-        //this will initialize the counter
+
         TextView text = (TextView) findViewById(R.id.countView);
 
         circleProgress = (ProgressBar) findViewById(R.id.circle_progress_bar);
 
         circleProgress.setMax(counter.getLimit());
 
-        //this will increment the bite and update the progress bar
         counter.incrementBite(context);
 
         pStatus = counter.getNumBites();
                 circleProgress.setProgress(pStatus);
 
-        //if the counter is above the limit it turns red
+
+        //need to do this weird set so progress bar will update
+
+               circleProgress.setProgress(pStatus);
+
     if(pStatus == 100) {
         circleProgress.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
     }
@@ -248,8 +269,10 @@ public class BiteCounter extends ActionBarActivity {
         }
 
     /**
-     * Needs info here
-     * @param view - needs info here
+     * This function activates when the Weight Button is pushed.
+     * It creates an alertdialog that prompts the user for
+     * information.
+     * @param view
      */
     public void startAlertDialog (View view) {
 
@@ -280,12 +303,6 @@ public class BiteCounter extends ActionBarActivity {
             }
         });
         alertDialog.setButton2("Confirm", new DialogInterface.OnClickListener() {
-
-            /**
-             * Needs info here
-             * @param dialog - needs info here
-             * @param which - needs info here
-             */
             public void onClick(DialogInterface dialog, int which) {
                 // here you can add functions
                 String weightInput = weight.getText().toString();
@@ -306,6 +323,36 @@ public class BiteCounter extends ActionBarActivity {
                     bmi.setWeight(converter.getWeight());
                     bmi.setHeight(converter.getHeight());
 
+                    //Useless Comment
+                    Calendar calendar = Calendar.getInstance();
+                    int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+                    switch (dayOfWeek) {
+                        case 1:
+                            bmi.saveSundayWeight(context);
+                            break;
+                        case 2:
+                            bmi.saveMondayWeight(context);
+                            break;
+                        case 3:
+                            bmi.saveTuesdayWeight(context);
+                            break;
+                        case 4:
+                            bmi.saveWednesdayWeight(context);
+                            break;
+                        case 5:
+                            bmi.saveThursdayWeight(context);
+                            break;
+                        case 6:
+                            bmi.saveFridayWeight(context);
+                            break;
+                        case 7:
+                            bmi.saveSaturdayWeight(context);
+                            break;
+                        default:
+                            Log.i(errMsg, "The day wasn't saved correctly");
+                            break;
+                    }
+
                     SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putFloat("weight", bmi.getWeight());
@@ -316,10 +363,6 @@ public class BiteCounter extends ActionBarActivity {
         });
         alertDialog.show();
     }
-
-    /**
-     *
-     */
     public void addListenerImageButton(){
         ImageButton imageButton = (ImageButton) findViewById(R.id.imageButton1);
         imageButton.setOnClickListener(new View.OnClickListener() {
@@ -404,11 +447,6 @@ public class BiteCounter extends ActionBarActivity {
                 break;
         }
     }
-
-    /**
-     * Needs info here
-     * @param pos - needs info here
-     */
     public void saveCurrentBackground(int pos) {
         SharedPreferences settings = getSharedPreferences("image_data", 0);
         SharedPreferences.Editor editor = settings.edit();
