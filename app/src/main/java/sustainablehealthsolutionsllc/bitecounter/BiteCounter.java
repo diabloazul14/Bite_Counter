@@ -323,6 +323,35 @@ public class BiteCounter extends ActionBarActivity {
                     bmi.setWeight(converter.getWeight());
                     bmi.setHeight(converter.getHeight());
 
+                    Calendar calendar = Calendar.getInstance();
+                    int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+                    switch (dayOfWeek) {
+                        case 1:
+                            bmi.saveSundayWeight(context);
+                            break;
+                        case 2:
+                            bmi.saveMondayWeight(context);
+                            break;
+                        case 3:
+                            bmi.saveTuesdayWeight(context);
+                            break;
+                        case 4:
+                            bmi.saveWednesdayWeight(context);
+                            break;
+                        case 5:
+                            bmi.saveThursdayWeight(context);
+                            break;
+                        case 6:
+                            bmi.saveFridayWeight(context);
+                            break;
+                        case 7:
+                            bmi.saveSaturdayWeight(context);
+                            break;
+                        default:
+                            Log.i(errMsg, "The day wasn't saved correctly");
+                            break;
+                    }
+
                     SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putFloat("weight", bmi.getWeight());
