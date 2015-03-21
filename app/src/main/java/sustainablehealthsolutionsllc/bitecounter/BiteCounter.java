@@ -323,6 +323,7 @@ public class BiteCounter extends ActionBarActivity {
                     bmi.setWeight(converter.getWeight());
                     bmi.setHeight(converter.getHeight());
 
+                    //Useless Comment
                     Calendar calendar = Calendar.getInstance();
                     int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
                     switch (dayOfWeek) {
