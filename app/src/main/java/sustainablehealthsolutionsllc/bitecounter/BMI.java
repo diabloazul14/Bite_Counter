@@ -263,5 +263,39 @@ public class BMI {
         float sundayWeight = settings.getFloat("sundayWeight", 0);
         return sundayWeight;
     }
-
+    public int retrieveTodayWeight(Context context) {
+        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
+        int storeWeight = settings.getInt("today", 0);
+        return storeWeight;
+    }
+    public int retrieveYesterdayWeight(Context context) {
+        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
+        int storeWeight = settings.getInt("yesterday", 0);
+        return storeWeight;
+    }
+    public int retrieve2DayAgoWeight(Context context) {
+        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
+        int storeWeight = settings.getInt("twoDayAgo", 0);
+        return storeWeight;
+    }
+    public int retrieve3DayAgoWeight(Context context) {
+        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
+        int storeWeight = settings.getInt("3DayAgo", 0);
+        return storeWeight;
+    }
+    public int retrieve4DayAgoWeight(Context context) {
+        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
+        int storeWeight = settings.getInt("4DayAgo", 0);
+        return storeWeight;
+    }
+    public int retrieve5DayAgoWeight(Context context) {
+        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
+        int storeWeight = settings.getInt("5DayAgo", 0);
+        return storeWeight;
+    }
+    public int retrieve6DayAgoWeight(Context context) {
+        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
+        int storeWeight = settings.getInt("6DayAgo", 0);
+        return storeWeight;
+    }
 }

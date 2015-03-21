@@ -36,6 +36,16 @@
         android:layout_toLeftOf="@+id/btn_chart"
         android:layout_toStartOf="@+id/btn_chart" />
 
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:onClick="startAlertDialog"
+        android:text="Back"
+        android:id="@+id/backButton"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/btn_chart"
+        android:layout_toEndOf="@+id/btn_chart" />
+
     <LinearLayout
         android:id="@+id/chart"
         android:layout_width="300dp"
