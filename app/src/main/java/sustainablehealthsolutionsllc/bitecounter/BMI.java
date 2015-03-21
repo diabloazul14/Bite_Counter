@@ -109,7 +109,10 @@ public class BMI {
         }
     }
 
-
+    /**
+     * This function saves mondays weight into shared preferences.
+     * @param context
+     */
     public void saveMondayWeight(Context context) {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         SharedPreferences.Editor editor = settings.edit();
@@ -117,12 +120,21 @@ public class BMI {
         editor.apply();
     }
 
+    /**
+     * This function returns mondays weight from shared preferences.
+     * @param context
+     * @return
+     */
     public float retrieveMondayWeight(Context context)  {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         float mondayWeight = settings.getFloat("mondayWeight", 0);
         return mondayWeight;
     }
 
+    /**
+     * This function saves tuesdays weight into shared preferences.
+     * @param context
+     */
     public void saveTuesdayWeight(Context context) {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         SharedPreferences.Editor editor = settings.edit();
@@ -130,12 +142,21 @@ public class BMI {
         editor.apply();
     }
 
+    /**
+     * This function retrieves tuesdays weight from shared preferences.
+     * @param context
+     * @return
+     */
     public float retrieveTuesdayWeight(Context context)  {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         float tuesdayWeight = settings.getFloat("tuesdayWeight", 0);
         return tuesdayWeight;
     }
 
+    /**
+     * This function saves wednesday's weight into shared preferences.
+     * @param context
+     */
     public void saveWednesdayWeight(Context context) {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         SharedPreferences.Editor editor = settings.edit();
@@ -143,12 +164,21 @@ public class BMI {
         editor.apply();
     }
 
+    /**
+     * This function retrieves wednesday's weight from shared preferences.
+     * @param context
+     * @return
+     */
     public float retrieveWednesdayWeight(Context context)  {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         float wednesdayWeight = settings.getFloat("wednesdayWeight", 0);
         return wednesdayWeight;
     }
 
+    /**
+     * This functions saves thursday's weight into shared preferences.
+     * @param context
+     */
     public void saveThursdayWeight(Context context) {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         SharedPreferences.Editor editor = settings.edit();
@@ -156,12 +186,21 @@ public class BMI {
         editor.apply();
     }
 
+    /**
+     * THis function retrieves thrusdays weight from shared preferences.
+     * @param context
+     * @return
+     */
     public float retrieveThursdayWeight(Context context)  {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         float thursdayWeight = settings.getFloat("thursdayWeight", 0);
         return thursdayWeight;
     }
 
+    /**
+     * This functions saves fridays weight into shared preferences
+     * @param context
+     */
     public void saveFridayWeight(Context context) {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         SharedPreferences.Editor editor = settings.edit();
@@ -169,12 +208,22 @@ public class BMI {
         editor.apply();
     }
 
+    /**
+     * This function retrieves fridays weight from shared preferences
+     * @param context
+     * @return
+     */
     public float retrieveFridayWeight(Context context)  {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         float fridayWeight = settings.getFloat("fridayWeight", 0);
         return fridayWeight;
     }
 
+
+    /**
+     * This function saves saturday's weight into shared preferences
+     * @param context
+     */
     public void saveSaturdayWeight(Context context) {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         SharedPreferences.Editor editor = settings.edit();
@@ -182,12 +231,21 @@ public class BMI {
         editor.apply();
     }
 
+    /**
+     * This function retrieves saturdays weight from shared preferences.
+     * @param context
+     * @return
+     */
     public float retrieveSaturdayWeight(Context context)  {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         float saturdayWeight = settings.getFloat("saturdayWeight", 0);
         return saturdayWeight;
     }
 
+    /**
+     * This function saves sundays weight into shared preferences.
+     * @param context
+     */
     public void saveSundayWeight(Context context) {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         SharedPreferences.Editor editor = settings.edit();
@@ -195,6 +253,11 @@ public class BMI {
         editor.apply();
     }
 
+    /**
+     * This function retrieves sunday's weight from shared preferences.
+     * @param context
+     * @return
+     */
     public float retrieveSundayWeight(Context context)  {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         float sundayWeight = settings.getFloat("sundayWeight", 0);

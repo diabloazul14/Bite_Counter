@@ -145,6 +145,42 @@ public class BiteCounter extends ActionBarActivity {
         super.onStop();
         counter.saveBites(context);
         counter.saveLimit(context);
+        Calendar calendar = Calendar.getInstance();
+        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        switch (dayOfWeek) {
+            case 1:
+                counter.saveSunday(context);
+                bmi.saveSundayWeight(context);
+                break;
+            case 2:
+                counter.saveMonday(context);
+                bmi.saveMondayWeight(context);
+                break;
+            case 3:
+                counter.saveTuesday(context);
+                bmi.saveTuesdayWeight(context);
+                break;
+            case 4:
+                counter.saveWednesday(context);
+                bmi.saveWednesdayWeight(context);
+                break;
+            case 5:
+                counter.saveThursday(context);
+                bmi.saveThursdayWeight(context);
+                break;
+            case 6:
+                counter.saveFriday(context);
+                counter.saveFriday(context);
+                break;
+            case 7:
+                counter.saveSaturday(context);
+                bmi.saveSaturdayWeight(context);
+                break;
+            default:
+                Log.i(errMsg, "The day wasn't saved correctly");
+                break;
+        }
     }
 
     public void onDestroy() {
@@ -225,6 +261,13 @@ public class BiteCounter extends ActionBarActivity {
 
             return super.onOptionsItemSelected(item);
         }
+
+    /**
+     * This function activates when the Weight Button is pushed.
+     * It creates an alertdialog that prompts the user for
+     * information.
+     * @param view
+     */
     public void startAlertDialog (View view) {
 
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();

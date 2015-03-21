@@ -144,7 +144,7 @@ public class Counter {
     }
 
     /**
-     *
+     * This function saves the limit into shared preferences.
      * @param context
      */
     public void saveLimit(Context context) {
@@ -154,14 +154,21 @@ public class Counter {
         editor.apply();
     }
 
+    /**
+     * THis function retrieves the limit from shared preferences.
+     * @param context
+     * @return
+     */
     public int retrieveLimit(Context context)  {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         int theLimit = settings.getInt("theLimit", 0);
         return theLimit;
     }
 
-    /***********************************
-     *
+
+    /**
+     * This function saves mondays bites into shared preferences.
+     * @param context
      */
     public void saveMonday(Context context) {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
@@ -170,12 +177,21 @@ public class Counter {
         editor.apply();
     }
 
+    /**
+     * This function retrieves mondays bites from shared preferences.
+     * @param context
+     * @return
+     */
     public int retrieveMonday(Context context)  {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         int dailyNumBites = settings.getInt("monday", 0);
         return dailyNumBites;
     }
 
+    /**
+     * This function saves tuesday's bites into shared preferences.
+     * @param context
+     */
     public void saveTuesday(Context context) {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         SharedPreferences.Editor editor = settings.edit();
@@ -183,12 +199,21 @@ public class Counter {
         editor.apply();
     }
 
+    /**
+     * This function retrieves tuesday bites from shared preferences.
+     * @param context
+     * @return
+     */
     public int retrieveTuesday(Context context)  {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         int dailyNumBites = settings.getInt("tuesday", 0);
         return dailyNumBites;
     }
 
+    /**
+     * This function saves wednesday's bites into shared preferences.
+     * @param context
+     */
     public void saveWednesday(Context context) {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         SharedPreferences.Editor editor = settings.edit();
@@ -196,12 +221,21 @@ public class Counter {
         editor.apply();
     }
 
+    /**
+     * This function retrieves wednesday's bites from shared preferences.
+     * @param context
+     * @return
+     */
     public int retrieveWednesday(Context context)  {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         int dailyNumBites = settings.getInt("wednesday", 0);
         return dailyNumBites;
     }
 
+    /**
+     * This function saves thursday's bites into shared preferences.
+     * @param context
+     */
     public void saveThursday(Context context) {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         SharedPreferences.Editor editor = settings.edit();
@@ -209,12 +243,21 @@ public class Counter {
         editor.apply();
     }
 
+    /**
+     * This function retrieves thursday's bites from shared preferences.
+     * @param context
+     * @return
+     */
     public int retrieveThursday(Context context)  {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         int dailyNumBites = settings.getInt("thursday", 0);
         return dailyNumBites;
     }
 
+    /**
+     * This function saves friday's bites into shared preferences.
+     * @param context
+     */
     public void saveFriday(Context context) {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         SharedPreferences.Editor editor = settings.edit();
@@ -222,12 +265,21 @@ public class Counter {
         editor.apply();
     }
 
+    /**
+     * This function retrieves fridays bites from shared preferences.
+     * @param context
+     * @return
+     */
     public int retrieveFriday(Context context)  {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         int dailyNumBites = settings.getInt("friday", 0);
         return dailyNumBites;
     }
 
+    /**
+     * This function saves saturday's bites into shared preferences.
+     * @param context
+     */
     public void saveSaturday(Context context) {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         SharedPreferences.Editor editor = settings.edit();
@@ -235,12 +287,21 @@ public class Counter {
         editor.apply();
     }
 
+    /**
+     * This function retrieves saturday's bites from shared preferences.
+     * @param context
+     * @return
+     */
     public int retrieveSaturday(Context context)  {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         int dailyNumBites = settings.getInt("saturday", 0);
         return dailyNumBites;
     }
 
+    /**
+     * This function saves sunday's bites into shared preferences.
+     * @param context
+     */
     public void saveSunday(Context context) {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         SharedPreferences.Editor editor = settings.edit();
@@ -248,6 +309,11 @@ public class Counter {
         editor.apply();
     }
 
+    /**
+     * This function retrieves sunday's bites from shared preferences.0
+     * @param context
+     * @return
+     */
     public int retrieveSunday(Context context)  {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         int dailyNumBites = settings.getInt("sunday", 0);

@@ -53,6 +53,13 @@ public class Converter {
         return this.height;
     }
 
+    /**
+     * This function sets the weight in kilograms.
+     * It saves the weight in kg even if the weight
+     * passed in isn't metric. It does this by figuring
+     * out whether the class is set to metric or not.
+     * @param newWeight
+     */
     public void setWeight(float newWeight) {
         if(getIsMetric()) {
             this.weight = newWeight;
@@ -62,10 +69,20 @@ public class Converter {
 
     }
 
+    /**
+     * This function just returns the weight of this class.
+     * @return
+     */
     public float getWeight () {
         return this.weight;
     }
 
+    /**
+     * Parser finds out if the height is metric or
+     * imperial and then sets the object to metric or not.
+     * then it sets the height.
+     * @param newHeight
+     */
     public void parser (float newHeight)  {
         String height = String.valueOf(newHeight);
         String delims = "[. ']+";
