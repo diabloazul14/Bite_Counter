@@ -6,6 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="wallpaperBtn">Change Wallpaper</string>
     <string name="BMI">BMI</string>
+    <string name="Graph">Graph</string>
     <string name="curved_text_value">In/Out Facility</string>
     <string name="home_screen_observations">OBSERVATIONS</string>
     <string name="total_observations">2375</string>

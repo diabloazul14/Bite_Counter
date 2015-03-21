@@ -14,7 +14,6 @@ import android.graphics.Paint.Align;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -28,11 +27,10 @@ import java.util.Calendar;
  * and updates the graphs when users swipe to the layout
  * linked to this class.
  */
-public class graphtest extends ActionBarActivity {
+public class Graph extends ActionBarActivity {
 
     // Instances Declaration
     Counter counter = new Counter();
-    String errMsg = "errMsg1";
     BMI bmi = new BMI();
     Context context;
     Calendar calendar = Calendar.getInstance();
@@ -50,7 +48,7 @@ public class graphtest extends ActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.graphtest);
+        setContentView(R.layout.graph);
         context = getApplicationContext();
 
         // Getting reference to the button btn_chart
@@ -62,7 +60,7 @@ public class graphtest extends ActionBarActivity {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(graphtest.this, BiteCounter.class);
+                Intent intent = new Intent(Graph.this, BiteCounter.class);
                 startActivity(intent);
             }
         };
@@ -375,7 +373,7 @@ public class graphtest extends ActionBarActivity {
         //remove any views before u paint the chart
         chartContainer.removeAllViews();
         //drawing bar chart
-        mChart = ChartFactory.getBarChartView(graphtest.this, dataset, multiRenderer,Type.DEFAULT);
+        mChart = ChartFactory.getBarChartView(Graph.this, dataset, multiRenderer,Type.DEFAULT);
         //adding the view to the linear layout
         chartContainer.addView(mChart);
     }
@@ -502,7 +500,7 @@ public class graphtest extends ActionBarActivity {
         //remove any views before u paint the chart
         chartContainer.removeAllViews();
         //drawing bar chart
-        mChart = ChartFactory.getBarChartView(graphtest.this, dataset, multiRenderer,Type.DEFAULT);
+        mChart = ChartFactory.getBarChartView(Graph.this, dataset, multiRenderer,Type.DEFAULT);
         //adding the view to the linearlayout
         chartContainer.addView(mChart);
     }

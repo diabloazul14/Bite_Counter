@@ -371,7 +371,7 @@ public class BiteCounter extends ActionBarActivity {
      * to let users change wallpapers
      */
     public void addListenerImageButton(){
-        ImageButton imageButton = (ImageButton) findViewById(R.id.imageButton1);
+        ImageButton imageButton = (ImageButton) findViewById(R.id.button_image);
         imageButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -392,7 +392,7 @@ public class BiteCounter extends ActionBarActivity {
 
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(BiteCounter.this, graphtest.class);
+                Intent intent = new Intent(BiteCounter.this, Graph.class);
                 startActivity(intent);
             }
         });
