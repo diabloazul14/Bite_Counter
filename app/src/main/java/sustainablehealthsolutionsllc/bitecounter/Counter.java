@@ -6,6 +6,10 @@ import android.util.Log;
 
 import java.util.Calendar;
 
+/**
+ * This class is awesome. It holds all the information you'ld
+ * need for a bite counter.
+ */
 public class Counter {
     int numBites;
     int limit;

@@ -1,7 +1,9 @@
 package sustainablehealthsolutionsllc.bitecounter;
 
 /**
- * Created by Matthew on 2/25/2015.
+ * This function sets the height and the weight to the metric system,
+ * regardless of what is passed into it. It's smart enough to figure
+ * it out.
  */
 public class Converter {
     boolean isMetric;

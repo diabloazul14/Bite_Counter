@@ -4,7 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
- * Created by Matthew on 2/24/2015.
+ * This class sets the bmi and saves the current days
+ * weight into shared preferences.
  */
 public class BMI {
     boolean isEntered;
