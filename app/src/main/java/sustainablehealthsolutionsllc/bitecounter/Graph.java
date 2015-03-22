@@ -640,7 +640,7 @@ public class Graph extends ActionBarActivity {
                 bmi.calcBmi();
 //                textview = new TextView(this);
                 textview = (TextView)findViewById(R.id.bmiGraph);
-                String newBmi = Float.toString(bmi.getBmi());
+                String newBmi = String.valueOf((int) bmi.getBmi());
                 textview.setText(newBmi);
                 int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
                 String theBmi = "0";
