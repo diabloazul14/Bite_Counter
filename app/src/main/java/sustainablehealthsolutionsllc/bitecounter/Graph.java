@@ -31,7 +31,15 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
-public class graphtest extends ActionBarActivity {
+/**
+ * Display Graphs:
+ * This class will display the two bites and weights graphs
+ * and updates the graphs when users swipe to the layout
+ * linked to this class.
+ */
+public class Graph extends ActionBarActivity {
+
+    // Instances Declaration
     Counter counter = new Counter();
     String errMsg = "errMsg1";
     BMI bmi = new BMI();
@@ -39,12 +47,42 @@ public class graphtest extends ActionBarActivity {
     Calendar calendar = Calendar.getInstance();
     TextView textview;
     private View mChart;
+    private Integer[] bites = new Integer[] {
+            0,0,0,0,0,0,0
+    };
+    private float[] weights = new float[] {
+            0f,0f,0f,0f,0f,0f,0f
+    };
     private String[] mMonth = new String[] {
             "", "", "", "", "", "", ""
     };
-    private Integer[] bites = new Integer[] {0,0,0,0,0,0,0};
-    private float[] weights = new float[] {0f,0f,0f,0f,0f,0f,0f};
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.graph);
+        context = getApplicationContext();
+
+        // Getting reference to the button btn_chart
+        Button btnBack = (Button) findViewById(R.id.backButton);
+        biteGraph();
+        weightGraph();
+        // back button to go to first activity
+        OnClickListener clickListenerBack = new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Graph.this, BiteCounter.class);
+                startActivity(intent);
+            }
+        };
+        btnBack.setOnClickListener(clickListenerBack);
+    }
+
+    /**
+     * Date of Week:
+     * This simply updates date of week and display on the graph correctly
+     */
     public void dateOfWeek() {
         int dayCurrent = calendar.get(Calendar.DAY_OF_WEEK);
         if (dayCurrent == 1) {
@@ -83,6 +121,11 @@ public class graphtest extends ActionBarActivity {
             mMonth[0] = "Sun";
         }
     }
+
+    /**
+     * Bite of Week:
+     * This simply updates bites of week and display on the graph correctly
+     */
     public void biteOfWeek() {
         int dayCurrent = calendar.get(Calendar.DAY_OF_WEEK);
         if (dayCurrent == 1) {
@@ -149,70 +192,75 @@ public class graphtest extends ActionBarActivity {
             bites[0] = counter.retrieveSunday(context);
         }
     }
+
+    /**
+     * Weight of Week:
+     * This simply updates weight of week and display on the graph correctly
+     */
     public void weightOfWeek() {
         int dayCurrent = calendar.get(Calendar.DAY_OF_WEEK);
         if (dayCurrent == 1) {
-            weights[6] = bmi.retrieveSundayWeight(context);
-            weights[5] = bmi.retrieveSaturdayWeight(context);
-            weights[4] = bmi.retrieveFridayWeight(context);
-            weights[3] = bmi.retrieveThursdayWeight(context);
-            weights[2] = bmi.retrieveWednesdayWeight(context);
-            weights[1] = bmi.retrieveTuesdayWeight(context);
-            weights[0] = bmi.retrieveMondayWeight(context);
+            weights[6] = (int) bmi.retrieveSundayWeight(context);
+            weights[5] = (int) bmi.retrieveSaturdayWeight(context);
+            weights[4] = (int) bmi.retrieveFridayWeight(context);
+            weights[3] = (int) bmi.retrieveThursdayWeight(context);
+            weights[2] = (int) bmi.retrieveWednesdayWeight(context);
+            weights[1] = (int) bmi.retrieveTuesdayWeight(context);
+            weights[0] = (int) bmi.retrieveMondayWeight(context);
         }
         if (dayCurrent == 2) {
-            weights[6] = bmi.retrieveMondayWeight(context);
-            weights[5] = bmi.retrieveSundayWeight(context);
-            weights[4] = bmi.retrieveSaturdayWeight(context);
-            weights[3] = bmi.retrieveFridayWeight(context);
-            weights[2] = bmi.retrieveThursdayWeight(context);
-            weights[1] = bmi.retrieveWednesdayWeight(context);
-            weights[0] = bmi.retrieveTuesdayWeight(context);
+            weights[6] = (int) bmi.retrieveMondayWeight(context);
+            weights[5] = (int) bmi.retrieveSundayWeight(context);
+            weights[4] = (int) bmi.retrieveSaturdayWeight(context);
+            weights[3] = (int) bmi.retrieveFridayWeight(context);
+            weights[2] = (int) bmi.retrieveThursdayWeight(context);
+            weights[1] = (int) bmi.retrieveWednesdayWeight(context);
+            weights[0] = (int) bmi.retrieveTuesdayWeight(context);
         }
         if (dayCurrent == 3) {
-            weights[6] = bmi.retrieveTuesdayWeight(context);
-            weights[5] = bmi.retrieveMondayWeight(context);
-            weights[4] = bmi.retrieveSundayWeight(context);
-            weights[3] = bmi.retrieveSaturdayWeight(context);
-            weights[2] = bmi.retrieveFridayWeight(context);
-            weights[1] = bmi.retrieveThursdayWeight(context);
-            weights[0] = bmi.retrieveWednesdayWeight(context);
+            weights[6] = (int) bmi.retrieveTuesdayWeight(context);
+            weights[5] = (int) bmi.retrieveMondayWeight(context);
+            weights[4] = (int) bmi.retrieveSundayWeight(context);
+            weights[3] = (int) bmi.retrieveSaturdayWeight(context);
+            weights[2] = (int) bmi.retrieveFridayWeight(context);
+            weights[1] = (int) bmi.retrieveThursdayWeight(context);
+            weights[0] = (int) bmi.retrieveWednesdayWeight(context);
         }
         if (dayCurrent == 4) {
-            weights[6] = bmi.retrieveWednesdayWeight(context);
-            weights[5] = bmi.retrieveTuesdayWeight(context);
-            weights[4] = bmi.retrieveMondayWeight(context);
-            weights[3] = bmi.retrieveSundayWeight(context);
-            weights[2] = bmi.retrieveSaturdayWeight(context);
-            weights[1] = bmi.retrieveFridayWeight(context);
-            weights[0] = bmi.retrieveThursdayWeight(context);
+            weights[6] = (int) bmi.retrieveWednesdayWeight(context);
+            weights[5] = (int) bmi.retrieveTuesdayWeight(context);
+            weights[4] = (int) bmi.retrieveMondayWeight(context);
+            weights[3] = (int) bmi.retrieveSundayWeight(context);
+            weights[2] = (int) bmi.retrieveSaturdayWeight(context);
+            weights[1] = (int) bmi.retrieveFridayWeight(context);
+            weights[0] = (int) bmi.retrieveThursdayWeight(context);
         }
         if (dayCurrent == 5) {
-            weights[6] = bmi.retrieveThursdayWeight(context);
-            weights[5] = bmi.retrieveWednesdayWeight(context);
-            weights[4] = bmi.retrieveTuesdayWeight(context);
-            weights[3] = bmi.retrieveMondayWeight(context);
-            weights[2] = bmi.retrieveSundayWeight(context);
-            weights[1] = bmi.retrieveSaturdayWeight(context);
-            weights[0] = bmi.retrieveFridayWeight(context);
+            weights[6] = (int) bmi.retrieveThursdayWeight(context);
+            weights[5] = (int) bmi.retrieveWednesdayWeight(context);
+            weights[4] = (int) bmi.retrieveTuesdayWeight(context);
+            weights[3] = (int) bmi.retrieveMondayWeight(context);
+            weights[2] = (int) bmi.retrieveSundayWeight(context);
+            weights[1] = (int) bmi.retrieveSaturdayWeight(context);
+            weights[0] = (int) bmi.retrieveFridayWeight(context);
         }
         if (dayCurrent == 6) {
-            weights[6] = bmi.retrieveFridayWeight(context);
-            weights[5] = bmi.retrieveThursdayWeight(context);
-            weights[4] = bmi.retrieveWednesdayWeight(context);
-            weights[3] = bmi.retrieveTuesdayWeight(context);
-            weights[2] = bmi.retrieveMondayWeight(context);
-            weights[1] = bmi.retrieveSundayWeight(context);
-            weights[0] = bmi.retrieveSaturdayWeight(context);
+            weights[6] = (int) bmi.retrieveFridayWeight(context);
+            weights[5] = (int) bmi.retrieveThursdayWeight(context);
+            weights[4] = (int) bmi.retrieveWednesdayWeight(context);
+            weights[3] = (int) bmi.retrieveTuesdayWeight(context);
+            weights[2] = (int) bmi.retrieveMondayWeight(context);
+            weights[1] = (int) bmi.retrieveSundayWeight(context);
+            weights[0] = (int) bmi.retrieveSaturdayWeight(context);
         }
         if (dayCurrent == 7) {
-            weights[6] = bmi.retrieveSaturdayWeight(context);
-            weights[5] = bmi.retrieveFridayWeight(context);
-            weights[4] = bmi.retrieveThursdayWeight(context);
-            weights[3] = bmi.retrieveWednesdayWeight(context);
-            weights[2] = bmi.retrieveTuesdayWeight(context);
-            weights[1] = bmi.retrieveMondayWeight(context);
-            weights[0] = bmi.retrieveSundayWeight(context);
+            weights[6] = (int) bmi.retrieveSaturdayWeight(context);
+            weights[5] = (int) bmi.retrieveFridayWeight(context);
+            weights[4] = (int) bmi.retrieveThursdayWeight(context);
+            weights[3] = (int) bmi.retrieveWednesdayWeight(context);
+            weights[2] = (int) bmi.retrieveTuesdayWeight(context);
+            weights[1] = (int) bmi.retrieveMondayWeight(context);
+            weights[0] = (int) bmi.retrieveSundayWeight(context);
         }
         Log.i(errMsg, "The value of friday is " + Float.toString(bmi.retrieveFridayWeight(context)));
     }
@@ -314,6 +362,7 @@ public class graphtest extends ActionBarActivity {
 
     private void openChart(){
         int[] x = {0, 1, 2, 3, 4, 5, 6};
+        // update bites of week
         biteOfWeek();
 
         // Creating an XYSeries for bites
@@ -341,19 +390,19 @@ public class graphtest extends ActionBarActivity {
         multiRenderer.setOrientation(XYMultipleSeriesRenderer.Orientation.HORIZONTAL);
         multiRenderer.setXLabels(0);
         multiRenderer.setChartTitle("Bites");
-//        multiRenderer.setXTitle("");
-//        multiRenderer.setYTitle("");
 
         /***
          * Customizing graphs
          */
         // setting text size of chart value
         bitesRenderer.setChartValuesTextSize(35);
+        // setting text align of chart value
         bitesRenderer.setChartValuesTextAlign(Align.CENTER);
+        // setting text spacing of chart value
         bitesRenderer.setChartValuesSpacing(20);
         // setting text size of the title
         multiRenderer.setChartTitleTextSize(30); //28
-        //setting text size of the axis title
+        // setting text size of the axis title
         multiRenderer.setAxisTitleTextSize(30); //24
         // setting text size of the graph lable
         multiRenderer.setLabelsTextSize(30); //24
@@ -391,28 +440,30 @@ public class graphtest extends ActionBarActivity {
         // setting text style
         multiRenderer.setTextTypeface("arial", Typeface.BOLD);
         // setting no of values to display in y axis
-        multiRenderer.setYLabels(0); //10
+        multiRenderer.setYLabels(0);
         // setting y axis max value, Since i'm using static values inside the graph so i'm setting y max value to 4000.
         // if you use dynamic values then get the max y value and set here
-        multiRenderer.setYAxisMax(counter.retrieveLimit(context));
+        multiRenderer.setYAxisMax(/*counter.retrieveLimit(context)*/200);
+        // setting y min value
         multiRenderer.setYAxisMin(0);
+        // setting x label's color
         multiRenderer.setXLabelsColor(Color.rgb(88,87,87));
         //setting used to move the graph on x-axis to .5 to the right
-        multiRenderer.setXAxisMin(-.5); //-.5
-
+        multiRenderer.setXAxisMin(-.5);
         // setting max values to be display in x axis
         multiRenderer.setXAxisMax(7);
         //setting bar size or space between two bars
         multiRenderer.setBarSpacing(0.5);
-        //Setting background color of the graph to transparent
+        //setting background color of the graph to transparent
         multiRenderer.setBackgroundColor(Color.TRANSPARENT);
-        //Setting margin color of the graph to transparent
+        //setting margin color of the graph to transparent
         multiRenderer.setMarginsColor(getResources().getColor(R.color.transparent_background));
+        // setting enablity background color
         multiRenderer.setApplyBackgroundColor(true);
 
         //setting the margin size for the graph in the order top, left, bottom, right
         multiRenderer.setMargins(new int[]{30, 30, 30, 30}); // 30,30,30,30
-
+        // update date of week
         dateOfWeek();
         for(int i=0; i< x.length;i++) {
             multiRenderer.addXTextLabel(i, mMonth[i]);
@@ -428,12 +479,18 @@ public class graphtest extends ActionBarActivity {
         //remove any views before u paint the chart
         chartContainer.removeAllViews();
         //drawing bar chart
-        mChart = ChartFactory.getBarChartView(graphtest.this, dataset, multiRenderer,Type.DEFAULT);
+        mChart = ChartFactory.getBarChartView(Graph.this, dataset, multiRenderer,Type.DEFAULT);
         //adding the view to the linear layout
         chartContainer.addView(mChart);
     }
-    private void openChart2(){
+
+    /**
+     * Weight Graph:
+     * DDraw the customized weight graph and display it on the related layout
+     */
+    private void weightGraph(){
         int[] x = {0, 1, 2, 3, 4, 5, 6};
+        // update weight of week
         weightOfWeek();
 
         // Creating an XYSeries for weights
@@ -461,15 +518,15 @@ public class graphtest extends ActionBarActivity {
         multiRenderer.setOrientation(XYMultipleSeriesRenderer.Orientation.HORIZONTAL);
         multiRenderer.setXLabels(0);
         multiRenderer.setChartTitle("Weights");
-//        multiRenderer.setXTitle("");
-//        multiRenderer.setYTitle("");
 
         /***
          * Customizing graphs
          */
         // setting text size of chart value
         weightsRenderer.setChartValuesTextSize(30);
+        // setting text value of chart value
         weightsRenderer.setChartValuesTextAlign(Align.CENTER);
+        // setting text spacing of chart value
         weightsRenderer.setChartValuesSpacing(20);
         // setting text size of the title
         multiRenderer.setChartTitleTextSize(30); //28
@@ -498,7 +555,7 @@ public class graphtest extends ActionBarActivity {
         //setting external zoom functions to false
         multiRenderer.setExternalZoomEnabled(false);
         //setting displaying lines on graph to be formatted(like using graphics)
-        multiRenderer.setAntialiasing(true); // true
+        multiRenderer.setAntialiasing(true);
         //setting to in scroll to false
         multiRenderer.setInScroll(false);
         //setting to set legend height of the graph
@@ -511,28 +568,30 @@ public class graphtest extends ActionBarActivity {
         //setting text style
         multiRenderer.setTextTypeface("arial", Typeface.BOLD);
         //setting no of values to display in y axis
-        multiRenderer.setYLabels(0); //10
+        multiRenderer.setYLabels(0);
         // setting y axis max value, Since i'm using static values inside the graph so i'm setting y max value to 4000.
         // if you use dynamic values then get the max y value and set here
-        multiRenderer.setYAxisMax(counter.retrieveLimit(context));
+        multiRenderer.setYAxisMax(/*bmi.retrieveLimit(context)*/200);
+        // setting y min value
         multiRenderer.setYAxisMin(0);
+        // setting x label's color
         multiRenderer.setXLabelsColor(Color.rgb(88,87,87));
         //setting used to move the graph on xaxiz to .5 to the right
-        multiRenderer.setXAxisMin(-.5); //-.5
-
+        multiRenderer.setXAxisMin(-.5);
         // setting max values to be display in x axis
         multiRenderer.setXAxisMax(7);
         //setting bar size or space between two bars
         multiRenderer.setBarSpacing(0.5);
-        //Setting background color of the graph to transparent
+        //setting background color of the graph to transparent
         multiRenderer.setBackgroundColor(Color.TRANSPARENT);
-        //Setting margin color of the graph to transparent
+        //setting margin color of the graph to transparent
         multiRenderer.setMarginsColor(getResources().getColor(R.color.transparent_background));
+        // setting enblity background color
         multiRenderer.setApplyBackgroundColor(true);
 
         //setting the margin size for the graph in the order top, left, bottom, right
         multiRenderer.setMargins(new int[]{30, 30, 30, 30}); // 30,30,30,30
-
+        // update date of week
         dateOfWeek();
         for(int i=0; i< x.length;i++){
 /*            multiRenderer.addXTextLabel(i, mMonth[i]);*/
@@ -550,7 +609,7 @@ public class graphtest extends ActionBarActivity {
         //remove any views before u paint the chart
         chartContainer.removeAllViews();
         //drawing bar chart
-        mChart = ChartFactory.getBarChartView(graphtest.this, dataset, multiRenderer,Type.DEFAULT);
+        mChart = ChartFactory.getBarChartView(Graph.this, dataset, multiRenderer,Type.DEFAULT);
         //adding the view to the linearlayout
         chartContainer.addView(mChart);
     }

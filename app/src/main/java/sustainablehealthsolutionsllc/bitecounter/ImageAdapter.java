@@ -9,29 +9,54 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 /**
- * Who made this?
- * @author Jason?
+ * This is my customized image adapter, only used for WallpaperBrowser class.
+ * This adapter aligns images nicely by using image's thumbnails
+ * and make images clickable for passing imageID.
  */
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
 
+    /**
+     * Constructor for this adapter
+     * @param c
+     */
     public ImageAdapter(Context c) {
         mContext = c;
     }
 
+    /**
+     * Getter gets number of images
+     * @return mThumbIds.length
+     */
     public int getCount() {
         return mThumbIds.length;
     }
 
+    /**
+     * Getter gets an image object
+     * @param position
+     * @return
+     */
     public Object getItem(int position) {
         return mThumbIds[position];
     }
 
+    /**
+     * Getter gets image's position aka imageID
+     * @param position
+     * @return position
+     */
     public long getItemId(int position) {
         return position;
     }
 
-    // create a new ImageView for each item referenced by the Adapter
+    /**
+     * Getter gets view by creating a new ImageView for each item referenced by the Adapter
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return imageView
+     */
     public View getView(final int position, View convertView, ViewGroup parent) {
 
         final ImageView imageView;

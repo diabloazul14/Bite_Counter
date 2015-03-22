@@ -248,7 +248,6 @@ public class BiteCounter extends ActionBarActivity {
 
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
             // Inflate the menu; this adds items to the action bar if it is present.
@@ -361,8 +360,14 @@ public class BiteCounter extends ActionBarActivity {
         });
         alertDialog.show();
     }
+
+    /**
+     * Wallpaper Button:
+     * This method is a button handler called the loadImageToLayout
+     * to let users change wallpapers
+     */
     public void addListenerImageButton(){
-        ImageButton imageButton = (ImageButton) findViewById(R.id.imageButton1);
+        ImageButton imageButton = (ImageButton) findViewById(R.id.button_image);
         imageButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -372,33 +377,48 @@ public class BiteCounter extends ActionBarActivity {
             }
         });
     }
+
+    /**
+     * Graph Button:
+     * This is a debugging button while don't have tabbed-activities section
+     */
     public void addListenerGraphButton(){
         Button graphButton = (Button) findViewById(R.id.button3);
         graphButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(BiteCounter.this, graphtest.class);
+                Intent intent = new Intent(BiteCounter.this, Graph.class);
                 startActivity(intent);
             }
         });
     }
+
+    /**
+     * Load Image:
+     * This method contains all the code handling load image on to layout,
+     * and save current image and load that image for application's next run.
+     * This is the main core of wallpaper changing section.
+     */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void loadImageToLayout() {
+        // retrieve current image and load when starting application
         RelativeLayout rl = (RelativeLayout) findViewById(R.id.bite_counter);
         SharedPreferences settings = getSharedPreferences("image_data", 0);
         int encodedImage = settings.getInt("image_data", 0);
 
+        // set layout' background
         int pos = encodedImage;
         Drawable wall = loadReadBitmap(encodedImage);
         rl.setBackground(wall);
 
+        // Catch imageID passed from WallpaperBrowser
         Bundle bundle = getIntent().getExtras();
         if (getIntent().getIntExtra("imageID", 99) != 99) {
             pos = bundle.getInt("imageID");
         }
-//        int pos = getIntent().getExtras().getInt("imageID");
 
+        // handle image ID
         switch (pos) {
             case 0:
                 Drawable wall0 = loadReadBitmap(pos);
@@ -445,17 +465,31 @@ public class BiteCounter extends ActionBarActivity {
                 break;
         }
     }
+
+    /**
+     * Save Current Background:
+     * This basically saves current image for loading when application's start-up
+     * @param pos
+     */
     public void saveCurrentBackground(int pos) {
         SharedPreferences settings = getSharedPreferences("image_data", 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt("image_data", pos);
         editor.apply();
     }
+
+    /**
+     * Load and Read Bitmap:
+     * This method creates a bitmap referencing imageID and the bitmap to Drawable.
+     * @param position
+     * @return Drawable
+     */
     public Drawable loadReadBitmap(int position){
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), mThumbIds[position]);
         return new BitmapDrawable(getResources(), bitmap);
     }
 
+    // references to our images
     private Integer[] mThumbIds = {
             R.drawable.wall0, R.drawable.wall1,
             R.drawable.wall2, R.drawable.wall3,

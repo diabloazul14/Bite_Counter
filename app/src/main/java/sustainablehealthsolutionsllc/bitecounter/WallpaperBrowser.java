@@ -1,19 +1,18 @@
 package sustainablehealthsolutionsllc.bitecounter;
 
-import android.annotation.TargetApi;
-import android.content.Intent;
-
-import android.os.Build;
-import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
+import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.AdapterView.OnItemClickListener;
 
 /**
- * Does What?
- * @author Jason sustainablehealthsolusolutions
+ * Wallpaper Browser:
+ * This class have a grid view of images. I use my customized image adapter
+ * for this grid view. Every time users click on the selected image, the class
+ * will send image ID to the BiteCounter class.
  */
 public class WallpaperBrowser extends ActionBarActivity {
     GridView gridView;
@@ -33,7 +32,7 @@ public class WallpaperBrowser extends ActionBarActivity {
                 intent.putExtra("imageID", position);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-                //finish();
+                finish();
             }
         });
     }

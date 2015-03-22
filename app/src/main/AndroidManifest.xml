@@ -18,12 +18,12 @@
         </activity>
         <activity
             android:name=".WallpaperBrowser"
-            android:label="@string/second_page"
+            android:label="WallpaperBrowser"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".graphtest"
-            android:label="GraphTest"
+            android:name=".Graph"
+            android:label="Graph"
             android:screenOrientation="portrait">
         </activity>
     </application>

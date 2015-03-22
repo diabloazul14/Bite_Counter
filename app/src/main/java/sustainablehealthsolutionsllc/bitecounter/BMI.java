@@ -59,6 +59,7 @@ public class BMI {
      * of this class.
      * @param newWeight
      */
+
     public void setWeight(float newWeight)  {
         this.weight = newWeight;
     }
