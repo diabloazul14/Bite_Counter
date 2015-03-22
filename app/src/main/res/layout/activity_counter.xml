@@ -83,8 +83,8 @@
     <ImageButton
         android:id="@+id/button_image"
         android:src="@drawable/wall_icon"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_toStartOf="@+id/button_circle"
