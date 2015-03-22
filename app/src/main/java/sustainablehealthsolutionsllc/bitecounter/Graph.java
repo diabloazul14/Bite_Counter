@@ -57,29 +57,7 @@ public class Graph extends ActionBarActivity {
             "", "", "", "", "", "", ""
     };
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.graph);
-        context = getApplicationContext();
 
-        // Getting reference to the button btn_chart
-        Button btnBack = (Button) findViewById(R.id.backButton);
-        biteGraph();
-        weightGraph();
-        // back button to go to first activity
-        OnClickListener clickListenerBack = new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Graph.this, BiteCounter.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
-            }
-        };
-        btnBack.setOnClickListener(clickListenerBack);
-    }
 
     /**
      * Date of Week:
@@ -270,7 +248,7 @@ public class Graph extends ActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.graphtest);
+        setContentView(R.layout.graph);
         context = getApplicationContext();
 
         // Getting reference to the button btn_chart
@@ -283,13 +261,13 @@ public class Graph extends ActionBarActivity {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(graphtest.this, BiteCounter.class);
+                Intent intent = new Intent(Graph.this, BiteCounter.class);
                 startActivity(intent);
             }
         };
 
-        openChart();
-        openChart2();
+        biteGraph();
+        weightGraph();
 
 //        OnClickListener clickListenerCounter = new OnClickListener() {
 //
@@ -362,7 +340,7 @@ public class Graph extends ActionBarActivity {
 
     }
 
-    private void openChart(){
+    private void biteGraph(){
         int[] x = {0, 1, 2, 3, 4, 5, 6};
         // update bites of week
         biteOfWeek();
