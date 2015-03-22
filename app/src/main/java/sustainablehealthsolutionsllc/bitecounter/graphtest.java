@@ -7,18 +7,27 @@ import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
+
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Paint.Align;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -28,6 +37,7 @@ public class graphtest extends ActionBarActivity {
     BMI bmi = new BMI();
     Context context;
     Calendar calendar = Calendar.getInstance();
+    TextView textview;
     private View mChart;
     private String[] mMonth = new String[] {
             "", "", "", "", "", "", ""
@@ -265,6 +275,40 @@ public class graphtest extends ActionBarActivity {
 //        btnChart2.setOnClickListener(clickListener2);
 //        btnCounter.setOnClickListener(clickListenerCounter);
         btnBack.setOnClickListener(clickListenerBack);
+
+        textview = new TextView(this);
+        textview = (TextView)findViewById(R.id.bmiGraph);
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        Float theBmi = 0f;
+        switch (dayOfWeek) {
+            case 1:
+                theBmi = bmi.retrieveSundayWeight(context);
+                break;
+            case 2:
+                theBmi = bmi.retrieveMondayWeight(context);
+                break;
+            case 3:
+                theBmi = bmi.retrieveTuesdayWeight(context);
+                break;
+            case 4:
+                theBmi = bmi.retrieveWednesdayWeight(context);
+                break;
+            case 5:
+                theBmi = bmi.retrieveThursdayWeight(context);
+                break;
+            case 6:
+                theBmi = bmi.retrieveFridayWeight(context);
+                break;
+            case 7:
+                theBmi = bmi.retrieveSaturdayWeight(context);
+                break;
+            default:
+                theBmi = 0f;
+                break;
+        }
+        Integer newBmi = Math.round(theBmi);
+        String currentBmi = Integer.toString(newBmi);
+        textview.setText(currentBmi);
 
     }
 
@@ -510,4 +554,121 @@ public class graphtest extends ActionBarActivity {
         //adding the view to the linearlayout
         chartContainer.addView(mChart);
     }
+
+    public static class GraphFragment extends ActionBarActivity {
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            // Inflate the layout for this fragment
+            return inflater.inflate(R.layout.fragment_layout, container, false);
+        }
+    }
+
+    public void startAlertDialog1 (View view) {
+
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Please enter your weight and height");
+
+        LinearLayout lila1= new LinearLayout(this);
+        lila1.setOrientation(LinearLayout.VERTICAL);
+
+        final TextView weightMessage = new TextView(this);
+        weightMessage.setText("Enter your weight in lbs");
+        lila1.addView(weightMessage);
+        final EditText weight = new EditText(this);
+        lila1.addView(weight);
+
+
+        final TextView heightMessage = new TextView(this);
+        heightMessage.setText("Please enter your height in inches");
+        lila1.addView(heightMessage);
+        final EditText height = new EditText(this);
+        lila1.addView(height);
+
+        alertDialog.setView(lila1);
+
+        alertDialog.setButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // No updates are done, so it exits the alert dialog.
+            }
+        });
+        alertDialog.setButton2("Confirm", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // here you can add functions
+                String weightInput = weight.getText().toString();
+                String heightInput = height.getText().toString();
+                bmi.setWeight(Float.valueOf(weightInput));
+                bmi.setHeight(Float.valueOf(heightInput));
+                bmi.calcBmi();
+//                textview = new TextView(this);
+                textview = (TextView)findViewById(R.id.bmiGraph);
+                String newBmi = Float.toString(bmi.getBmi());
+                textview.setText(newBmi);
+                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+                String theBmi = "0";
+                switch (dayOfWeek) {
+                    case 1:
+                       bmi.saveSundayWeight(context);
+                        break;
+                    case 2:
+                       bmi.saveMondayWeight(context);
+                        break;
+                    case 3:
+                       bmi.saveTuesdayWeight(context);
+                        break;
+                    case 4:
+                      bmi.saveWednesdayWeight(context);
+                        break;
+                    case 5:
+                      bmi.saveThursdayWeight(context);
+                        break;
+                    case 6:
+                      bmi.saveFridayWeight(context);
+                        break;
+                    case 7:
+                     bmi.saveSaturdayWeight(context);
+                        break;
+                    default:
+                        Log.i(errMsg, "Unable to save bmi to shared preferences");
+                        break;
+                }
+            }
+        });
+        alertDialog.show();
+    }
+
+    public void onResume() {
+        super.onResume();
+        textview = new TextView(this);
+        textview = (TextView)findViewById(R.id.bmiGraph);
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        String theBmi = "0";
+        switch (dayOfWeek) {
+            case 1:
+                theBmi = Float.toString(bmi.retrieveSundayWeight(context));
+                break;
+            case 2:
+                theBmi = Float.toString(bmi.retrieveMondayWeight(context));
+                break;
+            case 3:
+                theBmi = Float.toString(bmi.retrieveTuesdayWeight(context));
+                break;
+            case 4:
+                theBmi = Float.toString(bmi.retrieveWednesdayWeight(context));
+                break;
+            case 5:
+                theBmi = Float.toString(bmi.retrieveThursdayWeight(context));
+                break;
+            case 6:
+                theBmi = Float.toString(bmi.retrieveFridayWeight(context));
+                break;
+            case 7:
+                theBmi = Float.toString(bmi.retrieveSaturdayWeight(context));
+                break;
+            default:
+                theBmi = "N/A";
+                break;
+        }
+        textview.setText(theBmi);
+    }
+
 }

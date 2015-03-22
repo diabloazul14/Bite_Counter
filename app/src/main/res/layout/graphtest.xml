@@ -46,6 +46,32 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
+    <Button
+        android:layout_height="50dp"
+        android:layout_width="75dp"
+        android:text="BMI"
+        android:layout_marginTop="400dp"
+        android:layout_marginLeft="250dp"
+        android:onClick="startAlertDialog1"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="450dp"
+        android:layout_marginLeft="145dp"
+        android:text="BMI"
+        android:textSize="15pt"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/bmiGraph"
+        android:layout_marginTop="450dp"
+        android:layout_marginLeft="120dp"
+        android:text="0"
+        android:textSize="15pt"/>
+
+
     <LinearLayout
         android:id="@+id/chart"
         android:layout_width="300dp"

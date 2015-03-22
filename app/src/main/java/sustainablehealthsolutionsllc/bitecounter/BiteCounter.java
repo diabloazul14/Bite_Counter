@@ -279,23 +279,23 @@ public class BiteCounter extends ActionBarActivity {
     public void startAlertDialog (View view) {
 
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        alertDialog.setTitle("Please enter your weight and height");
+        alertDialog.setTitle("Please enter your weight");
 
         LinearLayout lila1= new LinearLayout(this);
         lila1.setOrientation(LinearLayout.VERTICAL);
 
         final TextView weightMessage = new TextView(this);
-        weightMessage.setText("Enter your weight in lbs or kg");
+        weightMessage.setText("Please Enter your weight in lbs");
         lila1.addView(weightMessage);
         final EditText weight = new EditText(this);
         lila1.addView(weight);
 
 
-        final TextView heightLargeMessage = new TextView(this);
-        heightLargeMessage.setText("Please enter your height");
-        lila1.addView(heightLargeMessage);
-        final EditText heightLarge = new EditText(this);
-        lila1.addView(heightLarge);
+//        final TextView heightLargeMessage = new TextView(this);
+//        heightLargeMessage.setText("Please enter your height");
+//        lila1.addView(heightLargeMessage);
+//        final EditText heightLarge = new EditText(this);
+//        lila1.addView(heightLarge);
 
         alertDialog.setView(lila1);
 
@@ -308,24 +308,20 @@ public class BiteCounter extends ActionBarActivity {
             public void onClick(DialogInterface dialog, int which) {
                 // here you can add functions
                 String weightInput = weight.getText().toString();
-                String heightLargeInput = heightLarge.getText().toString();
 
-                if (weightInput.equals("") || heightLargeInput.equals("")){ //|| heightSmallInput.equals("")) {
-                    CharSequence text = "Please reclick the BMI button and enter in all of the fields or we can't calculate your BMI :(";
+                if (weightInput.equals("") ){
+                    CharSequence text = "Please reenter your weight";
                     int duration = Toast.LENGTH_LONG;
 
                     Toast toast = Toast.makeText(context, text, duration);
                     toast.show();
                 }  else {
                     Float newWeight = Float.valueOf(weightInput);
-                    Float newHeight = Float.valueOf(heightLargeInput);
                     Converter converter = new Converter();
-                    converter.parser(newHeight);
+//                    converter.parser(newHeight);
                     converter.setWeight(newWeight);  //Needs to be implemented after converter.parser
                     bmi.setWeight(converter.getWeight());
-                    bmi.setHeight(converter.getHeight());
 
-                    //Useless Comment
                     Calendar calendar = Calendar.getInstance();
                     int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
                     switch (dayOfWeek) {
@@ -354,11 +350,11 @@ public class BiteCounter extends ActionBarActivity {
                             Log.i(errMsg, "The day wasn't saved correctly");
                             break;
                     }
-
+                    //The below shared preferences may not need to exist because of the
+                    //above switch statement
                     SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putFloat("weight", bmi.getWeight());
-                    editor.putFloat("height", bmi.getHeight());
                     editor.apply();
                 }
             }
@@ -467,12 +463,15 @@ public class BiteCounter extends ActionBarActivity {
             R.drawable.wall6, R.drawable.wall7,
     };
 
-    public static class BiteCounterFragment extends ActionBarActivity {
+    public class BiteCounterFragment extends ActionBarActivity {
 
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             // Inflate the layout for this fragment
-            return inflater.inflate(R.layout.fragment_layout, container, false);
+            ViewGroup rootView = (ViewGroup) inflater.inflate(
+                    R.layout.fragment_layout, container, false);
+
+            return rootView;
         }
     }
 }

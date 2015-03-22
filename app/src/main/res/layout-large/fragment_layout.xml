@@ -11,4 +11,13 @@
         android:layout_height="match_parent"
         tools:layout="@layout/activity_counter" />
 
+    <fragment
+        android:name="sustainablehealthsolutionsllc.bitecounter.graphtest"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:id="@+id/fragment_graph"
+        tools:layout="@layout/graphtest" />
+
+
 </LinearLayout>

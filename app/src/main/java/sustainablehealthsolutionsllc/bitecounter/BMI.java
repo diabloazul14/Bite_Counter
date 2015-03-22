@@ -100,14 +100,14 @@ public class BMI {
      * to be entered.
      */
     public void calcBmi() {
-        setIsEntered();
-        if (getIsEntered()) {
-            this.bmi = this.weight / (this.height * this.height);
-        } else {
-            //I need to change this into either a toast or something
-            //better than toast(If that's possible). But Probably a input form.
-            System.out.println("You need to enter in a height and a weight");
-        }
+//        setIsEntered();
+//        if (getIsEntered()) {
+            this.bmi = (703 * this.weight) / (this.height * this.height);
+//        } else {
+//            //I need to change this into either a toast or something
+//            //better than toast(If that's possible). But Probably a input form.
+//            System.out.println("You need to enter in a height and a weight");
+//        }
     }
 
     /**
