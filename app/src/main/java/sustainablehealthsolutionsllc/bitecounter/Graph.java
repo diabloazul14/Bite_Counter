@@ -73,7 +73,9 @@ public class Graph extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Graph.this, BiteCounter.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+                finish();
             }
         };
         btnBack.setOnClickListener(clickListenerBack);
