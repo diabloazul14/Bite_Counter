@@ -77,6 +77,14 @@ public class BiteCounter extends ActionBarActivity {
 
             counter.setLimit(100); //THis line needs to be replaced eventually once
                                     // THe 7 day average function comes into play.
+        circleProgress.setMax(counter.retrieveLimit(context));
+
+        circleProgress.setProgress(counter.retrieveBites(context));
+
+        if(counter.retrieveBites(context) > counter.retrieveLimit(context)) {
+            circleProgress.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
+        }
+
         addListenerGraphButton();
 
         Calendar calendar = Calendar.getInstance();
@@ -87,6 +95,14 @@ public class BiteCounter extends ActionBarActivity {
         super.onStart();
         counter.setNumBites(counter.retrieveBites(context));
         counter.setLimit(counter.retrieveLimit(context));
+        circleProgress.setMax(counter.getLimit());
+
+        circleProgress.setProgress(counter.getNumBites());
+
+        if(counter.getNumBites() > counter.getLimit()) {
+            circleProgress.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
+        }
+
     }
 
     public void onResume() {
@@ -112,8 +128,13 @@ public class BiteCounter extends ActionBarActivity {
        }
         Log.i(errMsg, "The time of the day is ................" + Integer.toString(hourOfDay));
        circleProgress.setMax(counter.getLimit());
-       circleProgress.setProgress(0);
-       Log.i(errMsg, dayOfWeek + "This is the day of the week!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+       circleProgress.setProgress(counter.getNumBites());
+
+        if(counter.getNumBites() > counter.getLimit()) {
+            circleProgress.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
+        }
+
+        Log.i(errMsg, dayOfWeek + "This is the day of the week!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
        switch (dayOfWeek) {
           case 1:
              counter.saveSunday(context);
@@ -238,7 +259,7 @@ public class BiteCounter extends ActionBarActivity {
 
                circleProgress.setProgress(pStatus);
 
-    if(pStatus == 100) {
+    if(pStatus > 100) {
         circleProgress.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
     }
         String num = Integer.toString(counter.getNumBites());

@@ -82,7 +82,7 @@
 
     <ImageButton
         android:id="@+id/button_image"
-        android:src="@drawable/wall_icon"
+        android:src="@drawable/abc_ic_menu_copy_mtrl_am_alpha"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignParentLeft="true"

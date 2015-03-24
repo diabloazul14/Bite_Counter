@@ -14,4 +14,6 @@
     <string name="home_screen_observed_compliance">OBSERVED\nCOMPLIANCE</string>
     <string name="content_description">This is an image…</string>
     <string name="zero">0</string>
+    <string name="hprogress">0/7</string>
+    <string name="dayremain">Days Remain</string>
 </resources>

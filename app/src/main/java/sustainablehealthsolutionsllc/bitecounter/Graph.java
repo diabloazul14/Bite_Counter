@@ -14,10 +14,13 @@ import android.graphics.Paint.Align;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.Calendar;
 
@@ -34,6 +37,7 @@ public class Graph extends ActionBarActivity {
     BMI bmi = new BMI();
     Context context;
     Calendar calendar = Calendar.getInstance();
+    private ProgressBar horizontalProgress;
     private View mChart;
     private Integer[] bites = new Integer[] {
             0,0,0,0,0,0,0
@@ -44,6 +48,7 @@ public class Graph extends ActionBarActivity {
     private String[] mMonth = new String[] {
             "", "", "", "", "", "", ""
     };
+    int dayCount = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,6 +60,21 @@ public class Graph extends ActionBarActivity {
         Button btnBack = (Button) findViewById(R.id.backButton);
         biteGraph();
         weightGraph();
+        TextView viewText = (TextView) findViewById(R.id.dayLeft);
+
+        horizontalProgress = (ProgressBar) findViewById(R.id.progressbar);
+
+        horizontalProgress.setMax(7);
+
+        dayCount = calendar.get(calendar.DAY_OF_WEEK);
+
+        String dayish = Integer.toString(dayCount).concat("/7");
+
+        horizontalProgress.setProgress(dayCount);
+
+        viewText.setText(dayish,TextView.BufferType.EDITABLE);
+
+
         // back button to go to first activity
         OnClickListener clickListenerBack = new OnClickListener() {
 
