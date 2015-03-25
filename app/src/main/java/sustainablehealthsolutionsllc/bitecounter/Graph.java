@@ -267,6 +267,8 @@ public class Graph extends ActionBarActivity {
 
         horizontalProgress.setProgress(dayCount);
 
+        viewText.setText(dayish,TextView.BufferType.EDITABLE);
+
         // Getting reference to the button btn_chart
 //        Button btnChart = (Button) findViewById(R.id.btn_chart);
 //        Button btnChart2 = (Button) findViewById(R.id.btn_chart2);

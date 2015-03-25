@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.graphics.AvoidXfermode;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.media.AudioAttributes;
 import android.os.AsyncTask;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -19,6 +20,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Vibrator;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -44,9 +46,12 @@ import sustainablehealthsolutionsllc.bitecounter.AndroidLayout;
 
 import sustainablehealthsolutionsllc.bitecounter.AndroidView;
 
+import static android.media.AudioAttributes.*;
+
 public class BiteCounter extends ActionBarActivity {
     private static final String errMsg = "errMsg";
     static Context context;
+    private Vibrator vibrator;
     private static final int PROGRESS = 0x1;
     BMI bmi = new BMI();
     @AndroidView(R.id.circle_progress_bar)
@@ -55,6 +60,7 @@ public class BiteCounter extends ActionBarActivity {
     private Counter counter = new Counter();
     private static final String LOG_ERROR = "ERROR:Issue with line:";
     Integer date;
+    private AudioAttributes alarm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +71,8 @@ public class BiteCounter extends ActionBarActivity {
         this.context = getApplicationContext();
         counter.setNumBites(counter.retrieveBites(context));
         counter.setLimit(counter.retrieveLimit(context));
+        //debug code
+        counter.setLimit(10);
             //set up to convert count to a text view
 
         circleProgress = (ProgressBar) findViewById(R.id.circle_progress_bar);
@@ -80,6 +88,8 @@ public class BiteCounter extends ActionBarActivity {
         circleProgress.setMax(counter.retrieveLimit(context));
 
         circleProgress.setProgress(counter.retrieveBites(context));
+
+        circleProgress.setProgress(0); //debug code
 
         if(counter.retrieveBites(context) > counter.retrieveLimit(context)) {
             circleProgress.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
@@ -240,8 +250,14 @@ public class BiteCounter extends ActionBarActivity {
         this.counter.setLimit(restoredLimit);
     }
 
+    /**
+     * counter method: enables count ability to both the progress bar
+     * and the textview
+     * @param view
+     */
     public void counter(View view) {
 
+        vibrator = (Vibrator) getSystemService(context.VIBRATOR_SERVICE);
 
         TextView text = (TextView) findViewById(R.id.countView);
 
@@ -260,7 +276,16 @@ public class BiteCounter extends ActionBarActivity {
                circleProgress.setProgress(pStatus);
 
     if(pStatus > 100) {
+
         circleProgress.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+
+        //we want to vibrate when over the limit
+        //vibrate for 5 seconds and play alarm
+        if(vibrator.hasVibrator()) {
+
+            vibrator.vibrate(500);
+        }
+
     }
         String num = Integer.toString(counter.getNumBites());
 
