@@ -9,13 +9,21 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
 import android.app.AlertDialog;
+
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Paint.Align;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -27,6 +35,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,18 +59,100 @@ public class Graph extends ActionBarActivity {
     TextView textview;
     private ProgressBar horizontalProgress;
     private View mChart;
-    private Integer[] bites = new Integer[] {
-            0,0,0,0,0,0,0
+    private Integer[] bites = new Integer[]{
+            0, 0, 0, 0, 0, 0, 0
     };
-    private float[] weights = new float[] {
-            0f,0f,0f,0f,0f,0f,0f
+    private float[] weights = new float[]{
+            0f, 0f, 0f, 0f, 0f, 0f, 0f
     };
-    private String[] mMonth = new String[] {
+    private String[] mMonth = new String[]{
             "", "", "", "", "", "", ""
     };
     int dayCount = 0;
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.graph);
+        context = getApplicationContext();
+        TextView viewText = (TextView) findViewById(R.id.dayLeft);
+        loadImageToLayout();
+        biteGraph();
+        weightGraph();
 
+        horizontalProgress = (ProgressBar) findViewById(R.id.progressbar);
+
+        horizontalProgress.setMax(7);
+
+        dayCount = calendar.get(calendar.DAY_OF_WEEK);
+
+        String dayish = Integer.toString(dayCount).concat("/7");
+
+        horizontalProgress.setProgress(dayCount);
+
+        viewText.setText(dayish, TextView.BufferType.EDITABLE);
+
+        // Getting reference to the button btn_chart
+        Button btnBack = (Button) findViewById(R.id.backButton);
+
+        // back button to go to first activity
+        OnClickListener clickListenerBack = new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Graph.this, BiteCounter.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            }
+        };
+        btnBack.setOnClickListener(clickListenerBack);
+    }
+
+    public void onStart() {
+        super.onStart();
+        biteGraph();
+        weightGraph();
+    }
+
+    public void onResume() {
+        super.onResume();
+        biteGraph();
+        weightGraph();
+        textview = new TextView(this);
+        textview = (TextView) findViewById(R.id.bmiGraph);
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        Float theBmi = 0f;
+        switch (dayOfWeek) {
+            case 1:
+                theBmi = bmi.retrieveSundayWeight(context);
+                break;
+            case 2:
+                theBmi = bmi.retrieveMondayWeight(context);
+                break;
+            case 3:
+                theBmi = bmi.retrieveTuesdayWeight(context);
+                break;
+            case 4:
+                theBmi = bmi.retrieveWednesdayWeight(context);
+                break;
+            case 5:
+                theBmi = bmi.retrieveThursdayWeight(context);
+                break;
+            case 6:
+                theBmi = bmi.retrieveFridayWeight(context);
+                break;
+            case 7:
+                theBmi = bmi.retrieveSaturdayWeight(context);
+                break;
+            default:
+                theBmi = 0f;
+                break;
+        }
+        Integer newBmi = Math.round(theBmi);
+        String currentBmi = Integer.toString(newBmi);
+        textview.setText(currentBmi);
+    }
 
     /**
      * Date of Week:
@@ -70,38 +161,66 @@ public class Graph extends ActionBarActivity {
     public void dateOfWeek() {
         int dayCurrent = calendar.get(Calendar.DAY_OF_WEEK);
         if (dayCurrent == 1) {
-            mMonth[6] = "Today";   mMonth[5] = "Sat";  mMonth[4] = "Fri";
-            mMonth[3] = "Thur"; mMonth[2] = "Wed"; mMonth[1] = "Tue";
+            mMonth[6] = "Today";
+            mMonth[5] = "Sat";
+            mMonth[4] = "Fri";
+            mMonth[3] = "Thur";
+            mMonth[2] = "Wed";
+            mMonth[1] = "Tue";
             mMonth[0] = "Mon";
         }
         if (dayCurrent == 2) {
-            mMonth[6] = "Today";   mMonth[5] = "Sun";    mMonth[4] = "Sat";
-            mMonth[3] = "Fri";   mMonth[2] = "Thu";  mMonth[1] = "Wed";
+            mMonth[6] = "Today";
+            mMonth[5] = "Sun";
+            mMonth[4] = "Sat";
+            mMonth[3] = "Fri";
+            mMonth[2] = "Thu";
+            mMonth[1] = "Wed";
             mMonth[0] = "Tue";
         }
         if (dayCurrent == 3) {
-            mMonth[6] = "Tue";  mMonth[5] = "Mon";    mMonth[4] = "Sun";
-            mMonth[3] = "Sat"; mMonth[2] = "Fri";    mMonth[1] = "Thu";
+            mMonth[6] = "Today";
+            mMonth[5] = "Mon";
+            mMonth[4] = "Sun";
+            mMonth[3] = "Sat";
+            mMonth[2] = "Fri";
+            mMonth[1] = "Thu";
             mMonth[0] = "Wed";
         }
         if (dayCurrent == 4) {
-            mMonth[6] = "Today"; mMonth[5] = "Tue"; mMonth[4] = "Mon";
-            mMonth[3] = "Sun";   mMonth[2] = "Sat"; mMonth[1] = "Fri";
+            mMonth[6] = "Today";
+            mMonth[5] = "Tue";
+            mMonth[4] = "Mon";
+            mMonth[3] = "Sun";
+            mMonth[2] = "Sat";
+            mMonth[1] = "Fri";
             mMonth[0] = "Thu";
         }
         if (dayCurrent == 5) {
-            mMonth[6] = "Today"; mMonth[5] = "Wed";   mMonth[4] = "Tue";
-            mMonth[3] = "Mon"; mMonth[2] = "Sun"; mMonth[1] = "Sat";
+            mMonth[6] = "Today";
+            mMonth[5] = "Wed";
+            mMonth[4] = "Tue";
+            mMonth[3] = "Mon";
+            mMonth[2] = "Sun";
+            mMonth[1] = "Sat";
             mMonth[0] = "Fri";
         }
         if (dayCurrent == 6) {
-            mMonth[6] = "Today"; mMonth[5] = "Thu";   mMonth[4] = "Wed";
-            mMonth[3] = "Tue"; mMonth[2] = "Mon"; mMonth[1] = "Sun";
+            mMonth[6] = "Today";
+            mMonth[5] = "Thu";
+            mMonth[4] = "Wed";
+            mMonth[3] = "Tue";
+            mMonth[2] = "Mon";
+            mMonth[1] = "Sun";
             mMonth[0] = "Sat";
         }
         if (dayCurrent == 7) {
-            mMonth[6] = "Today"; mMonth[5] = "Fri";   mMonth[4] = "Thu";
-            mMonth[3] = "Wed"; mMonth[2] = "Tue"; mMonth[1] = "Mon";
+            mMonth[6] = "Today";
+            mMonth[5] = "Fri";
+            mMonth[4] = "Thu";
+            mMonth[3] = "Wed";
+            mMonth[2] = "Tue";
+            mMonth[1] = "Mon";
             mMonth[0] = "Sun";
         }
     }
@@ -249,116 +368,11 @@ public class Graph extends ActionBarActivity {
         Log.i(errMsg, "The value of friday is " + Float.toString(bmi.retrieveFridayWeight(context)));
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.graph);
-        context = getApplicationContext();
-        
-        TextView viewText = (TextView) findViewById(R.id.dayLeft);
-
-        horizontalProgress = (ProgressBar) findViewById(R.id.progressbar);
-
-        horizontalProgress.setMax(7);
-
-        dayCount = calendar.get(calendar.DAY_OF_WEEK);
-
-        String dayish = Integer.toString(dayCount).concat("/7");
-
-        horizontalProgress.setProgress(dayCount);
-
-        viewText.setText(dayish,TextView.BufferType.EDITABLE);
-
-        // Getting reference to the button btn_chart
-//        Button btnChart = (Button) findViewById(R.id.btn_chart);
-//        Button btnChart2 = (Button) findViewById(R.id.btn_chart2);
-//        Button btnCounter = (Button) findViewById(R.id.btn_counter);
-        Button btnBack = (Button) findViewById(R.id.backButton);
-
-        OnClickListener clickListenerBack = new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Graph.this, BiteCounter.class);
-                startActivity(intent);
-            }
-        };
-
-        biteGraph();
-        weightGraph();
-
-//        OnClickListener clickListenerCounter = new OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                // Draw the bites vs Expense Chart
-//                int count = counter.getNumBites();
-//                count++;
-//                counter.setNumBites(count);
-//            }
-//        };
-//
-//        // Defining click event listener for the button btn_chart
-//        OnClickListener clickListener = new OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                // Draw the bites vs Expense Chart
-//                openChart();
-//            }
-//        };
-//        // Defining click event listener for the button btn_chart
-//        OnClickListener clickListener2 = new OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                // Draw the bites vs Expense Chart
-//                openChart2();
-//            }
-//        };
-//        // Setting event click listener for the button btn_chart of the MainActivity layout
-//        btnChart.setOnClickListener(clickListener);
-//        btnChart2.setOnClickListener(clickListener2);
-//        btnCounter.setOnClickListener(clickListenerCounter);
-        btnBack.setOnClickListener(clickListenerBack);
-
-        textview = new TextView(this);
-        textview = (TextView)findViewById(R.id.bmiGraph);
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        Float theBmi = 0f;
-        switch (dayOfWeek) {
-            case 1:
-                theBmi = bmi.retrieveSundayWeight(context);
-                break;
-            case 2:
-                theBmi = bmi.retrieveMondayWeight(context);
-                break;
-            case 3:
-                theBmi = bmi.retrieveTuesdayWeight(context);
-                break;
-            case 4:
-                theBmi = bmi.retrieveWednesdayWeight(context);
-                break;
-            case 5:
-                theBmi = bmi.retrieveThursdayWeight(context);
-                break;
-            case 6:
-                theBmi = bmi.retrieveFridayWeight(context);
-                break;
-            case 7:
-                theBmi = bmi.retrieveSaturdayWeight(context);
-                break;
-            default:
-                theBmi = 0f;
-                break;
-        }
-        Integer newBmi = Math.round(theBmi);
-        String currentBmi = Integer.toString(newBmi);
-        textview.setText(currentBmi);
-
-    }
-
-    private void biteGraph(){
+    /**
+     * Bite Graph:
+     * Draw the customized weight graph and display it on the related layout
+     */
+    private void biteGraph() {
         int[] x = {0, 1, 2, 3, 4, 5, 6};
         // update bites of week
         biteOfWeek();
@@ -366,8 +380,8 @@ public class Graph extends ActionBarActivity {
         // Creating an XYSeries for bites
         XYSeries bitesSeries = new XYSeries("bites");
         // Adding data to bites and Expense Series
-        for(int i=0;i<x.length;i++){
-            bitesSeries.add(i,bites[i]);
+        for (int i = 0; i < x.length; i++) {
+            bitesSeries.add(i, bites[i]);
         }
 
         // Creating a dataset to hold each series
@@ -377,7 +391,7 @@ public class Graph extends ActionBarActivity {
 
         // Creating XYSeriesRenderer to customize bitesSeries
         XYSeriesRenderer bitesRenderer = new XYSeriesRenderer();
-        bitesRenderer.setColor(Color.rgb(88,87,87)); //color of the graph set to black
+        bitesRenderer.setColor(Color.rgb(88, 87, 87)); //color of the graph set to black
         bitesRenderer.setFillPoints(true);
         bitesRenderer.setLineWidth(2);
         bitesRenderer.setDisplayChartValues(true);
@@ -445,7 +459,7 @@ public class Graph extends ActionBarActivity {
         // setting y min value
         multiRenderer.setYAxisMin(0);
         // setting x label's color
-        multiRenderer.setXLabelsColor(Color.rgb(88,87,87));
+        multiRenderer.setXLabelsColor(Color.rgb(88, 87, 87));
         //setting used to move the graph on x-axis to .5 to the right
         multiRenderer.setXAxisMin(-.5);
         // setting max values to be display in x axis
@@ -453,7 +467,7 @@ public class Graph extends ActionBarActivity {
         //setting bar size or space between two bars
         multiRenderer.setBarSpacing(0.5);
         //setting background color of the graph to transparent
-        multiRenderer.setBackgroundColor(Color.TRANSPARENT);
+        multiRenderer.setBackgroundColor(Color.WHITE);
         //setting margin color of the graph to transparent
         multiRenderer.setMarginsColor(getResources().getColor(R.color.transparent_background));
         // setting enablity background color
@@ -463,7 +477,7 @@ public class Graph extends ActionBarActivity {
         multiRenderer.setMargins(new int[]{30, 30, 30, 30}); // 30,30,30,30
         // update date of week
         dateOfWeek();
-        for(int i=0; i< x.length;i++) {
+        for (int i = 0; i < x.length; i++) {
             multiRenderer.addXTextLabel(i, mMonth[i]);
         }
 
@@ -477,16 +491,16 @@ public class Graph extends ActionBarActivity {
         //remove any views before u paint the chart
         chartContainer.removeAllViews();
         //drawing bar chart
-        mChart = ChartFactory.getBarChartView(Graph.this, dataset, multiRenderer,Type.DEFAULT);
+        mChart = ChartFactory.getBarChartView(Graph.this, dataset, multiRenderer, Type.DEFAULT);
         //adding the view to the linear layout
         chartContainer.addView(mChart);
     }
 
     /**
      * Weight Graph:
-     * DDraw the customized weight graph and display it on the related layout
-     */
-    private void weightGraph(){
+     * Draw the customized weight graph and display it on the related layout
+    */
+    private void weightGraph() {
         int[] x = {0, 1, 2, 3, 4, 5, 6};
         // update weight of week
         weightOfWeek();
@@ -494,8 +508,8 @@ public class Graph extends ActionBarActivity {
         // Creating an XYSeries for weights
         XYSeries weightsSeries = new XYSeries("weights");
         // Adding data to weights and Expense Series
-        for(int i=0;i<x.length;i++) {
-            weightsSeries.add(i,weights[i]);
+        for (int i = 0; i < x.length; i++) {
+            weightsSeries.add(i, weights[i]);
         }
 
         // Creating a dataset to hold each series
@@ -505,7 +519,7 @@ public class Graph extends ActionBarActivity {
 
         // Creating XYSeriesRenderer to customize weightsSeries
         XYSeriesRenderer weightsRenderer = new XYSeriesRenderer();
-        weightsRenderer.setColor(Color.rgb(88,87,87)); //color of the graph set to black
+        weightsRenderer.setColor(Color.rgb(88, 87, 87)); //color of the graph set to black
         weightsRenderer.setFillPoints(true);
         weightsRenderer.setLineWidth(2);
         weightsRenderer.setDisplayChartValues(true);
@@ -573,7 +587,7 @@ public class Graph extends ActionBarActivity {
         // setting y min value
         multiRenderer.setYAxisMin(0);
         // setting x label's color
-        multiRenderer.setXLabelsColor(Color.rgb(88,87,87));
+        multiRenderer.setXLabelsColor(Color.rgb(88, 87, 87));
         //setting used to move the graph on xaxiz to .5 to the right
         multiRenderer.setXAxisMin(-.5);
         // setting max values to be display in x axis
@@ -581,7 +595,7 @@ public class Graph extends ActionBarActivity {
         //setting bar size or space between two bars
         multiRenderer.setBarSpacing(0.5);
         //setting background color of the graph to transparent
-        multiRenderer.setBackgroundColor(Color.TRANSPARENT);
+        multiRenderer.setBackgroundColor(Color.WHITE);
         //setting margin color of the graph to transparent
         multiRenderer.setMarginsColor(getResources().getColor(R.color.transparent_background));
         // setting enblity background color
@@ -591,7 +605,7 @@ public class Graph extends ActionBarActivity {
         multiRenderer.setMargins(new int[]{30, 30, 30, 30}); // 30,30,30,30
         // update date of week
         dateOfWeek();
-        for(int i=0; i< x.length;i++){
+        for (int i = 0; i < x.length; i++) {
 /*            multiRenderer.addXTextLabel(i, mMonth[i]);*/
             multiRenderer.addXTextLabel(i, mMonth[i]);
         }
@@ -607,10 +621,115 @@ public class Graph extends ActionBarActivity {
         //remove any views before u paint the chart
         chartContainer.removeAllViews();
         //drawing bar chart
-        mChart = ChartFactory.getBarChartView(Graph.this, dataset, multiRenderer,Type.DEFAULT);
+        mChart = ChartFactory.getBarChartView(Graph.this, dataset, multiRenderer, Type.DEFAULT);
         //adding the view to the linearlayout
         chartContainer.addView(mChart);
     }
+
+    /**
+     * Load Image:
+     * This method contains all the code handling load image on to layout,
+     * and save current image and load that image for application's next run.
+     * This is the main core of wallpaper changing section.
+     */
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    public void loadImageToLayout() {
+        // retrieve current image and load when starting application
+        RelativeLayout rl = (RelativeLayout) findViewById(R.id.graph);
+        SharedPreferences settings = getSharedPreferences("image_data", 0);
+        int encodedImage = settings.getInt("image_data", 0);
+
+        // set layout' background
+        int pos = encodedImage;
+        Drawable wall = loadReadBitmap(encodedImage);
+        rl.setBackground(wall);
+
+        // Catch imageID passed from WallpaperBrowser
+        Bundle bundle = getIntent().getExtras();
+        if (getIntent().getIntExtra("imageIDGraph", 99) != 99) {
+            pos = bundle.getInt("imageIDGraph");
+        }
+
+        // handle image ID
+        switch (pos) {
+            case 0:
+                Drawable wall0 = loadReadBitmap(pos);
+                rl.setBackground(wall0);
+                saveCurrentBackground(pos);
+                break;
+            case 1:
+                Drawable wall1 = loadReadBitmap(pos);
+                rl.setBackground(wall1);
+//                    wall = wall1.getConstantState().newDrawable();
+                saveCurrentBackground(pos);
+                break;
+            case 2:
+                Drawable wall2 = loadReadBitmap(pos);
+                rl.setBackground(wall2);
+                saveCurrentBackground(pos);
+                break;
+            case 3:
+                Drawable wall3 = loadReadBitmap(pos);
+                rl.setBackground(wall3);
+                saveCurrentBackground(pos);
+                break;
+            case 4:
+                Drawable wall4 = loadReadBitmap(pos);
+                rl.setBackground(wall4);
+                saveCurrentBackground(pos);
+                break;
+            case 5:
+                Drawable wall5 = loadReadBitmap(pos);
+                rl.setBackground(wall5);
+                saveCurrentBackground(pos);
+                break;
+            case 6:
+                Drawable wall6 = loadReadBitmap(pos);
+                rl.setBackground(wall6);
+                saveCurrentBackground(pos);
+                break;
+            case 7:
+                Drawable wall7 = loadReadBitmap(pos);
+                rl.setBackground(wall7);
+                saveCurrentBackground(pos);
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * Save Current Background:
+     * This basically saves current image for loading when application's start-up
+     *
+     * @param pos
+     */
+    public void saveCurrentBackground(int pos) {
+        SharedPreferences settings = getSharedPreferences("image_data", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt("image_data", pos);
+        editor.apply();
+    }
+
+    /**
+     * Load and Read Bitmap:
+     * This method creates a bitmap referencing imageID and the bitmap to Drawable.
+     *
+     * @param position
+     * @return Drawable
+     */
+    public Drawable loadReadBitmap(int position) {
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), mThumbIds[position]);
+        return new BitmapDrawable(getResources(), bitmap);
+    }
+
+    // references to our images
+    private Integer[] mThumbIds = {
+            R.drawable.wall0, R.drawable.wall1,
+            R.drawable.wall2, R.drawable.wall3,
+            R.drawable.wall4, R.drawable.wall5,
+            R.drawable.wall6, R.drawable.wall7,
+    };
 
     public static class GraphFragment extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -620,12 +739,12 @@ public class Graph extends ActionBarActivity {
         }
     }
 
-    public void startAlertDialog1 (View view) {
+    public void startAlertDialog1(View view) {
 
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setTitle("Please enter your weight and height");
 
-        LinearLayout lila1= new LinearLayout(this);
+        LinearLayout lila1 = new LinearLayout(this);
         lila1.setOrientation(LinearLayout.VERTICAL);
 
         final TextView weightMessage = new TextView(this);
@@ -657,32 +776,32 @@ public class Graph extends ActionBarActivity {
                 bmi.setHeight(Float.valueOf(heightInput));
                 bmi.calcBmi();
 //                textview = new TextView(this);
-                textview = (TextView)findViewById(R.id.bmiGraph);
+                textview = (TextView) findViewById(R.id.bmiGraph);
                 String newBmi = String.valueOf((int) bmi.getBmi());
                 textview.setText(newBmi);
                 int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
                 String theBmi = "0";
                 switch (dayOfWeek) {
                     case 1:
-                       bmi.saveSundayWeight(context);
+                        bmi.saveSundayWeight(context);
                         break;
                     case 2:
-                       bmi.saveMondayWeight(context);
+                        bmi.saveMondayWeight(context);
                         break;
                     case 3:
-                       bmi.saveTuesdayWeight(context);
+                        bmi.saveTuesdayWeight(context);
                         break;
                     case 4:
-                      bmi.saveWednesdayWeight(context);
+                        bmi.saveWednesdayWeight(context);
                         break;
                     case 5:
-                      bmi.saveThursdayWeight(context);
+                        bmi.saveThursdayWeight(context);
                         break;
                     case 6:
-                      bmi.saveFridayWeight(context);
+                        bmi.saveFridayWeight(context);
                         break;
                     case 7:
-                     bmi.saveSaturdayWeight(context);
+                        bmi.saveSaturdayWeight(context);
                         break;
                     default:
                         Log.i(errMsg, "Unable to save bmi to shared preferences");
@@ -692,40 +811,4 @@ public class Graph extends ActionBarActivity {
         });
         alertDialog.show();
     }
-
-    public void onResume() {
-        super.onResume();
-        textview = new TextView(this);
-        textview = (TextView)findViewById(R.id.bmiGraph);
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        String theBmi = "0";
-        switch (dayOfWeek) {
-            case 1:
-                theBmi = Float.toString(bmi.retrieveSundayWeight(context));
-                break;
-            case 2:
-                theBmi = Float.toString(bmi.retrieveMondayWeight(context));
-                break;
-            case 3:
-                theBmi = Float.toString(bmi.retrieveTuesdayWeight(context));
-                break;
-            case 4:
-                theBmi = Float.toString(bmi.retrieveWednesdayWeight(context));
-                break;
-            case 5:
-                theBmi = Float.toString(bmi.retrieveThursdayWeight(context));
-                break;
-            case 6:
-                theBmi = Float.toString(bmi.retrieveFridayWeight(context));
-                break;
-            case 7:
-                theBmi = Float.toString(bmi.retrieveSaturdayWeight(context));
-                break;
-            default:
-                theBmi = "N/A";
-                break;
-        }
-        textview.setText(theBmi);
-    }
-
 }

@@ -31,6 +31,9 @@ public class WallpaperBrowser extends ActionBarActivity {
                 Intent intent = new Intent(WallpaperBrowser.this, BiteCounter.class);
                 intent.putExtra("imageID", position);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                Intent intent2 = new Intent(WallpaperBrowser.this, Graph.class);
+                intent2.putExtra("imageIDGraph", position);
+                intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
             }
