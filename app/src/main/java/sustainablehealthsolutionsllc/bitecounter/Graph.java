@@ -20,6 +20,8 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -273,16 +275,6 @@ public class Graph extends ActionBarActivity {
 //        Button btnChart = (Button) findViewById(R.id.btn_chart);
 //        Button btnChart2 = (Button) findViewById(R.id.btn_chart2);
 //        Button btnCounter = (Button) findViewById(R.id.btn_counter);
-        Button btnBack = (Button) findViewById(R.id.backButton);
-
-        OnClickListener clickListenerBack = new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Graph.this, BiteCounter.class);
-                startActivity(intent);
-            }
-        };
 
         biteGraph();
         weightGraph();
@@ -320,7 +312,6 @@ public class Graph extends ActionBarActivity {
 //        btnChart.setOnClickListener(clickListener);
 //        btnChart2.setOnClickListener(clickListener2);
 //        btnCounter.setOnClickListener(clickListenerCounter);
-        btnBack.setOnClickListener(clickListenerBack);
 
         textview = new TextView(this);
         textview = (TextView)findViewById(R.id.bmiGraph);
@@ -356,6 +347,32 @@ public class Graph extends ActionBarActivity {
         String currentBmi = Integer.toString(newBmi);
         textview.setText(currentBmi);
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_counter, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        switch(item.getItemId()) {
+            case R.id.action_counter:
+                Intent intent = new Intent(Graph.this, BiteCounter.class);
+                startActivity(intent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void biteGraph(){

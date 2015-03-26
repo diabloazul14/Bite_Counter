@@ -89,13 +89,9 @@ public class BiteCounter extends ActionBarActivity {
 
         circleProgress.setProgress(counter.retrieveBites(context));
 
-        circleProgress.setProgress(0); //debug code
-
         if(counter.retrieveBites(context) > counter.retrieveLimit(context)) {
             circleProgress.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
         }
-
-        addListenerGraphButton();
 
         Calendar calendar = Calendar.getInstance();
         this.date = calendar.get(Calendar.DAY_OF_WEEK);
@@ -283,7 +279,7 @@ public class BiteCounter extends ActionBarActivity {
         //vibrate for 5 seconds and play alarm
         if(vibrator.hasVibrator()) {
 
-            vibrator.vibrate(500);
+            vibrator.vibrate(500); // 500 milliseconds
         }
 
     }
@@ -305,14 +301,15 @@ public class BiteCounter extends ActionBarActivity {
             // Handle action bar item clicks here. The action bar will
             // automatically handle clicks on the Home/Up button, so long
             // as you specify a parent activity in AndroidManifest.xml.
-            int id = item.getItemId();
+            switch(item.getItemId()) {
+                case R.id.action_graph:
+                    Intent intent = new Intent(BiteCounter.this, Graph.class);
+                    startActivity(intent);
+                    return true;
 
-            //noinspection SimplifiableIfStatement
-            if (id == R.id.action_settings) {
-                return true;
+                default:
+                    return super.onOptionsItemSelected(item);
             }
-
-            return super.onOptionsItemSelected(item);
         }
 
     /**
@@ -419,22 +416,6 @@ public class BiteCounter extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(BiteCounter.this, WallpaperBrowser.class);
-                startActivity(intent);
-            }
-        });
-    }
-
-    /**
-     * Graph Button:
-     * This is a debugging button while don't have tabbed-activities section
-     */
-    public void addListenerGraphButton(){
-        Button graphButton = (Button) findViewById(R.id.button3);
-        graphButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(BiteCounter.this, Graph.class);
                 startActivity(intent);
             }
         });

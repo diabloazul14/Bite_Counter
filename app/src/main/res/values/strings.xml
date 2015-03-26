@@ -16,4 +16,5 @@
     <string name="zero">0</string>
     <string name="hprogress">0/7</string>
     <string name="dayremain">Days Remain</string>
+    <string name="tutorial">Tutorial</string>
 </resources>

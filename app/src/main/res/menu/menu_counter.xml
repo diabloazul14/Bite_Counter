@@ -1,10 +1,20 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:app="http://schemas.android.com/apk/res-auto">
     <!-- Search, should appear as action button -->
-    <item android:id="@+id/action_search"
+    <item android:id="@+id/action_graph"
+        android:icon="@drawable/graph"
         android:title="@string/Graph"
-        android:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom" />
+    <item android:id="@+id/action_counter"
+        android:icon="@drawable/progress"
+        android:title="@string/app_name"
+        app:showAsAction="ifRoom" />
+    <item android:id="@+id/action_tutorial"
+        android:icon="@drawable/abc_ic_menu_copy_mtrl_am_alpha"
+        android:title="@string/tutorial"
+        app:showAsAction="ifRoom"/>
     <!-- Settings, should always be in the overflow -->
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
-        android:showAsAction="never" />
+        app:showAsAction="never" />
 </menu>
