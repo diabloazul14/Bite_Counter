@@ -306,7 +306,14 @@ public class BiteCounter extends ActionBarActivity {
                     Intent intent = new Intent(BiteCounter.this, Graph.class);
                     startActivity(intent);
                     return true;
-
+                case R.id.action_aboutUs:
+                    Intent intentUs = new Intent(BiteCounter.this, AboutUs.class);
+                    startActivity(intentUs);
+                    return true;
+                case R.id.action_tutorial:
+                    Intent intentT = new Intent(BiteCounter.this, Tutorials.class);
+                    startActivity(intentT);
+                    return true;
                 default:
                     return super.onOptionsItemSelected(item);
             }

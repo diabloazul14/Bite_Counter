@@ -94,21 +94,6 @@ public class Graph extends ActionBarActivity {
 
         viewText.setText(dayish, TextView.BufferType.EDITABLE);
 
-        // Getting reference to the button btn_chart
-        Button btnBack = (Button) findViewById(R.id.backButton);
-
-        // back button to go to first activity
-        OnClickListener clickListenerBack = new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Graph.this, BiteCounter.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
-            }
-        };
-        btnBack.setOnClickListener(clickListenerBack);
     }
 
     public void onStart() {
@@ -155,6 +140,36 @@ public class Graph extends ActionBarActivity {
         String currentBmi = Integer.toString(newBmi);
         textview.setText(currentBmi);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_counter, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch(item.getItemId()) {
+            case R.id.action_counter:
+                Intent intent = new Intent(Graph.this, BiteCounter.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_aboutUs:
+                Intent intentUs = new Intent(Graph.this, AboutUs.class);
+                startActivity(intentUs);
+                return true;
+            case R.id.action_tutorial:
+                Intent intentT = new Intent(Graph.this, Tutorials.class);
+                startActivity(intentT);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
     /**
      * Date of Week:

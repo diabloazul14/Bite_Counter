@@ -13,6 +13,10 @@
         android:icon="@drawable/abc_ic_menu_copy_mtrl_am_alpha"
         android:title="@string/tutorial"
         app:showAsAction="ifRoom"/>
+    <item android:id="@+id/action_aboutUs"
+        android:icon="@drawable/info_icon"
+        android:title="@string/title_activity_about_us"
+        app:showAsAction="ifRoom"/>
     <!-- Settings, should always be in the overflow -->
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
