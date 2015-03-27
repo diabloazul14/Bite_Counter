@@ -93,6 +93,8 @@ public class BiteCounter extends ActionBarActivity {
             circleProgress.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
         }
 
+        Calendar calendar = Calendar.getInstance();
+        this.date = calendar.get(Calendar.DAY_OF_WEEK);
         setTodaysDate();
     }
 
@@ -125,6 +127,13 @@ public class BiteCounter extends ActionBarActivity {
        counter.setLimit(counter.retrieveLimit(context));
        counter.saveLimit(context);
 
+       Log.i(errMsg, Integer.toString(hourOfDay));
+       Log.i(errMsg, Integer.toString(dayOfWeek));
+       if (hourOfDay == 0) {
+          counter.resetCounter();
+           Log.i(errMsg, "The time of the day is ................" + Integer.toString(hourOfDay));
+       }
+        Log.i(errMsg, "The time of the day is ................" + Integer.toString(hourOfDay));
        circleProgress.setMax(counter.getLimit());
        circleProgress.setProgress(counter.getNumBites());
 
@@ -271,7 +280,7 @@ public class BiteCounter extends ActionBarActivity {
         //vibrate for 5 seconds and play alarm
         if(vibrator.hasVibrator()) {
 
-            vibrator.vibrate(500); // 500 milliseconds
+            vibrator.vibrate(500);
         }
 
     }

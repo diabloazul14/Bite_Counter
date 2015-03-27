@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Main scrollable view -->
+            <!--Day Chart-->
             <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="100dp"
@@ -35,19 +35,19 @@
                     android:text="@string/dayremain"
                     android:textStyle="bold"
                     android:textColor="@color/light_gray"
-                    android:textAlignment="center"
                     android:gravity="center" />
                 <TextView
                     android:id="@+id/dayLeft"
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/twenty_dp"
+                    android:textSize="@dimen/fifteen_dp"
                     android:text="@string/hprogress"
                     android:textStyle="bold"
                     android:textColor="@color/light_gray"
-                    android:layout_marginLeft="260dp"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-                    android:layout_below="@+id/progressbar"/>
+                    android:layout_marginRight="10dp"
+                    android:layout_below="@+id/progressbar"
+                    android:gravity="right" />
                 <ProgressBar
                     android:id="@+id/progressbar"
                     style="?android:attr/progressBarStyleHorizontal"
@@ -60,26 +60,64 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true" />​
             </LinearLayout>
+
+            <!--Bites Chart-->
             <LinearLayout
-                android:id="@+id/chart"
                 android:layout_width="fill_parent"
-                android:layout_height="150dp"
-                tools:ignore="Orientation"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:layout_above="@+id/chart2"
-                android:layout_centerHorizontal="true"
-                android:gravity="center_vertical">
+                android:background="@color/white"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/biteView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/ten_dp"
+                    android:text="Bites"
+                    android:textStyle="bold"
+                    android:textColor="@color/light_gray"
+                    android:gravity="center"
+                    />
+                <LinearLayout
+                    android:id="@+id/chart"
+                    android:layout_width="fill_parent"
+                    android:layout_height="150dp"
+                    tools:ignore="Orientation"
+                    android:layout_above="@+id/chart2"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center_vertical">
+                </LinearLayout>
             </LinearLayout>
+
+            <!--Weight Chart-->
             <LinearLayout
-                android:id="@+id/chart2"
-                android:layout_width="fill_parent"
-                android:layout_height="150dp"
-                tools:ignore="Orientation"
-                android:layout_marginBottom="16dp"
-                android:layout_above="@+id/bmiText"
-                android:layout_centerHorizontal="true"
-                android:gravity="center_vertical">
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@color/white"
+            android:orientation="vertical">
+                <TextView
+                    android:id="@+id/weightView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/ten_dp"
+                    android:text="Weight"
+                    android:textStyle="bold"
+                    android:textColor="@color/light_gray"
+                    android:gravity="center"
+                    />
+                <LinearLayout
+                    android:id="@+id/chart2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="150dp"
+                    tools:ignore="Orientation"
+                    android:layout_above="@+id/bmiText"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center_vertical">
+                </LinearLayout>
             </LinearLayout>
+
+            <!--BMI Display-->
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="100dp"
@@ -91,10 +129,9 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="BMI"
-                    android:textSize="5pt"
+                    android:textSize="@dimen/ten_dp"
                     android:textColor="@color/light_gray"
                     android:textStyle="bold"
-                    android:textAlignment="center"
                     android:gravity="center"
                     android:layout_above="@+id/bmiGraph" />
                 <TextView
@@ -103,20 +140,20 @@
                     android:id="@+id/bmiGraph"
                     android:text="100"
                     android:textSize="30pt"
-                    android:textAlignment="center"
                     android:gravity="center"
                     android:layout_above="@+id/bmiButton"
                     android:paddingBottom="10dp"/>
             </LinearLayout>
 
+            <!--Buttons-->
             <Button
                 android:id="@+id/bmiButton"
-                android:layout_width="fill_parent"
-                android:layout_height="50dp"
-                android:text="BMI"
+                android:background="@drawable/bmi_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_above="@+id/backButton"
-                android:onClick="startAlertDialog1" />
-
+                android:onClick="startAlertDialog1"
+                android:gravity="center"/>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

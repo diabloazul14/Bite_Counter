@@ -408,7 +408,7 @@ public class Graph extends ActionBarActivity {
 
         // Creating XYSeriesRenderer to customize bitesSeries
         XYSeriesRenderer bitesRenderer = new XYSeriesRenderer();
-        bitesRenderer.setColor(Color.rgb(88, 87, 87)); //color of the graph set to black
+        bitesRenderer.setColor(Color.rgb(77, 77, 77)); //color of the graph set to black
         bitesRenderer.setFillPoints(true);
         bitesRenderer.setLineWidth(2);
         bitesRenderer.setDisplayChartValues(true);
@@ -418,7 +418,7 @@ public class Graph extends ActionBarActivity {
         XYMultipleSeriesRenderer multiRenderer = new XYMultipleSeriesRenderer();
         multiRenderer.setOrientation(XYMultipleSeriesRenderer.Orientation.HORIZONTAL);
         multiRenderer.setXLabels(0);
-        multiRenderer.setChartTitle("Bites");
+        multiRenderer.setChartTitle("");
 
         /***
          * Customizing graphs
@@ -476,7 +476,7 @@ public class Graph extends ActionBarActivity {
         // setting y min value
         multiRenderer.setYAxisMin(0);
         // setting x label's color
-        multiRenderer.setXLabelsColor(Color.rgb(88, 87, 87));
+        multiRenderer.setXLabelsColor(Color.rgb(77, 77, 77));
         //setting used to move the graph on x-axis to .5 to the right
         multiRenderer.setXAxisMin(-.5);
         // setting max values to be display in x axis
@@ -536,7 +536,7 @@ public class Graph extends ActionBarActivity {
 
         // Creating XYSeriesRenderer to customize weightsSeries
         XYSeriesRenderer weightsRenderer = new XYSeriesRenderer();
-        weightsRenderer.setColor(Color.rgb(88, 87, 87)); //color of the graph set to black
+        weightsRenderer.setColor(Color.rgb(77, 77, 77)); //color of the graph set to black
         weightsRenderer.setFillPoints(true);
         weightsRenderer.setLineWidth(2);
         weightsRenderer.setDisplayChartValues(true);
@@ -546,7 +546,7 @@ public class Graph extends ActionBarActivity {
         XYMultipleSeriesRenderer multiRenderer = new XYMultipleSeriesRenderer();
         multiRenderer.setOrientation(XYMultipleSeriesRenderer.Orientation.HORIZONTAL);
         multiRenderer.setXLabels(0);
-        multiRenderer.setChartTitle("Weights");
+        multiRenderer.setChartTitle("");
 
         /***
          * Customizing graphs
@@ -604,7 +604,7 @@ public class Graph extends ActionBarActivity {
         // setting y min value
         multiRenderer.setYAxisMin(0);
         // setting x label's color
-        multiRenderer.setXLabelsColor(Color.rgb(88, 87, 87));
+        multiRenderer.setXLabelsColor(Color.rgb(77, 77, 77));
         //setting used to move the graph on xaxiz to .5 to the right
         multiRenderer.setXAxisMin(-.5);
         // setting max values to be display in x axis

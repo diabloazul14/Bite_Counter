@@ -50,12 +50,12 @@
         android:progressDrawable="@drawable/circle_progress_foreground" />
 
 
-<Button
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="startAlertDialog"
         android:layout_marginTop="72dp"
-        android:text="Weight"
+        android:background="@drawable/weight_button"
         android:id="@+id/button_bmi"
         android:layout_below="@+id/button_circle"
         android:layout_centerHorizontal="true" />
@@ -73,7 +73,7 @@
 
     <ImageButton
         android:id="@+id/button_image"
-        android:src="@drawable/wall_icon"
+        android:background="@drawable/white_gallery"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentLeft="true"
