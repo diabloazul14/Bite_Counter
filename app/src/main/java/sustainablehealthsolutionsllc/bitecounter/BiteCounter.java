@@ -93,8 +93,8 @@ public class BiteCounter extends ActionBarActivity {
             circleProgress.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
         }
 
-        Calendar calendar = Calendar.getInstance();
-        this.date = calendar.get(Calendar.DAY_OF_WEEK);
+//        Calendar calendar = Calendar.getInstance();
+//        this.date = calendar.get(Calendar.DAY_OF_WEEK);
         setTodaysDate();
     }
 
