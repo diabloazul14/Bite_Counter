@@ -772,7 +772,7 @@ public class Graph extends ActionBarActivity {
 
 
         final TextView heightMessage = new TextView(this);
-        heightMessage.setText("Please enter your height in inches");
+        heightMessage.setText("Please enter your height ex: 5'7");
         lila1.addView(heightMessage);
         final EditText height = new EditText(this);
         lila1.addView(height);
@@ -790,7 +790,7 @@ public class Graph extends ActionBarActivity {
                 String weightInput = weight.getText().toString();
                 String heightInput = height.getText().toString();
                 bmi.setWeight(Float.valueOf(weightInput));
-                bmi.setHeight(Float.valueOf(heightInput));
+                bmi.setHeight(Float.valueOf(parseHeight(heightInput)));
                 bmi.calcBmi();
 //                textview = new TextView(this);
                 textview = (TextView) findViewById(R.id.bmiGraph);
@@ -827,5 +827,18 @@ public class Graph extends ActionBarActivity {
             }
         });
         alertDialog.show();
+    }
+
+    public int parseHeight(String height) {
+        int heightInches;
+        try {
+            String[] parts = height.split("'");
+            heightInches = 12 * Integer.valueOf(parts[0]);
+            heightInches += Integer.valueOf(parts[1]);
+        } catch (Exception e) {
+            heightInches = Integer.valueOf(height);
+        }
+
+        return heightInches;
     }
 }
