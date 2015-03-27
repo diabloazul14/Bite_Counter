@@ -93,8 +93,7 @@ public class BiteCounter extends ActionBarActivity {
             circleProgress.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
         }
 
-        Calendar calendar = Calendar.getInstance();
-        this.date = calendar.get(Calendar.DAY_OF_WEEK);
+        setTodaysDate();
     }
 
     public void onStart()  {
@@ -116,23 +115,16 @@ public class BiteCounter extends ActionBarActivity {
         Calendar calendar = Calendar.getInstance();
         int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        if (dayOfWeek == this.date) {
-            counter.setNumBites(counter.retrieveBites(context)); //This line needs to be uncommented but is like this for testing
+        if (dayOfWeek == getLastDate()) { //dayOfWeek == getLastDate() for 24 hours, 0 == getLastDate() for instant debug
+            counter.setNumBites(counter.retrieveBites(context));
         } else {
             counter.resetCounter();
-            this.date = dayOfWeek;
+            setTodaysDate();
         }
 
        counter.setLimit(counter.retrieveLimit(context));
        counter.saveLimit(context);
 
-       Log.i(errMsg, Integer.toString(hourOfDay));
-       Log.i(errMsg, Integer.toString(dayOfWeek));
-       if (hourOfDay == 0) {
-          counter.resetCounter();
-           Log.i(errMsg, "The time of the day is ................" + Integer.toString(hourOfDay));
-       }
-        Log.i(errMsg, "The time of the day is ................" + Integer.toString(hourOfDay));
        circleProgress.setMax(counter.getLimit());
        circleProgress.setProgress(counter.getNumBites());
 
@@ -579,6 +571,23 @@ public class BiteCounter extends ActionBarActivity {
                 Log.i(errMsg, "The day wasn't saved correctly");
                 break;
         }
+    }
+
+    public void setTodaysDate() {
+        Calendar calendar = Calendar.getInstance();
+        Integer todaysDate = calendar.get(Calendar.DAY_OF_WEEK);
+        this.date = todaysDate;
+        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt("todaysDate", todaysDate);
+        editor.apply();
+
+    }
+
+    public Integer getLastDate() {
+        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
+        int todaysDate = settings.getInt("todaysDate", 0);
+        return todaysDate;
     }
 }
 

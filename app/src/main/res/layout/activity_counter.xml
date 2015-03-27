@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:onClick="startAlertDialog"
         android:layout_marginTop="72dp"
-        android:text="BMI"
+        android:text="Weight"
         android:id="@+id/button_bmi"
         android:layout_below="@+id/button_circle"
         android:layout_centerHorizontal="true" />
