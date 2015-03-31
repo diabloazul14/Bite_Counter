@@ -300,4 +300,17 @@ public class BMI {
         int storeWeight = settings.getInt("6DayAgo", 0);
         return storeWeight;
     }
+
+    public void saveBmi(Context context) {
+        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putFloat("currentBmi", this.bmi);
+        editor.apply();
+    }
+
+    public Float retrieveBmi(Context context) {
+        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
+        Float currentBmi = settings.getFloat("currentBmi", 0);
+        return currentBmi;
+    }
 }

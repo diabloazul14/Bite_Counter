@@ -93,9 +93,25 @@ public class BiteCounter extends ActionBarActivity {
             circleProgress.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
         }
 
-//        Calendar calendar = Calendar.getInstance();
-//        this.date = calendar.get(Calendar.DAY_OF_WEEK);
-        setTodaysDate();
+        //The Try statement runs always and is meant for not first time use
+//        try {
+//            Calendar calendar = Calendar.getInstance();
+//            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+//            if (dayOfWeek == getLastDate()) {
+//                counter.setNumBites(counter.retrieveBites(context));
+//            } else {
+//                counter.resetCounter();
+//                setTodaysDate();
+//            }
+//        } catch (Exception e) { //THe Catch statement is meant for first time use
+//            counter.resetCounter();
+//            setTodaysDate();
+//        }
+
+        //This if statment sets the date only on the first run.
+        if (getLastDate() == 0) {
+            setTodaysDate();
+        }
     }
 
     public void onStart()  {
@@ -109,7 +125,15 @@ public class BiteCounter extends ActionBarActivity {
         if(counter.getNumBites() > counter.getLimit()) {
             circleProgress.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
         }
-
+        Calendar calendar = Calendar.getInstance();
+        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        if (dayOfWeek == getLastDate()) { //dayOfWeek == getLastDate() for 24 hours, 0 == getLastDate() for instant debug
+            counter.setNumBites(counter.retrieveBites(context));
+        } else {
+            counter.resetCounter();
+            setTodaysDate();
+        }
     }
 
     public void onResume() {
@@ -117,7 +141,7 @@ public class BiteCounter extends ActionBarActivity {
         Calendar calendar = Calendar.getInstance();
         int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        if (dayOfWeek == getLastDate()) { //dayOfWeek == getLastDate() for 24 hours, 0 == getLastDate() for instant debug
+        if (dayOfWeek == getLastDate()) {
             counter.setNumBites(counter.retrieveBites(context));
         } else {
             counter.resetCounter();
@@ -217,12 +241,14 @@ public class BiteCounter extends ActionBarActivity {
                 Log.i(errMsg, "The day wasn't saved correctly");
                 break;
         }
+//        setTodaysDate();
     }
 
     public void onDestroy() {
         super.onDestroy();
         counter.saveBites(context);
         counter.saveLimit(context);
+//        setTodaysDate();
     }
 
     @Override
@@ -358,56 +384,71 @@ public class BiteCounter extends ActionBarActivity {
             public void onClick(DialogInterface dialog, int which) {
                 // here you can add functions
                 String weightInput = weight.getText().toString();
+                boolean isNum = isNumeric(weightInput);
 
-                if (weightInput.equals("") ){
+                if (weightInput.equals("")){
                     CharSequence text = "Please reenter your weight";
                     int duration = Toast.LENGTH_LONG;
-
                     Toast toast = Toast.makeText(context, text, duration);
                     toast.show();
-                }  else {
-                    Float newWeight = Float.valueOf(weightInput);
-                    Converter converter = new Converter();
+                }  else if (!isNum) {
+                    CharSequence text = "Please enter only numbers";
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                } else if (isTooLarge(weightInput)) {
+                    CharSequence text = "Please enter a smaller number";
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                } else if (greaterThan1000(weightInput)) {
+                    CharSequence text = "Please enter a number less than 1000";
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                } else {
+                        Float newWeight = Float.valueOf(weightInput);
+                        Converter converter = new Converter();
 //                    converter.parser(newHeight);
-                    converter.setWeight(newWeight);  //Needs to be implemented after converter.parser
-                    bmi.setWeight(converter.getWeight());
+                        converter.setWeight(newWeight);  //Needs to be implemented after converter.parser
+                        bmi.setWeight(converter.getWeight());
 
-                    Calendar calendar = Calendar.getInstance();
-                    int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-                    switch (dayOfWeek) {
-                        case 1:
-                            bmi.saveSundayWeight(context);
-                            break;
-                        case 2:
-                            bmi.saveMondayWeight(context);
-                            break;
-                        case 3:
-                            bmi.saveTuesdayWeight(context);
-                            break;
-                        case 4:
-                            bmi.saveWednesdayWeight(context);
-                            break;
-                        case 5:
-                            bmi.saveThursdayWeight(context);
-                            break;
-                        case 6:
-                            bmi.saveFridayWeight(context);
-                            break;
-                        case 7:
-                            bmi.saveSaturdayWeight(context);
-                            break;
-                        default:
-                            Log.i(errMsg, "The day wasn't saved correctly");
-                            break;
+                        Calendar calendar = Calendar.getInstance();
+                        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+                        switch (dayOfWeek) {
+                            case 1:
+                                bmi.saveSundayWeight(context);
+                                break;
+                            case 2:
+                                bmi.saveMondayWeight(context);
+                                break;
+                            case 3:
+                                bmi.saveTuesdayWeight(context);
+                                break;
+                            case 4:
+                                bmi.saveWednesdayWeight(context);
+                                break;
+                            case 5:
+                                bmi.saveThursdayWeight(context);
+                                break;
+                            case 6:
+                                bmi.saveFridayWeight(context);
+                                break;
+                            case 7:
+                                bmi.saveSaturdayWeight(context);
+                                break;
+                            default:
+                                Log.i(errMsg, "The day wasn't saved correctly");
+                                break;
+                        }
+                        //The below shared preferences may not need to exist because of the
+//                        //above switch statement
+//                        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
+//                        SharedPreferences.Editor editor = settings.edit();
+//                        editor.putFloat("weight", bmi.getWeight());
+//                        editor.apply();
                     }
-                    //The below shared preferences may not need to exist because of the
-                    //above switch statement
-                    SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
-                    SharedPreferences.Editor editor = settings.edit();
-                    editor.putFloat("weight", bmi.getWeight());
-                    editor.apply();
                 }
-            }
         });
         alertDialog.show();
     }
@@ -597,6 +638,40 @@ public class BiteCounter extends ActionBarActivity {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         int todaysDate = settings.getInt("todaysDate", 0);
         return todaysDate;
+    }
+
+    public static boolean isNumeric(String str)    {
+        try        {
+            double d = Double.parseDouble(str);
+        } catch(NumberFormatException nfe)        {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isTooLarge(String str) {
+        try {
+            double d = Double.parseDouble(str);
+        } catch (Exception e) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean greaterThan1000(String str) {
+        double d = Double.parseDouble(str);
+        if (d > 1000) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void reset(View view) {
+        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt("todaysDate", 0);
+        editor.apply();
     }
 }
 

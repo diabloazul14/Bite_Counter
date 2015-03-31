@@ -108,34 +108,7 @@ public class Graph extends ActionBarActivity {
         weightGraph();
         textview = new TextView(this);
         textview = (TextView) findViewById(R.id.bmiGraph);
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        Float theBmi = 0f;
-        switch (dayOfWeek) {
-            case 1:
-                theBmi = bmi.retrieveSundayWeight(context);
-                break;
-            case 2:
-                theBmi = bmi.retrieveMondayWeight(context);
-                break;
-            case 3:
-                theBmi = bmi.retrieveTuesdayWeight(context);
-                break;
-            case 4:
-                theBmi = bmi.retrieveWednesdayWeight(context);
-                break;
-            case 5:
-                theBmi = bmi.retrieveThursdayWeight(context);
-                break;
-            case 6:
-                theBmi = bmi.retrieveFridayWeight(context);
-                break;
-            case 7:
-                theBmi = bmi.retrieveSaturdayWeight(context);
-                break;
-            default:
-                theBmi = 0f;
-                break;
-        }
+        Float theBmi = bmi.retrieveBmi(context);
         Integer newBmi = Math.round(theBmi);
         String currentBmi = Integer.toString(newBmi);
         textview.setText(currentBmi);
@@ -789,43 +762,88 @@ public class Graph extends ActionBarActivity {
                 // here you can add functions
                 String weightInput = weight.getText().toString();
                 String heightInput = height.getText().toString();
-                bmi.setWeight(Float.valueOf(weightInput));
-                bmi.setHeight(Float.valueOf(parseHeight(heightInput)));
-                bmi.calcBmi();
-//                textview = new TextView(this);
-                textview = (TextView) findViewById(R.id.bmiGraph);
-                String newBmi = String.valueOf((int) bmi.getBmi());
-                textview.setText(newBmi);
-                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-                String theBmi = "0";
-                switch (dayOfWeek) {
-                    case 1:
-                        bmi.saveSundayWeight(context);
-                        break;
-                    case 2:
-                        bmi.saveMondayWeight(context);
-                        break;
-                    case 3:
-                        bmi.saveTuesdayWeight(context);
-                        break;
-                    case 4:
-                        bmi.saveWednesdayWeight(context);
-                        break;
-                    case 5:
-                        bmi.saveThursdayWeight(context);
-                        break;
-                    case 6:
-                        bmi.saveFridayWeight(context);
-                        break;
-                    case 7:
-                        bmi.saveSaturdayWeight(context);
-                        break;
-                    default:
-                        Log.i(errMsg, "Unable to save bmi to shared preferences");
-                        break;
+                boolean isNum = true;
+                boolean isNum2 = true;
+                boolean isNum3 = true;
+                boolean isNum4 = true;
+
+                if (heightInput.contains("'")) {
+                   try {
+                       String[] heightSplit = heightInput.split("'");
+                       isNum = isNumeric(heightSplit[0]);
+                       isNum2 = isNumeric(heightSplit[1]);
+                   } catch (Exception f) {
+                       CharSequence text = "Please enter height as 5'9 or as 6";
+                       int duration = Toast.LENGTH_LONG;
+                       Toast toast = Toast.makeText(context, text, duration);
+                       toast.show();
+                   }
+                } else {
+                    isNum3 = isNumeric(heightInput);
+                }
+
+               isNum4 = isNumeric(weightInput);
+
+                if (weightInput.equals("") || heightInput.equals("")) {
+                    CharSequence text = "Please enter both fields";
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                } else if (!isNum || !isNum2 || !isNum3 || !isNum4) {
+                    CharSequence text = "Please enter only numbers";
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                } else if (isTooLarge(weightInput) || isTooLarge2(heightInput)) {
+                    CharSequence text = "Please numbers less than 1000";
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                } else if (greaterThan1000(weightInput)) {
+                    CharSequence text = "Please enter a weight less than 1000";
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                } else {
+                    bmi.setWeight(Float.valueOf(weightInput));
+                    bmi.setHeight(Float.valueOf(parseHeight(heightInput)));
+                    bmi.calcBmi();
+                    bmi.saveBmi(context);
+                    textview = (TextView) findViewById(R.id.bmiGraph);
+                    String newBmi = String.valueOf((int) bmi.getBmi());
+                    textview.setText(newBmi);
+                    int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+//                    String theBmi = "0";
+                    switch (dayOfWeek) {
+                        case 1:
+                            bmi.saveSundayWeight(context);
+                            break;
+                        case 2:
+                            bmi.saveMondayWeight(context);
+                            break;
+                        case 3:
+                            bmi.saveTuesdayWeight(context);
+                            break;
+                        case 4:
+                            bmi.saveWednesdayWeight(context);
+                            break;
+                        case 5:
+                            bmi.saveThursdayWeight(context);
+                            break;
+                        case 6:
+                            bmi.saveFridayWeight(context);
+                            break;
+                        case 7:
+                            bmi.saveSaturdayWeight(context);
+                            break;
+                        default:
+                            Log.i(errMsg, "Unable to save bmi to shared preferences");
+                            break;
+                    }
                 }
             }
         });
+
         alertDialog.show();
     }
 
@@ -840,5 +858,52 @@ public class Graph extends ActionBarActivity {
         }
 
         return heightInches;
+    }
+
+    public static boolean isNumeric(String str)  {
+        try        {
+            double d = Double.parseDouble(str);
+        } catch(NumberFormatException nfe)  {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isTooLarge(String str) {
+        try {
+            double d = Double.parseDouble(str);
+        } catch (Exception e) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isTooLarge2(String str)  {
+        if (str.contains("'")) {
+            try {
+                String[] parts = str.split("'");
+                double a = Double.parseDouble(parts[0]);
+                double b = Double.parseDouble(parts[1]);
+            } catch (Exception e) {
+                return true;
+            }
+        } else {
+            try {
+                double d = Double.parseDouble(str);
+            } catch (Exception e) {
+                return true;
+            }
+
+        }
+        return false;
+    }
+
+    public static boolean greaterThan1000(String str) {
+        double d = Double.parseDouble(str);
+        if (d > 1000) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
