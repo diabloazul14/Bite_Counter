@@ -10,7 +10,7 @@
         android:title="@string/app_name"
         app:showAsAction="ifRoom" />
     <item android:id="@+id/action_tutorial"
-        android:icon="@drawable/abc_ic_menu_copy_mtrl_am_alpha"
+        android:icon="@drawable/tutorial"
         android:title="@string/tutorial"
         app:showAsAction="ifRoom"/>
     <item android:id="@+id/action_aboutUs"

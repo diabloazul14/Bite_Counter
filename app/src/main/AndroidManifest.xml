@@ -31,7 +31,13 @@
         </activity>
         <activity
             android:name=".AboutUs"
-            android:label="@string/title_activity_about_us" >
+            android:label="@string/title_activity_about_us"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".Tutorials"
+            android:label="@string/tutorial"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 
