@@ -23,7 +23,7 @@
             <!--Day Chart-->
             <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:background="@color/white"
             android:orientation="vertical">
@@ -31,11 +31,25 @@
                     android:id="@+id/dayView"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="7dp"
                     android:textSize="@dimen/ten_dp"
                     android:text="@string/dayremain"
                     android:textStyle="bold"
                     android:textColor="@color/light_gray"
-                    android:gravity="center" />
+                    android:gravity="left" />
+                <ProgressBar
+                    android:id="@+id/progressbar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:progressDrawable="@drawable/horizontal_progressbar"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />​
                 <TextView
                     android:id="@+id/dayLeft"
                     android:layout_width="fill_parent"
@@ -46,19 +60,8 @@
                     android:textColor="@color/light_gray"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
                     android:layout_marginRight="10dp"
-                    android:layout_below="@+id/progressbar"
+                    android:layout_marginBottom="10dp"
                     android:gravity="right" />
-                <ProgressBar
-                    android:id="@+id/progressbar"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:progressDrawable="@drawable/horizontal_progressbar"
-                    android:layout_below="@+id/dayView"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />​
             </LinearLayout>
 
             <!--Bites Chart-->
@@ -73,17 +76,18 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/ten_dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
                     android:text="Bites"
                     android:textStyle="bold"
                     android:textColor="@color/light_gray"
-                    android:gravity="center"
+                    android:gravity="left"
                     />
                 <LinearLayout
                     android:id="@+id/chart"
                     android:layout_width="fill_parent"
                     android:layout_height="150dp"
                     tools:ignore="Orientation"
-                    android:layout_above="@+id/chart2"
                     android:layout_centerHorizontal="true"
                     android:gravity="center_vertical">
                 </LinearLayout>
@@ -100,18 +104,19 @@
                     android:id="@+id/weightView"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
                     android:textSize="@dimen/ten_dp"
                     android:text="Weight"
                     android:textStyle="bold"
                     android:textColor="@color/light_gray"
-                    android:gravity="center"
+                    android:gravity="left"
                     />
                 <LinearLayout
                     android:id="@+id/chart2"
                     android:layout_width="fill_parent"
                     android:layout_height="150dp"
                     tools:ignore="Orientation"
-                    android:layout_above="@+id/bmiText"
                     android:layout_centerHorizontal="true"
                     android:gravity="center_vertical">
                 </LinearLayout>
@@ -120,40 +125,48 @@
             <!--BMI Display-->
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:background="@color/white"
                 android:orientation="vertical">
-                <TextView
-                    android:id="@+id/bmiText"
+                <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="BMI"
-                    android:textSize="@dimen/ten_dp"
-                    android:textColor="@color/light_gray"
-                    android:textStyle="bold"
-                    android:gravity="center"
-                    android:layout_above="@+id/bmiGraph" />
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+                        <TextView
+                            android:id="@+id/bmiText"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_width="275dp"
+                            android:layout_height="15dp"
+                            android:text="BMI"
+                            android:textSize="@dimen/ten_dp"
+                            android:textColor="@color/light_gray"
+                            android:textStyle="bold"
+                            android:gravity="left" />
+                        <Button
+                            android:id="@+id/bmiButton"
+                            android:background="@drawable/bmi_button"
+                            android:layout_width="35dp"
+                            android:layout_height="19dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="5dp"
+                            android:gravity="right"
+                            android:onClick="startAlertDialog1"/>
+                   </LinearLayout>
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/bmiGraph"
                     android:text="100"
                     android:textSize="30pt"
-                    android:gravity="center"
-                    android:layout_above="@+id/bmiButton"
-                    android:paddingBottom="10dp"/>
+                    android:gravity="center" />
             </LinearLayout>
 
             <!--Buttons-->
-            <Button
-                android:id="@+id/bmiButton"
-                android:background="@drawable/bmi_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/backButton"
-                android:onClick="startAlertDialog1"
-                android:gravity="center"/>
+
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>
