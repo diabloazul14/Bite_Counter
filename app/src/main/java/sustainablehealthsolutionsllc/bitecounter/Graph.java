@@ -104,6 +104,7 @@ public class Graph extends ActionBarActivity {
 
     public void onResume() {
         super.onResume();
+
         biteGraph();
         weightGraph();
         textview = new TextView(this);
