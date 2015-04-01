@@ -93,24 +93,11 @@ public class BiteCounter extends ActionBarActivity {
             circleProgress.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
         }
 
-        //The Try statement runs always and is meant for not first time use
-//        try {
-//            Calendar calendar = Calendar.getInstance();
-//            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-//            if (dayOfWeek == getLastDate()) {
-//                counter.setNumBites(counter.retrieveBites(context));
-//            } else {
-//                counter.resetCounter();
-//                setTodaysDate();
-//            }
-//        } catch (Exception e) { //THe Catch statement is meant for first time use
-//            counter.resetCounter();
-//            setTodaysDate();
-//        }
-
         //This if statment sets the date only on the first run.
         if (getLastDate() == 0) {
             setTodaysDate();
+            counter.setNumBites(0);
+            Log.i(errMsg, "I was supppppppppppppppppppppper Called line 100 boop be boop");
         }
     }
 
@@ -126,9 +113,8 @@ public class BiteCounter extends ActionBarActivity {
             circleProgress.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
         }
         Calendar calendar = Calendar.getInstance();
-        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        if (dayOfWeek == getLastDate()) { //dayOfWeek == getLastDate() for 24 hours, 0 == getLastDate() for instant debug
+        if (dayOfWeek == getLastDate()) {
             counter.setNumBites(counter.retrieveBites(context));
         } else {
             counter.resetCounter();
@@ -143,7 +129,15 @@ public class BiteCounter extends ActionBarActivity {
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         if (dayOfWeek == getLastDate()) {
             counter.setNumBites(counter.retrieveBites(context));
+            CharSequence text = "If 132";
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
         } else {
+            CharSequence text = "Else 137";
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
             counter.resetCounter();
             setTodaysDate();
         }
@@ -672,6 +666,29 @@ public class BiteCounter extends ActionBarActivity {
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt("todaysDate", 0);
         editor.apply();
+
+        CharSequence text = "Reset button pushed";
+        int duration = Toast.LENGTH_LONG;
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
+    }
+
+    public void setDaysRun() {
+        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt("daysRun", 0);
+        editor.apply();
+    }
+
+    public int getDaysRun() {
+        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
+        int numDaysRun = settings.getInt("daysRun", 0);
+        return numDaysRun;
+    }
+
+    public int howManyDaysHavePassed()  {
+        int howManyDays = getDaysRun();
+        return howManyDays;
     }
 }
 

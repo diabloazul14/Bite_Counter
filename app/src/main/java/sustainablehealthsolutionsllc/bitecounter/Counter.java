@@ -105,8 +105,12 @@ public class Counter {
      * This function takes the current limit and reduces it
      * by 20 percent.
      */
-    public void reduceBy20() {
-        this.limit = this.limit - (this.limit / 5);
+    public void reduceBy20(Context context) {
+        float average = average(context);
+        float reduced = average - (average / 5);
+        this.limit = Math.round(reduced);
+
+
     }
 
     /**
@@ -324,4 +328,16 @@ public class Counter {
         return dailyNumBites;
     }
     //This is a useless comment.
+
+    public float average(Context context) {
+        int average = 0;
+        //Sum up the 7 days
+        average = retrieveSunday(context) + retrieveMonday(context) + retrieveTuesday(context)
+                + retrieveWednesday(context) + retrieveThursday(context)
+                + retrieveFriday(context) + retrieveSaturday(context);
+        //Divide By 7
+        float finalAverage = average;
+        finalAverage = finalAverage / 7;
+        return finalAverage;
+    }
 }

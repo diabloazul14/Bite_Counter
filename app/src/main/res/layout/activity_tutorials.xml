@@ -1,10 +1,43 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="sustainablehealthsolutionsllc.bitecounter.Tutorials">
+    tools:context="sustainablehealthsolutionsllc.bitecounter.Tutorials"
+    android:background="@drawable/backrepeat">
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
 
-</RelativeLayout>
+        <!--The Title-->
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="Welcome to the Amazing Bite Counter App!\n\n"
+            android:textColor="#E1E1E1"
+            android:textSize="20pt"
+            android:textAlignment="center"/>
+
+        <!--The Main Content-->
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="The Purpose of this app is to make counting calories as easy as possible. Through Multiple Scientific Studies we've found that the average calorie per mouthful of food is about 25 calories. During your first week of using the app you will simply press the button on the main page each time you take a bite. At the end of 7 days the app will take your average and then set a limit 20% lower than your average in order to assist in weight loss. Though if you feel like the number that it rounds too is too low, you can manually change it in the settings page. After you leave this page you will be prompted for your weight. As you follow the limit you will see your weight drop and your bmi will decrease. Your BMI is viewable on the graph page.
+"
+            android:textColor="#E1E1E1"
+            android:textSize="10pt"
+            android:textAlignment="center"/>
+
+       <!--The Start Button-->
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="Start App!"
+            android:textColor="#E1E1E1"/>
+
+    </LinearLayout>
+
+</ScrollView>
