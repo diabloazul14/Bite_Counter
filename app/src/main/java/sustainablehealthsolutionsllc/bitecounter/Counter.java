@@ -14,6 +14,11 @@ public class Counter {
     int numBites;
     int limit;
     boolean pastLimit;
+    Context context;
+
+    public void setContext(Context newContext)  {
+        this.context = newContext;
+    }
 
     /**
      * This is the default constructor for the Counter class.
@@ -60,6 +65,7 @@ public class Counter {
      */
     public void setLimit(int newLimit) {
         this.limit = newLimit;
+        saveLimit(context);
     }
 
     /**

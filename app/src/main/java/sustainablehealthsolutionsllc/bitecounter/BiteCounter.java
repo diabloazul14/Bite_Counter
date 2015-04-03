@@ -70,11 +70,9 @@ public class BiteCounter extends ActionBarActivity {
         addListenerImageButton();
         loadImageToLayout();
         this.context = getApplicationContext();
+        counter.setContext(context);
         counter.setNumBites(counter.retrieveBites(context));
         counter.setLimit(counter.retrieveLimit(context));
-        //debug code
-        counter.setLimit(10);
-            //set up to convert count to a text view
 
         circleProgress = (ProgressBar) findViewById(R.id.circle_progress_bar);
 
@@ -84,7 +82,7 @@ public class BiteCounter extends ActionBarActivity {
 
             viewText.setText(starText,TextView.BufferType.EDITABLE);
 
-            counter.setLimit(100); //THis line needs to be replaced eventually once
+            counter.reduceBy20(context); //THis line needs to be replaced eventually once
                                     // THe 7 day average function comes into play.
         circleProgress.setMax(counter.retrieveLimit(context));
 
@@ -95,11 +93,11 @@ public class BiteCounter extends ActionBarActivity {
         }
 
         //This if statment sets the date only on the first run.
-        if (getLastDate() == 0) {
-            setTodaysDate();
-            counter.setNumBites(0);
-            Log.i(errMsg, "I was supppppppppppppppppppppper Called line 100 boop be boop");
-        }
+//        if (getLastDate() == 0) {
+//            setTodaysDate();
+//            counter.setNumBites(0);
+//            Log.i(errMsg, "I was supppppppppppppppppppppper Called line 100 boop be boop");
+//        }
     }
 
     public void onStart()  {
@@ -115,12 +113,12 @@ public class BiteCounter extends ActionBarActivity {
         }
         Calendar calendar = Calendar.getInstance();
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        if (dayOfWeek == getLastDate()) {
-            counter.setNumBites(counter.retrieveBites(context));
-        } else {
-            counter.resetCounter();
-            setTodaysDate();
-        }
+//        if (dayOfWeek == getLastDate()) {
+//            counter.setNumBites(counter.retrieveBites(context));
+//        } else {
+//            counter.resetCounter();
+//            setTodaysDate();
+//        }
     }
 
     public void onResume() {
@@ -128,9 +126,9 @@ public class BiteCounter extends ActionBarActivity {
         Calendar calendar = Calendar.getInstance();
         int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        if (dayOfWeek == getLastDate()) {
+        if (dayOfWeek == getLastDate()) { // dayOfWeek == getLastDate()
             counter.setNumBites(counter.retrieveBites(context));
-            CharSequence text = "If 132";
+            CharSequence text = "If 132 getNumBites returns" + Integer.toString(getLastDate());
             int duration = Toast.LENGTH_LONG;
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
@@ -290,6 +288,7 @@ public class BiteCounter extends ActionBarActivity {
         //need to do this weird set so progress bar will update
 
                circleProgress.setProgress(pStatus);
+
 
     if(pStatus > 100) {
 
@@ -784,5 +783,6 @@ public class BiteCounter extends ActionBarActivity {
         });
         alertDialog.show();
     }
+
 }
 
