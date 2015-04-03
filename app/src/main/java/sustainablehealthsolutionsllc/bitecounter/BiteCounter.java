@@ -53,13 +53,13 @@ public class BiteCounter extends ActionBarActivity {
     static Context context;
     private Vibrator vibrator;
     private static final int PROGRESS = 0x1;
-    BMI bmi = new BMI();
+    private BMI bmi = new BMI();
     @AndroidView(R.id.circle_progress_bar)
     private ProgressBar circleProgress;
     private int pStatus;
     private Counter counter = new Counter();
     private static final String LOG_ERROR = "ERROR:Issue with line:";
-    Integer date;
+    private Integer date;
     private AudioAttributes alarm;
 
     @Override
@@ -277,10 +277,12 @@ public class BiteCounter extends ActionBarActivity {
 
         circleProgress = (ProgressBar) findViewById(R.id.circle_progress_bar);
 
-        circleProgress.setMax(counter.getLimit());
+        circleProgress.setMax(counter.retrieveLimit(context));
 
         counter.incrementBite(context);
+
         saveBitesOnDifferentDays();
+
         pStatus = counter.getNumBites();
                 circleProgress.setProgress(pStatus);
 
@@ -290,7 +292,7 @@ public class BiteCounter extends ActionBarActivity {
                circleProgress.setProgress(pStatus);
 
 
-    if(pStatus > 100) {
+    if(counter.retrieveBites(context) > counter.retrieveLimit(context)) {
 
         circleProgress.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
 
