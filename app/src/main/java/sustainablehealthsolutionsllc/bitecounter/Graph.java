@@ -398,7 +398,7 @@ public class Graph extends ActionBarActivity {
          * Customizing graphs
          */
         // setting text size of chart value
-        bitesRenderer.setChartValuesTextSize(35);
+        bitesRenderer.setChartValuesTextSize(30); //The initial value was 35
         // setting text align of chart value
         bitesRenderer.setChartValuesTextAlign(Align.CENTER);
         // setting text spacing of chart value
@@ -408,7 +408,7 @@ public class Graph extends ActionBarActivity {
         // setting text size of the axis title
         multiRenderer.setAxisTitleTextSize(30); //24
         // setting text size of the graph lable
-        multiRenderer.setLabelsTextSize(30); //24
+        multiRenderer.setLabelsTextSize(24); //24 was 30
         // setting zoom buttons visiblity
         multiRenderer.setZoomButtonsVisible(false);
         // setting pan enablity which uses graph to move on both axis

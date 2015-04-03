@@ -73,7 +73,7 @@ public class BiteCounter extends ActionBarActivity {
         counter.setContext(context);
         counter.setNumBites(counter.retrieveBites(context));
         counter.setLimit(counter.retrieveLimit(context));
-
+        reseter();
         circleProgress = (ProgressBar) findViewById(R.id.circle_progress_bar);
 
         TextView viewText = (TextView) findViewById(R.id.countView);
@@ -102,6 +102,7 @@ public class BiteCounter extends ActionBarActivity {
 
     public void onStart()  {
         super.onStart();
+        reseter();
         counter.setNumBites(counter.retrieveBites(context));
         counter.setLimit(counter.retrieveLimit(context));
         circleProgress.setMax(counter.getLimit());
@@ -111,8 +112,8 @@ public class BiteCounter extends ActionBarActivity {
         if(counter.getNumBites() > counter.getLimit()) {
             circleProgress.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
         }
-        Calendar calendar = Calendar.getInstance();
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+//        Calendar calendar = Calendar.getInstance();
+//        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
 //        if (dayOfWeek == getLastDate()) {
 //            counter.setNumBites(counter.retrieveBites(context));
 //        } else {
@@ -126,31 +127,24 @@ public class BiteCounter extends ActionBarActivity {
         Calendar calendar = Calendar.getInstance();
         int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        if (dayOfWeek == getLastDate()) { // dayOfWeek == getLastDate()
-            counter.setNumBites(counter.retrieveBites(context));
-            CharSequence text = "If 132 getNumBites returns" + Integer.toString(getLastDate());
-            int duration = Toast.LENGTH_LONG;
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-        } else {
-            CharSequence text = "Else 137";
-            int duration = Toast.LENGTH_LONG;
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-            counter.resetCounter();
-            setTodaysDate();
-        }
+//        if (dayOfWeek == getLastDate()) { // dayOfWeek == getLastDate()
+//            counter.setNumBites(counter.retrieveBites(context));
+//            CharSequence text = "If 132 getNumBites returns" + Integer.toString(getLastDate());
+//            int duration = Toast.LENGTH_LONG;
+//            Toast toast = Toast.makeText(context, text, duration);
+//            toast.show();
+//        } else {
+//            CharSequence text = "Else 137";
+//            int duration = Toast.LENGTH_LONG;
+//            Toast toast = Toast.makeText(context, text, duration);
+//            toast.show();
+//            counter.resetCounter();
+//            setTodaysDate();
+//        }
 
        counter.setLimit(counter.retrieveLimit(context));
        counter.saveLimit(context);
 
-       Log.i(errMsg, Integer.toString(hourOfDay));
-       Log.i(errMsg, Integer.toString(dayOfWeek));
-       if (hourOfDay == 0) {
-          counter.resetCounter();
-           Log.i(errMsg, "The time of the day is ................" + Integer.toString(hourOfDay));
-       }
-        Log.i(errMsg, "The time of the day is ................" + Integer.toString(hourOfDay));
        circleProgress.setMax(counter.getLimit());
        circleProgress.setProgress(counter.getNumBites());
 
@@ -158,7 +152,6 @@ public class BiteCounter extends ActionBarActivity {
             circleProgress.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
         }
 
-        Log.i(errMsg, dayOfWeek + "This is the day of the week!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
        switch (dayOfWeek) {
           case 1:
              counter.saveSunday(context);
@@ -784,6 +777,22 @@ public class BiteCounter extends ActionBarActivity {
             }
         });
         alertDialog.show();
+    }
+
+    public void reseter() {
+        Thread thread = new Thread(){
+            public void run(){
+                while (true) {
+                    Calendar calendar = Calendar.getInstance();
+                    int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+                    if (getLastDate() != dayOfWeek) {
+                        counter.resetCounter();
+                        setTodaysDate();
+                    }
+                }
+            }
+        };
+        thread.start();
     }
 
 }
