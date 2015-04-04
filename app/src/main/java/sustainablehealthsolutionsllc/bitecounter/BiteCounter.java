@@ -66,7 +66,7 @@ public class BiteCounter extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counter);
-        checkFirstRun();
+        checkFirstRunBiteCounter();
         addListenerImageButton();
         loadImageToLayout();
         this.context = getApplicationContext();
@@ -685,14 +685,14 @@ public class BiteCounter extends ActionBarActivity {
         return howManyDays;
     }
 
-    public void checkFirstRun() {
-        boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRun", true);
+    public void checkFirstRunBiteCounter() {
+        boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRunBiteCounter", true);
         if (isFirstRun){
             // Place your dialog code here to display the dialog
 
             getSharedPreferences("PREFERENCE", MODE_PRIVATE)
                     .edit()
-                    .putBoolean("isFirstRun", false)
+                    .putBoolean("isFirstRunBiteCounter", false)
                     .apply();
             View view = null;
             firstRunDialog(view);
