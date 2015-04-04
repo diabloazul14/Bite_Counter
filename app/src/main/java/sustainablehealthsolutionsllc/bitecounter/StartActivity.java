@@ -42,6 +42,12 @@ public class StartActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Button Start:
+     * When user click start, it will start the bite counter activity
+     * @param none
+     * @return none
+     */
     public void addListenerImageButton(){
         Button button = (Button) findViewById(R.id.start_button);
         button.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +62,12 @@ public class StartActivity extends ActionBarActivity {
         });
     }
 
+    /**
+     * Check If First Run:
+     * Display Welcome screen as the first run.
+     * @param none
+     * @return none
+     */
     public void checkFirstRun() {
         boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRun", true);
         if (isFirstRun){
