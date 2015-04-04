@@ -74,12 +74,8 @@
     <ImageButton
         android:id="@+id/button_image"
         android:background="@drawable/white_gallery"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/button_circle"
-        android:layout_toLeftOf="@+id/button_circle" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <android.support.v4.view.ViewPager
         xmlns:android="http://schemas.android.com/apk/res/android"
