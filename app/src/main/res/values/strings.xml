@@ -20,6 +20,6 @@
     <string name="title_activity_about_us">AboutUs</string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_start">StartActivity</string>
+    <string name="title_activity_start">Bite Counter</string>
     <string name="title_activity_settings">SettingsActivity</string>
 </resources>

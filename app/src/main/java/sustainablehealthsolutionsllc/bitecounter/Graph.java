@@ -7,7 +7,6 @@ import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
-
 import android.app.AlertDialog;
 
 import android.annotation.TargetApi;
@@ -61,7 +60,7 @@ public class Graph extends ActionBarActivity {
     TextView textview;
     private ProgressBar horizontalProgress;
     private View mChart;
-    private Integer[] bites = new Integer[]{
+    private float[] bites = new float[]{
             0, 0, 0, 0, 0, 0, 0
     };
     private float[] weights = new float[]{
@@ -82,16 +81,12 @@ public class Graph extends ActionBarActivity {
         biteGraph();
         weightGraph();
 
+
         horizontalProgress = (ProgressBar) findViewById(R.id.progressbar);
-
         horizontalProgress.setMax(7);
-
         dayCount = calendar.get(calendar.DAY_OF_WEEK);
-
         String dayish = Integer.toString(dayCount).concat("/7");
-
         horizontalProgress.setProgress(dayCount);
-
         viewText.setText(dayish, TextView.BufferType.EDITABLE);
 
     }
@@ -150,7 +145,6 @@ public class Graph extends ActionBarActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
 
     /**
      * Date of Week:
@@ -366,11 +360,25 @@ public class Graph extends ActionBarActivity {
         Log.i(errMsg, "The value of friday is " + Float.toString(bmi.retrieveFridayWeight(context)));
     }
 
+    public int findMaxForGraph(float[] bites) {
+        float max = bites[0];
+
+        for ( int i = 1; i < bites.length; i++) {
+            if ( bites[i] > max) {
+                max = bites[i];
+            }
+        }
+        int intMax = (int) max;
+        return intMax;
+    }
+
     /**
      * Bite Graph:
      * Draw the customized weight graph and display it on the related layout
      */
     private void biteGraph() {
+        int width = this.getResources().getDisplayMetrics().widthPixels;
+        float scale = width / 720.0f;
         int[] x = {0, 1, 2, 3, 4, 5, 6};
         // update bites of week
         biteOfWeek();
@@ -393,7 +401,7 @@ public class Graph extends ActionBarActivity {
         bitesRenderer.setFillPoints(true);
         bitesRenderer.setLineWidth(2);
         bitesRenderer.setDisplayChartValues(true);
-        bitesRenderer.setDisplayChartValuesDistance(10); //setting chart value distance
+        bitesRenderer.setDisplayChartValuesDistance(8); //setting chart value distance
 
         // Creating a XYMultipleSeriesRenderer to customize the whole chart
         XYMultipleSeriesRenderer multiRenderer = new XYMultipleSeriesRenderer();
@@ -405,7 +413,7 @@ public class Graph extends ActionBarActivity {
          * Customizing graphs
          */
         // setting text size of chart value
-        bitesRenderer.setChartValuesTextSize(35);
+        bitesRenderer.setChartValuesTextSize(scale*30);
         // setting text align of chart value
         bitesRenderer.setChartValuesTextAlign(Align.CENTER);
         // setting text spacing of chart value
@@ -414,9 +422,9 @@ public class Graph extends ActionBarActivity {
         multiRenderer.setChartTitleTextSize(30); //28
         // setting text size of the axis title
         multiRenderer.setAxisTitleTextSize(30); //24
-        // setting text size of the graph lable
-        multiRenderer.setLabelsTextSize(30); //24
-        // setting zoom buttons visiblity
+        // setting text size of the graph label
+        multiRenderer.setLabelsTextSize(scale * 24); //24
+        // setting zoom buttons visibility
         multiRenderer.setZoomButtonsVisible(false);
         // setting pan enablity which uses graph to move on both axis
         multiRenderer.setPanEnabled(false, false);
@@ -437,7 +445,7 @@ public class Graph extends ActionBarActivity {
         // setting external zoom functions to false
         multiRenderer.setExternalZoomEnabled(false);
         // setting displaying lines on graph to be formatted(like using graphics)
-        multiRenderer.setAntialiasing(true); // true
+        multiRenderer.setAntialiasing(false); // true
         // setting to in scroll to false
         multiRenderer.setInScroll(false);
         // setting to set legend height of the graph
@@ -453,8 +461,7 @@ public class Graph extends ActionBarActivity {
         multiRenderer.setYLabels(0);
         // setting y axis max value, Since i'm using static values inside the graph so i'm setting y max value to 4000.
         // if you use dynamic values then get the max y value and set here
-        int limit = counter.retrieveLimit(context);
-
+        float limit = findMaxForGraph(bites);
         multiRenderer.setYAxisMax(limit+10);
         // setting y min value
         multiRenderer.setYAxisMin(0);
@@ -501,6 +508,8 @@ public class Graph extends ActionBarActivity {
      * Draw the customized weight graph and display it on the related layout
     */
     private void weightGraph() {
+        int width = this.getResources().getDisplayMetrics().widthPixels;
+        float scale = width / 720.0f;
         int[] x = {0, 1, 2, 3, 4, 5, 6};
         // update weight of week
         weightOfWeek();
@@ -523,7 +532,7 @@ public class Graph extends ActionBarActivity {
         weightsRenderer.setFillPoints(true);
         weightsRenderer.setLineWidth(2);
         weightsRenderer.setDisplayChartValues(true);
-        weightsRenderer.setDisplayChartValuesDistance(0); // 10 //setting chart value distance
+        weightsRenderer.setDisplayChartValuesDistance(8); // 10 //setting chart value distance
 
         // Creating a XYMultipleSeriesRenderer to customize the whole chart
         XYMultipleSeriesRenderer multiRenderer = new XYMultipleSeriesRenderer();
@@ -535,17 +544,15 @@ public class Graph extends ActionBarActivity {
          * Customizing graphs
          */
         // setting text size of chart value
-        weightsRenderer.setChartValuesTextSize(30);
-        // setting text value of chart value
-        weightsRenderer.setChartValuesTextAlign(Align.CENTER);
+        weightsRenderer.setChartValuesTextSize(scale*30);
         // setting text spacing of chart value
         weightsRenderer.setChartValuesSpacing(20);
         // setting text size of the title
         multiRenderer.setChartTitleTextSize(30); //28
         //setting text size of the axis title
         multiRenderer.setAxisTitleTextSize(30); //24
-        //setting text size of the graph lable
-        multiRenderer.setLabelsTextSize(30); //24
+        //setting text size of the graph label
+        multiRenderer.setLabelsTextSize(scale*24); //24
         //setting zoom buttons visiblity
         multiRenderer.setZoomButtonsVisible(false);
         //setting pan enablity which uses graph to move on both axis
@@ -567,7 +574,7 @@ public class Graph extends ActionBarActivity {
         //setting external zoom functions to false
         multiRenderer.setExternalZoomEnabled(false);
         //setting displaying lines on graph to be formatted(like using graphics)
-        multiRenderer.setAntialiasing(true);
+        multiRenderer.setAntialiasing(false);
         //setting to in scroll to false
         multiRenderer.setInScroll(false);
         //setting to set legend height of the graph
@@ -583,7 +590,8 @@ public class Graph extends ActionBarActivity {
         multiRenderer.setYLabels(0);
         // setting y axis max value, Since i'm using static values inside the graph so i'm setting y max value to 4000.
         // if you use dynamic values then get the max y value and set here
-        multiRenderer.setYAxisMax(/*bmi.retrieveLimit(context)*/200);
+        int limit = findMaxForGraph(weights);
+        multiRenderer.setYAxisMax(limit+10);
         // setting y min value
         multiRenderer.setYAxisMin(0);
         // setting x label's color

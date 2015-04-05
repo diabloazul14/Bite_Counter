@@ -147,7 +147,7 @@
                             android:layout_alignParentLeft="true" />
                         <Button
                             android:id="@+id/bmiButton"
-                            android:background="@drawable/bmi_button"
+                            android:background="@drawable/bmi_update_button"
                             android:layout_width="50dp"
                             android:layout_height="27dp"
                             android:layout_marginTop="5dp"

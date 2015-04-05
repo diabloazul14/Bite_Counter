@@ -1,31 +1,37 @@
 package sustainablehealthsolutionsllc.bitecounter;
 
-import android.annotation.TargetApi;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.graphics.AvoidXfermode;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.media.AudioAttributes;
+import android.os.AsyncTask;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.app.AlertDialog;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,7 +60,7 @@ public class BiteCounter extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_counter);
-        checkFirstRun();
+        checkFirstRunBiteCounter();
         addListenerImageButton();
         loadImageToLayout();
         this.context = getApplicationContext();
@@ -63,8 +69,6 @@ public class BiteCounter extends ActionBarActivity {
         counter.setContext(context);
         counter.setNumBites(counter.retrieveBitesOnDay());
         counter.setLimit(counter.retrieveLimit(context));
-
-        counter.setLimit(100);
 
         circleProgress = (ProgressBar) findViewById(R.id.circle_progress_bar);
 
@@ -95,7 +99,7 @@ public class BiteCounter extends ActionBarActivity {
 
     public void onStart()  {
         super.onStart();
-        counter.setNumBites(counter.retrieveBitesOnDay());
+        counter.setNumBites(counter.retrieveBites(context));
         counter.setLimit(counter.retrieveLimit(context));
         circleProgress.setMax(counter.retrieveLimit(context));
 
@@ -115,31 +119,10 @@ public class BiteCounter extends ActionBarActivity {
         Calendar calendar = Calendar.getInstance();
         int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        if (dayOfWeek == getLastDate()) { // dayOfWeek == getLastDate()
-            counter.setNumBites(counter.retrieveBitesOnDay());
-            CharSequence text = "If 132 getNumBites returns" + Integer.toString(getLastDate());
-            int duration = Toast.LENGTH_LONG;
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-        } else {
-            CharSequence text = "Else 137";
-            int duration = Toast.LENGTH_LONG;
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-            counter.resetCounter();
-            setTodaysDate();
-        }
+//        
 
        counter.setLimit(counter.retrieveLimit(context));
        counter.saveLimit(context);
-
-       Log.i(errMsg, Integer.toString(hourOfDay));
-       Log.i(errMsg, Integer.toString(dayOfWeek));
-       if (hourOfDay == 0) {
-          counter.resetCounter();
-           Log.i(errMsg, "The time of the day is ................" + Integer.toString(hourOfDay));
-       }
-        Log.i(errMsg, "The time of the day is ................" + Integer.toString(hourOfDay));
 
         //this is the Progress bars update when onStart is called
        circleProgress.setMax(counter.retrieveLimit(context));
@@ -149,7 +132,6 @@ public class BiteCounter extends ActionBarActivity {
             circleProgress.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
         }
 
-        Log.i(errMsg, dayOfWeek + "This is the day of the week!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
        switch (dayOfWeek) {
           case 1:
              counter.saveSunday(context);
@@ -267,7 +249,6 @@ public class BiteCounter extends ActionBarActivity {
      */
     public void counter(View view) {
 
-        //sets up the vibrate,textView and the Progress Bar
         vibrator = (Vibrator) getSystemService(context.VIBRATOR_SERVICE);
 
         TextView text = (TextView) findViewById(R.id.countView);
@@ -543,7 +524,7 @@ public class BiteCounter extends ActionBarActivity {
     /**
      * Save Current Background:
      * This basically saves current image for loading when application's start-up
-     * @param pos -
+     * @param pos - image ID
      */
     public void saveCurrentBackground(int pos) {
         SharedPreferences settings = getSharedPreferences("image_data", 0);
@@ -695,14 +676,14 @@ public class BiteCounter extends ActionBarActivity {
         return howManyDays;
     }
 
-    public void checkFirstRun() {
-        boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRun", true);
+    public void checkFirstRunBiteCounter() {
+        boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRunBiteCounter", true);
         if (isFirstRun){
             // Place your dialog code here to display the dialog
 
             getSharedPreferences("PREFERENCE", MODE_PRIVATE)
                     .edit()
-                    .putBoolean("isFirstRun", false)
+                    .putBoolean("isFirstRunBiteCounter", false)
                     .apply();
             View view = null;
             firstRunDialog(view);
@@ -800,6 +781,22 @@ public class BiteCounter extends ActionBarActivity {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         boolean shouldBuzz = settings.getBoolean("buzz", true);
         return shouldBuzz;
+    }
+
+    public void reseter() {
+        Thread thread = new Thread(){
+            public void run(){
+                while (true) {
+                    Calendar calendar = Calendar.getInstance();
+                    int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+                    if (getLastDate() != dayOfWeek) {
+                        counter.resetCounter();
+                        setTodaysDate();
+                    }
+                }
+            }
+        };
+        thread.start();
     }
 
 }
