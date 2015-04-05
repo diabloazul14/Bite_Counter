@@ -101,10 +101,12 @@ public class Counter {
      * This function increments the number of bites by 1.
      */
     public void incrementBite(Context context) {
-        this.numBites += 1;
-        saveBites(context);
-        saveLimit(context);
+//        this.numBites += 1;
+//        saveBites(context);
+//        saveLimit(context);
+          String toInt = Integer.toString(retrieveBitesOnDay() + 1);
 
+        saveBitesOnDay(toInt);
     }
 
     /**

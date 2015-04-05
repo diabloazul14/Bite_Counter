@@ -97,7 +97,8 @@ public class SettingsActivity extends ActionBarActivity {
                 String limitInput = newLimit.getText().toString();
                 //Test if limitInput is a number
                 if (limitInput.equals("") || !isNumeric(limitInput)
-                        || isTooLarge(limitInput) || greaterThan1000(limitInput)) {
+                        || isTooLarge(limitInput) || greaterThan1000(limitInput)
+                        || containsNewline(limitInput) || containsSpaces(limitInput)) {
                     CharSequence text = "Please enter a number less than 1000";
                     int duration = Toast.LENGTH_LONG;
                     Toast toast = Toast.makeText(context, text, duration);
@@ -145,7 +146,8 @@ public class SettingsActivity extends ActionBarActivity {
                 String biteInput = bites.getText().toString();
                 //Test if limitInput is a number
                 if (biteInput.equals("") || !isNumeric(biteInput)
-                        || isTooLarge(biteInput) || greaterThan1000(biteInput)) {
+                        || isTooLarge(biteInput) || greaterThan1000(biteInput)
+                        || containsSpaces(biteInput) || containsNewline(biteInput)) {
                     CharSequence text = "Please enter a number less than 1000";
                     int duration = Toast.LENGTH_LONG;
                     Toast toast = Toast.makeText(context, text, duration);
@@ -184,6 +186,20 @@ public class SettingsActivity extends ActionBarActivity {
         } else {
             return false;
         }
+    }
+
+    public boolean containsSpaces(String str) {
+        if (str.contains(" ")) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean containsNewline(String str) {
+        if (str.contains("\n")) {
+            return true;
+        }
+        return false;
     }
 
     public void saveBuzzer(boolean buzz) {

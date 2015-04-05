@@ -68,7 +68,7 @@ public class BiteCounter extends ActionBarActivity {
         //sets up the
         counter.setContext(context);
         counter.setNumBites(counter.retrieveBitesOnDay());
-        counter.setLimit(counter.retrieveLimit(context));
+//        counter.setLimit(counter.retrieveLimit(context));
 
         circleProgress = (ProgressBar) findViewById(R.id.circle_progress_bar);
 
@@ -77,7 +77,8 @@ public class BiteCounter extends ActionBarActivity {
             String starText = Integer.toString(this.counter.retrieveBitesOnDay());
 
             viewText.setText(starText,TextView.BufferType.EDITABLE);
-        counter.setLimit(20);
+//        counter.setLimit(1000);
+        biteCounterSetLimitTest();
         circleProgress.setMax(counter.retrieveLimit(context));
 
         circleProgress.setProgress(counter.retrieveBitesOnDay());
@@ -92,8 +93,8 @@ public class BiteCounter extends ActionBarActivity {
 
     public void onStart()  {
         super.onStart();
-        counter.setNumBites(counter.retrieveBites(context));
-        counter.setLimit(counter.retrieveLimit(context));
+//        counter.setNumBites(counter.retrieveBites(context));
+//        counter.setLimit(counter.retrieveLimit(context));
         circleProgress.setMax(counter.retrieveLimit(context));
 
         circleProgress.setProgress(this.counter.retrieveBitesOnDay());
@@ -115,52 +116,58 @@ public class BiteCounter extends ActionBarActivity {
         int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
 //        
+        biteCounterSetLimitTest();
 
-
-       counter.setLimit(counter.retrieveLimit(context));
-       counter.saveLimit(context);
+//       counter.setLimit(counter.retrieveLimit(context));
+//       counter.saveLimit(context);
 
         //this is the Progress bars update when onStart is called
        circleProgress.setMax(counter.retrieveLimit(context));
        circleProgress.setProgress(counter.retrieveBitesOnDay());
 
-        if(counter.getNumBites() > counter.getLimit()) {
+        TextView viewText = (TextView) findViewById(R.id.countView);
+
+        String resText = Integer.toString(this.counter.retrieveBitesOnDay());
+
+        viewText.setText(resText,TextView.BufferType.EDITABLE);
+
+        if(counter.retrieveBitesOnDay() > counter.retrieveLimit(context)) {
             circleProgress.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
         }
 
-       switch (dayOfWeek) {
-          case 1:
-             counter.saveSunday(context);
-              bmi.saveSundayWeight(context);
-             break;
-          case 2:
-             counter.saveMonday(context);
-              bmi.saveMondayWeight(context);
-             break;
-          case 3:
-             counter.saveTuesday(context);
-              bmi.saveTuesdayWeight(context);
-             break;
-          case 4:
-             counter.saveWednesday(context);
-              bmi.saveWednesdayWeight(context);
-             break;
-          case 5:
-             counter.saveThursday(context);
-              bmi.saveThursdayWeight(context);
-             break;
-          case 6:
-             counter.saveFriday(context);
-              counter.saveFriday(context);
-             break;
-          case 7:
-            counter.saveSaturday(context);
-              bmi.saveSaturdayWeight(context);
-             break;
-          default:
-             Log.i(errMsg, "The day wasn't saved correctly");
-             break;
-          }
+//       switch (dayOfWeek) {
+//          case 1:
+//             counter.saveSunday(context);
+//              bmi.saveSundayWeight(context);
+//             break;
+//          case 2:
+//             counter.saveMonday(context);
+//              bmi.saveMondayWeight(context);
+//             break;
+//          case 3:
+//             counter.saveTuesday(context);
+//              bmi.saveTuesdayWeight(context);
+//             break;
+//          case 4:
+//             counter.saveWednesday(context);
+//              bmi.saveWednesdayWeight(context);
+//             break;
+//          case 5:
+//             counter.saveThursday(context);
+//              bmi.saveThursdayWeight(context);
+//             break;
+//          case 6:
+//             counter.saveFriday(context);
+//              counter.saveFriday(context);
+//             break;
+//          case 7:
+//            counter.saveSaturday(context);
+//              bmi.saveSaturdayWeight(context);
+//             break;
+//          default:
+//             Log.i(errMsg, "The day wasn't saved correctly");
+//             break;
+//          }
 
 //        reseter();
     }
@@ -170,43 +177,43 @@ public class BiteCounter extends ActionBarActivity {
      */
     public void onStop() {
         super.onStop();
-        counter.saveBites(context);
-        counter.saveLimit(context);
-        Calendar calendar = Calendar.getInstance();
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        switch (dayOfWeek) {
-            case 1:
-                counter.saveSunday(context);
-                bmi.saveSundayWeight(context);
-                break;
-            case 2:
-                counter.saveMonday(context);
-                bmi.saveMondayWeight(context);
-                break;
-            case 3:
-                counter.saveTuesday(context);
-                bmi.saveTuesdayWeight(context);
-                break;
-            case 4:
-                counter.saveWednesday(context);
-                bmi.saveWednesdayWeight(context);
-                break;
-            case 5:
-                counter.saveThursday(context);
-                bmi.saveThursdayWeight(context);
-                break;
-            case 6:
-                counter.saveFriday(context);
-                counter.saveFriday(context);
-                break;
-            case 7:
-                counter.saveSaturday(context);
-                bmi.saveSaturdayWeight(context);
-                break;
-            default:
-                Log.i(errMsg, "The day wasn't saved correctly");
-                break;
-        }
+//        counter.saveBites(context);
+//        counter.saveLimit(context);
+//        Calendar calendar = Calendar.getInstance();
+//        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+//        switch (dayOfWeek) {
+//            case 1:
+//                counter.saveSunday(context);
+//                bmi.saveSundayWeight(context);
+//                break;
+//            case 2:
+//                counter.saveMonday(context);
+//                bmi.saveMondayWeight(context);
+//                break;
+//            case 3:
+//                counter.saveTuesday(context);
+//                bmi.saveTuesdayWeight(context);
+//                break;
+//            case 4:
+//                counter.saveWednesday(context);
+//                bmi.saveWednesdayWeight(context);
+//                break;
+//            case 5:
+//                counter.saveThursday(context);
+//                bmi.saveThursdayWeight(context);
+//                break;
+//            case 6:
+//                counter.saveFriday(context);
+//                counter.saveFriday(context);
+//                break;
+//            case 7:
+//                counter.saveSaturday(context);
+//                bmi.saveSaturdayWeight(context);
+//                break;
+//            default:
+//                Log.i(errMsg, "The day wasn't saved correctly");
+//                break;
+//        }
     }
 
     /**
@@ -214,8 +221,8 @@ public class BiteCounter extends ActionBarActivity {
      */
     public void onDestroy() {
         super.onDestroy();
-        counter.saveBites(context);
-        counter.saveLimit(context);
+//        counter.saveBites(context);
+//        counter.saveLimit(context);
     }
 
     @Override
@@ -236,8 +243,8 @@ public class BiteCounter extends ActionBarActivity {
         // Restore state members from saved instance
         int restoredBites = savedInstanceState.getInt("bites");
         int restoredLimit = savedInstanceState.getInt("limit");
-        this.counter.setNumBites(restoredBites);
-        this.counter.setLimit(restoredLimit);
+//        this.counter.setNumBites(restoredBites);
+//        this.counter.setLimit(restoredLimit);
     }
 
     /**
@@ -257,7 +264,7 @@ public class BiteCounter extends ActionBarActivity {
 
         counter.incrementBite(context);
 
-        saveBitesOnDifferentDays();
+//        saveBitesOnDifferentDays();
 
         pStatus = counter.retrieveBitesOnDay();
                 circleProgress.setProgress(pStatus);
@@ -374,7 +381,7 @@ public class BiteCounter extends ActionBarActivity {
                     Toast toast = Toast.makeText(context, text, duration);
                     toast.show();
                 } else if (isTooLarge(weightInput)) {
-                    CharSequence text = "Please enter a smaller number";
+                    CharSequence text = "Please enter a number less than 1000";
                     int duration = Toast.LENGTH_LONG;
                     Toast toast = Toast.makeText(context, text, duration);
                     toast.show();
@@ -418,12 +425,8 @@ public class BiteCounter extends ActionBarActivity {
                                 Log.i(errMsg, "The day wasn't saved correctly");
                                 break;
                         }
-                        //The below shared preferences may not need to exist because of the
-//                        //above switch statement
-//                        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
-//                        SharedPreferences.Editor editor = settings.edit();
-//                        editor.putFloat("weight", bmi.getWeight());
-//                        editor.apply();
+
+//                    saveBitesOnDifferentDays();
                     }
                 }
         });
@@ -716,14 +719,29 @@ public class BiteCounter extends ActionBarActivity {
             public void onClick(DialogInterface dialog, int which) {
                 // here you can add functions
                 String weightInput = weight.getText().toString();
-
-                if (weightInput.equals("") ){
-                    CharSequence text = "Please re-enter your weight";
+                boolean isNum = isNumeric(weightInput);
+                if (weightInput.equals("")){
+                    CharSequence text = "Please reenter your weight";
                     int duration = Toast.LENGTH_LONG;
 
                     Toast toast = Toast.makeText(context, text, duration);
                     toast.show();
-                }  else {
+                }  else if (!isNum) {
+                    CharSequence text = "Please enter only numbers";
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                } else if (isTooLarge(weightInput)) {
+                    CharSequence text = "Please enter a number less than 1000";
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                } else if (greaterThan1000(weightInput)) {
+                    CharSequence text = "Please enter a number less than 1000";
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                } else {
                     Float newWeight = Float.valueOf(weightInput);
                     Converter converter = new Converter();
 //                    converter.parser(newHeight);
@@ -758,13 +776,10 @@ public class BiteCounter extends ActionBarActivity {
                             Log.i(errMsg, "The day wasn't saved correctly");
                             break;
                     }
-                    //The below shared preferences may not need to exist because of the
-                    //above switch statement
-                    SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
-                    SharedPreferences.Editor editor = settings.edit();
-                    editor.putFloat("weight", bmi.getWeight());
-                    editor.apply();
+
+//                    saveBitesOnDifferentDays();
                 }
+
             }
         });
         alertDialog.show();
@@ -798,6 +813,7 @@ public class BiteCounter extends ActionBarActivity {
                         setTodaysDate();
                         counter.setDayToZero();
 //                        biteCounterSetLimitTest();
+                        setDaysRun();
                     }
                 }
             }
@@ -806,7 +822,8 @@ public class BiteCounter extends ActionBarActivity {
     }
 
     public void biteCounterSetLimitTest () {
-        setDaysRun();
+
+//        setDaysRun();
         if (getDaysRun() == 8) {
             counter.reduceBy20(context);
         } else if (getDaysRun() < 8) {
