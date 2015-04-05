@@ -116,6 +116,7 @@ public class Counter {
         float reduced = average - (average / 5);
         setLimit(Math.round(reduced));
 
+
     }
 
     /**
@@ -398,4 +399,105 @@ public class Counter {
                 break;
         }
     }
+
+    public int retrieveBitesOnDay() {
+        Calendar calendar = Calendar.getInstance();
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        int answer = 0;
+        switch (dayOfWeek) {
+            case 1:
+                answer = retrieveSunday(context);
+                break;
+            case 2:
+                answer = retrieveMonday(context);
+                break;
+            case 3:
+               answer = retrieveTuesday(context);
+                break;
+            case 4:
+                answer = retrieveWednesday(context);
+                break;
+            case 5:
+                answer = retrieveThursday(context);
+                break;
+            case 6:
+                answer = retrieveFriday(context);
+                break;
+            case 7:
+               answer = retrieveSaturday(context);
+                break;
+            default:
+                answer = 0;
+                break;
+        }
+
+        return answer;
+    }
+
+    public void saveBitesOnDay(String newBitesToSave) {
+        Calendar calendar = Calendar.getInstance();
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        this.numBites = Integer.valueOf(newBitesToSave); //This line of code worries me.
+        switch (dayOfWeek) {
+            case 1:
+                saveSunday(context);
+                break;
+            case 2:
+                saveMonday(context);
+                break;
+            case 3:
+                saveTuesday(context);
+                break;
+            case 4:
+                saveWednesday(context);
+                break;
+            case 5:
+                saveThursday(context);
+                break;
+            case 6:
+                saveFriday(context);
+                break;
+            case 7:
+                saveSaturday(context);
+                break;
+            default:
+                System.out.println("Wasn't saved correctly :(");
+                break;
+        }
+    }
+
+    public String retrieveString() {
+        Calendar calendar = Calendar.getInstance();
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        String answer;
+        switch (dayOfWeek) {
+            case 1:
+                answer = "sunday";
+                break;
+            case 2:
+                answer = "monday";
+                break;
+            case 3:
+                answer = "tuesday";
+                break;
+            case 4:
+                answer = "wednesday";
+                break;
+            case 5:
+                answer = "thursday";
+                break;
+            case 6:
+                answer = "friday";
+                break;
+            case 7:
+                answer = "saturday";
+                break;
+            default:
+                answer = "error";
+                break;
+        }
+
+        return answer;
+    }
+
 }

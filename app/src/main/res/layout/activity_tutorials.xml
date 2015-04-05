@@ -16,26 +16,34 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:text="Welcome to the Amazing Bite Counter App!\n\n"
+            android:text="Welcome to the Amazing Bite Counter App!"
             android:textColor="#E1E1E1"
             android:textSize="20pt"
-            android:textAlignment="center"/>
+            android:gravity="center"/>
 
         <!--The Main Content-->
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:text="(scroll down for the rules)
-
-        It's Simple.\nEvery time you put food in your mouth or take a drink, tap the circle.  Water doesn't count.  Everything else does.\n\nEverything.
-         For the next 7 days just eat as you normally do. Get in the habit of counting your bites while the app establishes a baseline.
-        \nAfter 7 days the app will create a target to aim for. Each day try to hit your target without going over.  Eat what you want, when you want it, just less.
-        \nWill it be annoying?\n\nGuaranteed. It's going to be hard. But totally worth it. Once it's a habit you're on your way.
-        \nCan I set my own target?\n\n For sure. Just click on settings and enter your preferred target number.\n
-         What about nutrition?\n\n This app can't do it all for you...  As you track your overall food intake, steer yourself toward more healthy choices."
+            android:layout_marginTop="50dp"
+            android:text="(scroll down for the rules)"
             android:textColor="#E1E1E1"
             android:textSize="10pt"
-            android:textAlignment="center"/>
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="20dp"
+            android:textColor="#E1E1E1"
+            android:textSize="10pt"
+            android:text="
+It's Simple. Every time you put food in your mouth or take a drink, tap the circle. Water doesn't count. Everything else does, everything.
+\n\nFor the next 7 days just eat as you normally do. Get in the habit of counting your bites while the app establishes a baseline.
+\n\nAfter 7 days the app will create a target to aim for. Each day try to hit your target without going over.  Eat what you want, when you want it, just less.
+\n\nWill it be annoying? Guaranteed. It's going to be hard. But totally worth it. Once it's a habit you're on your way.
+\n\nCan I set my own target? For sure. Just click on settings and enter your preferred target number.
+\n\nWhat about nutrition? This app can't do it all for you...  As you track your overall food intake, steer yourself toward more healthy choices." />
 
     </LinearLayout>
 

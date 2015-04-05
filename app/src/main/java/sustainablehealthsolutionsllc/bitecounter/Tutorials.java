@@ -31,14 +31,21 @@ public class Tutorials extends ActionBarActivity {
             case R.id.action_graph:
                 Intent intent = new Intent(Tutorials.this, Graph.class);
                 startActivity(intent);
+                finish();
                 return true;
             case R.id.action_aboutUs:
                 Intent intentUs = new Intent(Tutorials.this, AboutUs.class);
                 startActivity(intentUs);
+                finish();
                 return true;
             case R.id.action_counter:
                 Intent intentT = new Intent(Tutorials.this, BiteCounter.class);
                 startActivity(intentT);
+                finish();
+                return true;
+            case R.id.action_settings:
+                Intent intentS = new Intent(Tutorials.this, SettingsActivity.class);
+                startActivity(intentS);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
