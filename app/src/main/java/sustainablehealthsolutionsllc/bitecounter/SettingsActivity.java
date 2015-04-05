@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -60,15 +61,20 @@ public class SettingsActivity extends ActionBarActivity {
             public void onClick(DialogInterface dialog, int which) {
                 // No updates are done, so it exits the alert dialog.
                 saveBuzzer(false);
+                Intent intent = new Intent(SettingsActivity.this, BiteCounter.class);
+                startActivity(intent);
             }
         });
         alertDialog.setButton2("Buzz", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 // here you can add functions
                 saveBuzzer(true);
+                Intent intent = new Intent(SettingsActivity.this, BiteCounter.class);
+                startActivity(intent);
             }
         });
         alertDialog.show();
+
     }
 
     public void limitAlert(View view) {
@@ -112,9 +118,9 @@ public class SettingsActivity extends ActionBarActivity {
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putInt("theLimit", theLimit);
                     editor.apply();
+                    Intent intent = new Intent(SettingsActivity.this, BiteCounter.class);
+                    startActivity(intent);
                 }
-
-
             }
         });
         alertDialog.show();
@@ -154,8 +160,9 @@ public class SettingsActivity extends ActionBarActivity {
                     toast.show();
                 } else {
                     saveBitesOnDay(biteInput);
+                    Intent intent = new Intent(SettingsActivity.this, BiteCounter.class);
+                    startActivity(intent);
                 }
-
             }
         });
         alertDialog.show();

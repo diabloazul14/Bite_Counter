@@ -93,8 +93,8 @@ public class BiteCounter extends ActionBarActivity {
 
     public void onStart()  {
         super.onStart();
-//        counter.setNumBites(counter.retrieveBites(context));
-//        counter.setLimit(counter.retrieveLimit(context));
+        counter.setNumBites(counter.retrieveBites(context));
+        counter.setLimit(counter.retrieveLimit(context));
         circleProgress.setMax(counter.retrieveLimit(context));
 
         circleProgress.setProgress(this.counter.retrieveBitesOnDay());
@@ -243,8 +243,8 @@ public class BiteCounter extends ActionBarActivity {
         // Restore state members from saved instance
         int restoredBites = savedInstanceState.getInt("bites");
         int restoredLimit = savedInstanceState.getInt("limit");
-//        this.counter.setNumBites(restoredBites);
-//        this.counter.setLimit(restoredLimit);
+        this.counter.setNumBites(restoredBites);
+        this.counter.setLimit(restoredLimit);
     }
 
     /**
