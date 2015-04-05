@@ -17,6 +17,14 @@ public class AboutUs extends ActionBarActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(AboutUs.this, BiteCounter.class);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_counter, menu);

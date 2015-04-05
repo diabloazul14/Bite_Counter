@@ -51,8 +51,7 @@ It's Simple. Every time you put food in your mouth or take a drink, tap the circ
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_marginTop="20dp"
-            android:text="Start App!"
-            android:textColor="#E1E1E1"/>
+            android:text="Start App!" />
     </LinearLayout>
 
 

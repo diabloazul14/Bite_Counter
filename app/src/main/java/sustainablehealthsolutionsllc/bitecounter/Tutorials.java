@@ -1,6 +1,7 @@
 package sustainablehealthsolutionsllc.bitecounter;
 
 import android.content.Intent;
+import android.gesture.GestureOverlayView;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,6 +16,13 @@ public class Tutorials extends ActionBarActivity {
         setContentView(R.layout.activity_tutorials);
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(Tutorials.this, BiteCounter.class);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
