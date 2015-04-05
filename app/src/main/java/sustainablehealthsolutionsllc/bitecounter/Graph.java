@@ -462,7 +462,18 @@ public class Graph extends ActionBarActivity {
         // setting y axis max value, Since i'm using static values inside the graph so i'm setting y max value to 4000.
         // if you use dynamic values then get the max y value and set here
         float limit = findMaxForGraph(bites);
-        multiRenderer.setYAxisMax(limit+10);
+                if (limit <= 100) {
+            limit += 8;
+        } else if (limit <= 200 && limit > 100) {
+            limit += 15;
+        } else if (limit <= 400 && limit > 200){
+            limit += 50;
+        } else if (limit <= 750 && limit > 400) {
+            limit += 100;
+        } else {
+            limit += 200;
+        }
+        multiRenderer.setYAxisMax(limit);
         // setting y min value
         multiRenderer.setYAxisMin(0);
         // setting x label's color
@@ -591,7 +602,18 @@ public class Graph extends ActionBarActivity {
         // setting y axis max value, Since i'm using static values inside the graph so i'm setting y max value to 4000.
         // if you use dynamic values then get the max y value and set here
         int limit = findMaxForGraph(weights);
-        multiRenderer.setYAxisMax(limit+10);
+                if (limit <= 100) {
+            limit += 8;
+        } else if (limit <= 200 && limit > 100) {
+            limit += 15;
+        } else if (limit <= 400 && limit > 200){
+            limit += 50;
+        } else if (limit <= 750 && limit > 400) {
+            limit += 100;
+        } else {
+            limit += 200;
+        }
+        multiRenderer.setYAxisMax(limit);
         // setting y min value
         multiRenderer.setYAxisMin(0);
         // setting x label's color
