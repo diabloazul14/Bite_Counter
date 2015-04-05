@@ -1,67 +1,55 @@
-
-/**
- * Created by john on 2/25/15.
- */
-
 package sustainablehealthsolutionsllc.bitecounter;
 
+import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.graphics.AvoidXfermode;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.media.AudioAttributes;
-import android.os.AsyncTask;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.app.AlertDialog;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Calendar;
-import sustainablehealthsolutionsllc.bitecounter.AndroidLayout;
-
-import sustainablehealthsolutionsllc.bitecounter.AndroidView;
-
-import static android.media.AudioAttributes.*;
 
 public class BiteCounter extends ActionBarActivity {
     private static final String errMsg = "errMsg";
     static Context context;
     private Vibrator vibrator;
-    private static final int PROGRESS = 0x1;
     private BMI bmi = new BMI();
+
+    //this will enable the circle progress bar
     @AndroidView(R.id.circle_progress_bar)
     private ProgressBar circleProgress;
     private int pStatus;
     private Counter counter = new Counter();
     private static final String LOG_ERROR = "ERROR:Issue with line:";
     private Integer date;
-    private AudioAttributes alarm;
 
+    /**
+     * OnCreate: starts up the app activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,25 +58,30 @@ public class BiteCounter extends ActionBarActivity {
         addListenerImageButton();
         loadImageToLayout();
         this.context = getApplicationContext();
+
+        //sets up the
         counter.setContext(context);
-        counter.setNumBites(counter.retrieveBites(context));
+        counter.setNumBites(counter.retrieveBitesOnDay());
         counter.setLimit(counter.retrieveLimit(context));
+
+        counter.setLimit(100);
 
         circleProgress = (ProgressBar) findViewById(R.id.circle_progress_bar);
 
         TextView viewText = (TextView) findViewById(R.id.countView);
 
-            String starText = Integer.toString(this.counter.getNumBites());
+            String starText = Integer.toString(this.counter.retrieveBitesOnDay());
 
             viewText.setText(starText,TextView.BufferType.EDITABLE);
 
-            counter.reduceBy20(context); //THis line needs to be replaced eventually once
+//            counter.reduceBy20(context); //THis line needs to be replaced eventually once
                                     // THe 7 day average function comes into play.
+
         circleProgress.setMax(counter.retrieveLimit(context));
 
-        circleProgress.setProgress(counter.retrieveBites(context));
+        circleProgress.setProgress(counter.retrieveBitesOnDay());
 
-        if(counter.retrieveBites(context) > counter.retrieveLimit(context)) {
+        if(counter.retrieveBitesOnDay() > counter.retrieveLimit(context)) {
             circleProgress.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
         }
 
@@ -102,32 +95,28 @@ public class BiteCounter extends ActionBarActivity {
 
     public void onStart()  {
         super.onStart();
-        counter.setNumBites(counter.retrieveBites(context));
+        counter.setNumBites(counter.retrieveBitesOnDay());
         counter.setLimit(counter.retrieveLimit(context));
-        circleProgress.setMax(counter.getLimit());
+        circleProgress.setMax(counter.retrieveLimit(context));
 
-        circleProgress.setProgress(counter.getNumBites());
+        circleProgress.setProgress(this.counter.retrieveBitesOnDay());
 
-        if(counter.getNumBites() > counter.getLimit()) {
+        if(this.counter.retrieveBitesOnDay() > this.counter.retrieveLimit(context)) {
             circleProgress.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
         }
-        Calendar calendar = Calendar.getInstance();
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-//        if (dayOfWeek == getLastDate()) {
-//            counter.setNumBites(counter.retrieveBites(context));
-//        } else {
-//            counter.resetCounter();
-//            setTodaysDate();
-//        }
     }
 
+    /**
+     * onResume: is called when the app is called again from the device
+     * after being on.
+     */
     public void onResume() {
         super.onResume();
         Calendar calendar = Calendar.getInstance();
         int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         if (dayOfWeek == getLastDate()) { // dayOfWeek == getLastDate()
-            counter.setNumBites(counter.retrieveBites(context));
+            counter.setNumBites(counter.retrieveBitesOnDay());
             CharSequence text = "If 132 getNumBites returns" + Integer.toString(getLastDate());
             int duration = Toast.LENGTH_LONG;
             Toast toast = Toast.makeText(context, text, duration);
@@ -151,8 +140,10 @@ public class BiteCounter extends ActionBarActivity {
            Log.i(errMsg, "The time of the day is ................" + Integer.toString(hourOfDay));
        }
         Log.i(errMsg, "The time of the day is ................" + Integer.toString(hourOfDay));
-       circleProgress.setMax(counter.getLimit());
-       circleProgress.setProgress(counter.getNumBites());
+
+        //this is the Progress bars update when onStart is called
+       circleProgress.setMax(counter.retrieveLimit(context));
+       circleProgress.setProgress(counter.retrieveBitesOnDay());
 
         if(counter.getNumBites() > counter.getLimit()) {
             circleProgress.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
@@ -194,12 +185,14 @@ public class BiteCounter extends ActionBarActivity {
           }
     }
 
+    /**
+     * onStop is called when the activity is killed
+     */
     public void onStop() {
         super.onStop();
         counter.saveBites(context);
         counter.saveLimit(context);
         Calendar calendar = Calendar.getInstance();
-        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
         switch (dayOfWeek) {
             case 1:
@@ -236,6 +229,9 @@ public class BiteCounter extends ActionBarActivity {
         }
     }
 
+    /**
+     * called when the app is totally killed
+     */
     public void onDestroy() {
         super.onDestroy();
         counter.saveBites(context);
@@ -265,12 +261,13 @@ public class BiteCounter extends ActionBarActivity {
     }
 
     /**
-     * counter method: enables count ability to both the progress bar
-     * and the textview
-     * @param view
+     * counter method: enables count ability to both the Progress Bar
+     * and the TextView
+     * @param view The view of the activity Bite Counter
      */
     public void counter(View view) {
 
+        //sets up the vibrate,textView and the Progress Bar
         vibrator = (Vibrator) getSystemService(context.VIBRATOR_SERVICE);
 
         TextView text = (TextView) findViewById(R.id.countView);
@@ -283,7 +280,7 @@ public class BiteCounter extends ActionBarActivity {
 
         saveBitesOnDifferentDays();
 
-        pStatus = counter.getNumBites();
+        pStatus = counter.retrieveBitesOnDay();
                 circleProgress.setProgress(pStatus);
 
 
@@ -298,8 +295,7 @@ public class BiteCounter extends ActionBarActivity {
 
         //we want to vibrate when over the limit
         //vibrate for 5 seconds and play alarm
-        if(vibrator.hasVibrator()) {
-
+        if(vibrator.hasVibrator() && retrieveBuzzer()) {
             vibrator.vibrate(500);
         }
 
@@ -326,14 +322,21 @@ public class BiteCounter extends ActionBarActivity {
                 case R.id.action_graph:
                     Intent intent = new Intent(BiteCounter.this, Graph.class);
                     startActivity(intent);
+                    finish();
                     return true;
                 case R.id.action_aboutUs:
                     Intent intentUs = new Intent(BiteCounter.this, AboutUs.class);
                     startActivity(intentUs);
+                    finish();
                     return true;
                 case R.id.action_tutorial:
                     Intent intentT = new Intent(BiteCounter.this, Tutorials.class);
                     startActivity(intentT);
+                    finish();
+                    return true;
+                case R.id.action_settings:
+                    Intent intentS = new Intent(BiteCounter.this, SettingsActivity.class);
+                    startActivity(intentS);
                     return true;
                 default:
                     return super.onOptionsItemSelected(item);
@@ -344,7 +347,7 @@ public class BiteCounter extends ActionBarActivity {
      * This function activates when the Weight Button is pushed.
      * It creates an alertdialog that prompts the user for
      * information.
-     * @param view
+     * @param view - needs the view of the Bite Counter Activity
      */
     public void startAlertDialog (View view) {
 
@@ -540,7 +543,7 @@ public class BiteCounter extends ActionBarActivity {
     /**
      * Save Current Background:
      * This basically saves current image for loading when application's start-up
-     * @param pos
+     * @param pos -
      */
     public void saveCurrentBackground(int pos) {
         SharedPreferences settings = getSharedPreferences("image_data", 0);
@@ -552,7 +555,7 @@ public class BiteCounter extends ActionBarActivity {
     /**
      * Load and Read Bitmap:
      * This method creates a bitmap referencing imageID and the bitmap to Drawable.
-     * @param position
+     * @param position - The position for the bitmap to start?
      * @return Drawable
      */
     public Drawable loadReadBitmap(int position){
@@ -784,6 +787,19 @@ public class BiteCounter extends ActionBarActivity {
             }
         });
         alertDialog.show();
+    }
+
+    public void saveBuzzer(boolean buzz) {
+        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean("buzz", buzz);
+        editor.apply();
+    }
+
+    public boolean retrieveBuzzer() {
+        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
+        boolean shouldBuzz = settings.getBoolean("buzz", true);
+        return shouldBuzz;
     }
 
 }

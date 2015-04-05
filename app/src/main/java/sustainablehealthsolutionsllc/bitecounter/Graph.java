@@ -130,14 +130,21 @@ public class Graph extends ActionBarActivity {
             case R.id.action_counter:
                 Intent intent = new Intent(Graph.this, BiteCounter.class);
                 startActivity(intent);
+                finish();
                 return true;
             case R.id.action_aboutUs:
                 Intent intentUs = new Intent(Graph.this, AboutUs.class);
                 startActivity(intentUs);
+                finish();
                 return true;
             case R.id.action_tutorial:
                 Intent intentT = new Intent(Graph.this, Tutorials.class);
                 startActivity(intentT);
+                finish();
+                return true;
+            case R.id.action_settings:
+                Intent intentS = new Intent(Graph.this, SettingsActivity.class);
+                startActivity(intentS);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
