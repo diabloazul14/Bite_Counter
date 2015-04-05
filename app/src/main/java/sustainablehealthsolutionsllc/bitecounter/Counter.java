@@ -114,8 +114,7 @@ public class Counter {
     public void reduceBy20(Context context) {
         float average = average(context);
         float reduced = average - (average / 5);
-        this.limit = Math.round(reduced);
-
+        setLimit(Math.round(reduced));
 
     }
 
@@ -345,5 +344,58 @@ public class Counter {
         float finalAverage = average;
         finalAverage = finalAverage / 7;
         return finalAverage;
+    }
+
+
+    public void setDayToZero() {
+        Calendar calendar = Calendar.getInstance();
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        switch (dayOfWeek) {
+            case 1:
+                SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putInt("sunday", 0);
+                editor.apply();
+                break;
+            case 2:
+                SharedPreferences setting = context.getSharedPreferences("PREFS_NAME", 0);
+                SharedPreferences.Editor edito = setting.edit();
+                edito.putInt("monday", 0);
+                edito.apply();
+                break;
+            case 3:
+                SharedPreferences settin = context.getSharedPreferences("PREFS_NAME", 0);
+                SharedPreferences.Editor edit = settin.edit();
+                edit.putInt("tuesday", 0);
+                edit.apply();
+                break;
+            case 4:
+                SharedPreferences setti = context.getSharedPreferences("PREFS_NAME", 0);
+                SharedPreferences.Editor edi = setti.edit();
+                edi.putInt("wednesday", 0);
+                edi.apply();
+                break;
+            case 5:
+                SharedPreferences sett = context.getSharedPreferences("PREFS_NAME", 0);
+                SharedPreferences.Editor ed = sett.edit();
+                ed.putInt("thursday", 0);
+                ed.apply();
+                break;
+            case 6:
+                SharedPreferences set = context.getSharedPreferences("PREFS_NAME", 0);
+                SharedPreferences.Editor e = set.edit();
+                e.putInt("friday", 0);
+                e.apply();
+                break;
+            case 7:
+                SharedPreferences se = context.getSharedPreferences("PREFS_NAME", 0);
+                SharedPreferences.Editor es = se.edit();
+                es.putInt("saturday", 0);
+                es.apply();
+                break;
+            default:
+                System.out.println("Whoops");
+                break;
+        }
     }
 }

@@ -364,6 +364,8 @@ public class Graph extends ActionBarActivity {
      * Draw the customized weight graph and display it on the related layout
      */
     private void biteGraph() {
+        int width = this.getResources().getDisplayMetrics().widthPixels;
+        float scale = width / 720.0f;
         int[] x = {0, 1, 2, 3, 4, 5, 6};
         // update bites of week
         biteOfWeek();
@@ -398,7 +400,7 @@ public class Graph extends ActionBarActivity {
          * Customizing graphs
          */
         // setting text size of chart value
-        bitesRenderer.setChartValuesTextSize(30); //The initial value was 35
+        bitesRenderer.setChartValuesTextSize(scale * 30); //The initial value was 35
         // setting text align of chart value
         bitesRenderer.setChartValuesTextAlign(Align.CENTER);
         // setting text spacing of chart value
@@ -408,7 +410,7 @@ public class Graph extends ActionBarActivity {
         // setting text size of the axis title
         multiRenderer.setAxisTitleTextSize(30); //24
         // setting text size of the graph lable
-        multiRenderer.setLabelsTextSize(24); //24 was 30
+        multiRenderer.setLabelsTextSize(scale * 24); //24 was 30
         // setting zoom buttons visiblity
         multiRenderer.setZoomButtonsVisible(false);
         // setting pan enablity which uses graph to move on both axis
@@ -494,6 +496,8 @@ public class Graph extends ActionBarActivity {
      * Draw the customized weight graph and display it on the related layout
     */
     private void weightGraph() {
+        int width = this.getResources().getDisplayMetrics().widthPixels;
+        float scale = width / 720.0f;
         int[] x = {0, 1, 2, 3, 4, 5, 6};
         // update weight of week
         weightOfWeek();
@@ -528,7 +532,7 @@ public class Graph extends ActionBarActivity {
          * Customizing graphs
          */
         // setting text size of chart value
-        weightsRenderer.setChartValuesTextSize(30);
+        weightsRenderer.setChartValuesTextSize(scale * 30);
         // setting text value of chart value
         weightsRenderer.setChartValuesTextAlign(Align.CENTER);
         // setting text spacing of chart value
@@ -538,7 +542,7 @@ public class Graph extends ActionBarActivity {
         //setting text size of the axis title
         multiRenderer.setAxisTitleTextSize(30); //24
         //setting text size of the graph lable
-        multiRenderer.setLabelsTextSize(30); //24
+        multiRenderer.setLabelsTextSize(scale * 24); //24
         //setting zoom buttons visiblity
         multiRenderer.setZoomButtonsVisible(false);
         //setting pan enablity which uses graph to move on both axis

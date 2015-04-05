@@ -73,7 +73,6 @@ public class BiteCounter extends ActionBarActivity {
         counter.setContext(context);
         counter.setNumBites(counter.retrieveBites(context));
         counter.setLimit(counter.retrieveLimit(context));
-        reseter();
         circleProgress = (ProgressBar) findViewById(R.id.circle_progress_bar);
 
         TextView viewText = (TextView) findViewById(R.id.countView);
@@ -81,9 +80,7 @@ public class BiteCounter extends ActionBarActivity {
             String starText = Integer.toString(this.counter.getNumBites());
 
             viewText.setText(starText,TextView.BufferType.EDITABLE);
-
-            counter.reduceBy20(context); //THis line needs to be replaced eventually once
-                                    // THe 7 day average function comes into play.
+        counter.setLimit(20);
         circleProgress.setMax(counter.retrieveLimit(context));
 
         circleProgress.setProgress(counter.retrieveBites(context));
@@ -92,17 +89,12 @@ public class BiteCounter extends ActionBarActivity {
             circleProgress.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
         }
 
-        //This if statment sets the date only on the first run.
-//        if (getLastDate() == 0) {
-//            setTodaysDate();
-//            counter.setNumBites(0);
-//            Log.i(errMsg, "I was supppppppppppppppppppppper Called line 100 boop be boop");
-//        }
+//        reseter();
+
     }
 
     public void onStart()  {
         super.onStart();
-        reseter();
         counter.setNumBites(counter.retrieveBites(context));
         counter.setLimit(counter.retrieveLimit(context));
         circleProgress.setMax(counter.getLimit());
@@ -112,14 +104,8 @@ public class BiteCounter extends ActionBarActivity {
         if(counter.getNumBites() > counter.getLimit()) {
             circleProgress.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
         }
-//        Calendar calendar = Calendar.getInstance();
-//        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-//        if (dayOfWeek == getLastDate()) {
-//            counter.setNumBites(counter.retrieveBites(context));
-//        } else {
-//            counter.resetCounter();
-//            setTodaysDate();
-//        }
+
+        reseter();
     }
 
     public void onResume() {
@@ -127,24 +113,10 @@ public class BiteCounter extends ActionBarActivity {
         Calendar calendar = Calendar.getInstance();
         int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-//        if (dayOfWeek == getLastDate()) { // dayOfWeek == getLastDate()
-//            counter.setNumBites(counter.retrieveBites(context));
-//            CharSequence text = "If 132 getNumBites returns" + Integer.toString(getLastDate());
-//            int duration = Toast.LENGTH_LONG;
-//            Toast toast = Toast.makeText(context, text, duration);
-//            toast.show();
-//        } else {
-//            CharSequence text = "Else 137";
-//            int duration = Toast.LENGTH_LONG;
-//            Toast toast = Toast.makeText(context, text, duration);
-//            toast.show();
-//            counter.resetCounter();
-//            setTodaysDate();
-//        }
+
 
        counter.setLimit(counter.retrieveLimit(context));
        counter.saveLimit(context);
-
        circleProgress.setMax(counter.getLimit());
        circleProgress.setProgress(counter.getNumBites());
 
@@ -185,6 +157,8 @@ public class BiteCounter extends ActionBarActivity {
              Log.i(errMsg, "The day wasn't saved correctly");
              break;
           }
+
+//        reseter();
     }
 
     public void onStop() {
@@ -668,22 +642,20 @@ public class BiteCounter extends ActionBarActivity {
     }
 
     public void setDaysRun() {
+        int newDaysRun = getDaysRun() + 1;
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putInt("daysRun", 0);
+        editor.putInt("daysRun", newDaysRun);
         editor.apply();
     }
 
-    public int getDaysRun() {
+    public  int getDaysRun() {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         int numDaysRun = settings.getInt("daysRun", 0);
         return numDaysRun;
     }
 
-    public int howManyDaysHavePassed()  {
-        int howManyDays = getDaysRun();
-        return howManyDays;
-    }
+
 
     public void checkFirstRun() {
         boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRun", true);
@@ -696,6 +668,7 @@ public class BiteCounter extends ActionBarActivity {
                     .apply();
             View view = null;
             firstRunDialog(view);
+
         }
     }
 
@@ -786,13 +759,28 @@ public class BiteCounter extends ActionBarActivity {
                     Calendar calendar = Calendar.getInstance();
                     int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
                     if (getLastDate() != dayOfWeek) {
+                        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putInt("todaysDate", 0);
+                        editor.apply();
                         counter.resetCounter();
                         setTodaysDate();
+                        counter.setDayToZero();
+//                        biteCounterSetLimitTest();
                     }
                 }
             }
         };
         thread.start();
+    }
+
+    public void biteCounterSetLimitTest () {
+        setDaysRun();
+        if (getDaysRun() == 8) {
+            counter.reduceBy20(context);
+        } else if (getDaysRun() < 8) {
+            counter.setLimit(1000);
+        }
     }
 
 }
