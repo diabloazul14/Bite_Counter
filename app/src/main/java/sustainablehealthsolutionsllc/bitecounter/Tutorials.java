@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-
+/**
+ * This class helps the tutorial xml exist. It has no other purposes currently.
+ */
 public class Tutorials extends ActionBarActivity {
 
     @Override

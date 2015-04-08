@@ -101,14 +101,7 @@ public class BMI {
      * to be entered.
      */
     public void calcBmi() {
-//        setIsEntered();
-//        if (getIsEntered()) {
-            this.bmi = (703 * this.weight) / (this.height * this.height);
-//        } else {
-//            //I need to change this into either a toast or something
-//            //better than toast(If that's possible). But Probably a input form.
-//            System.out.println("You need to enter in a height and a weight");
-//        }
+        this.bmi = (703 * this.weight) / (this.height * this.height);
     }
 
     /**
@@ -265,42 +258,12 @@ public class BMI {
         float sundayWeight = settings.getFloat("sundayWeight", 0);
         return sundayWeight;
     }
-    public int retrieveTodayWeight(Context context) {
-        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
-        int storeWeight = settings.getInt("today", 0);
-        return storeWeight;
-    }
-    public int retrieveYesterdayWeight(Context context) {
-        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
-        int storeWeight = settings.getInt("yesterday", 0);
-        return storeWeight;
-    }
-    public int retrieve2DayAgoWeight(Context context) {
-        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
-        int storeWeight = settings.getInt("twoDayAgo", 0);
-        return storeWeight;
-    }
-    public int retrieve3DayAgoWeight(Context context) {
-        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
-        int storeWeight = settings.getInt("3DayAgo", 0);
-        return storeWeight;
-    }
-    public int retrieve4DayAgoWeight(Context context) {
-        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
-        int storeWeight = settings.getInt("4DayAgo", 0);
-        return storeWeight;
-    }
-    public int retrieve5DayAgoWeight(Context context) {
-        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
-        int storeWeight = settings.getInt("5DayAgo", 0);
-        return storeWeight;
-    }
-    public int retrieve6DayAgoWeight(Context context) {
-        SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
-        int storeWeight = settings.getInt("6DayAgo", 0);
-        return storeWeight;
-    }
 
+
+    /**
+     * This function saves the member variable this.bmi into shared preferences.
+     * @param context
+     */
     public void saveBmi(Context context) {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         SharedPreferences.Editor editor = settings.edit();
@@ -308,6 +271,12 @@ public class BMI {
         editor.apply();
     }
 
+    /**
+     * This function returns whatever value was in shared preferences for
+     * currentBmi
+     * @param context
+     * @return Float - currentBmi
+     */
     public Float retrieveBmi(Context context) {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         Float currentBmi = settings.getFloat("currentBmi", 0);

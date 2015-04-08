@@ -16,6 +16,10 @@ public class Counter {
     boolean pastLimit;
     Context context;
 
+    /**
+     * This function sets the context that is passed into it from the BiteCounter activity
+     * @param newContext
+     */
     public void setContext(Context newContext)  {
         this.context = newContext;
     }
@@ -337,6 +341,12 @@ public class Counter {
     }
     //This is a useless comment.
 
+    /**
+     * This function takes the average of the 7 days that are currently in shared
+     * preferences and returns this value as a float.
+     * @param context
+     * @return Float - Average
+     */
     public float average(Context context) {
         int average = 0;
         //Sum up the 7 days
@@ -350,6 +360,10 @@ public class Counter {
     }
 
 
+    /**
+     * This function puts a 0 into the current day in order for the
+     * counter to be able to start at zero on a new day.
+     */
     public void setDayToZero() {
         Calendar calendar = Calendar.getInstance();
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
@@ -402,6 +416,12 @@ public class Counter {
         }
     }
 
+    /**
+     * This function returns the number of bites on the current day
+     * by figuring out which day it is and then returning that
+     * value from shared preferences.
+     * @return Int - Number of bites on current day.
+     */
     public int retrieveBitesOnDay() {
         Calendar calendar = Calendar.getInstance();
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
@@ -436,6 +456,12 @@ public class Counter {
         return answer;
     }
 
+    /**
+     * This function takes a string and sets the numBites of the object.
+     * It also takes that value and saves it into the correct day by
+     * using calendar to figure out the current day.
+     * @param newBitesToSave
+     */
     public void saveBitesOnDay(String newBitesToSave) {
         Calendar calendar = Calendar.getInstance();
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
@@ -468,6 +494,11 @@ public class Counter {
         }
     }
 
+    /**
+     * This function finds out what day of the week it is and returns
+     * the day as a string.
+     * @return String - currentDay
+     */
     public String retrieveString() {
         Calendar calendar = Calendar.getInstance();
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);

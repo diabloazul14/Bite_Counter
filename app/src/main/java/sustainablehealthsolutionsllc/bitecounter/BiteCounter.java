@@ -38,6 +38,10 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
+/**
+ * This is heart of the BiteCounter app. It collects all of the data that
+ * is used in the BiteCounter activity as well as the graph activity.
+ */
 public class BiteCounter extends ActionBarActivity {
     private static final String errMsg = "errMsg";
     static Context context;
@@ -68,7 +72,6 @@ public class BiteCounter extends ActionBarActivity {
         //sets up the
         counter.setContext(context);
         counter.setNumBites(counter.retrieveBitesOnDay());
-//        counter.setLimit(counter.retrieveLimit(context));
 
         circleProgress = (ProgressBar) findViewById(R.id.circle_progress_bar);
 
@@ -77,7 +80,7 @@ public class BiteCounter extends ActionBarActivity {
             String starText = Integer.toString(this.counter.retrieveBitesOnDay());
 
             viewText.setText(starText,TextView.BufferType.EDITABLE);
-//        counter.setLimit(1000);
+
         biteCounterSetLimitTest();
         circleProgress.setMax(counter.retrieveLimit(context));
 
@@ -87,10 +90,14 @@ public class BiteCounter extends ActionBarActivity {
             circleProgress.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
         }
 
-//        reseter();
-
     }
 
+    /**
+     * This function is the most critical in terms of the timing, and saving of everything
+     * in the app. It sets the progress bar, and the counter text from shared preferences,
+     * and then runs the reseter() function which continually checks to see if the counter and
+     * progress bar need to be reset.
+     */
     public void onStart()  {
         super.onStart();
         counter.setNumBites(counter.retrieveBites(context));
@@ -112,14 +119,7 @@ public class BiteCounter extends ActionBarActivity {
      */
     public void onResume() {
         super.onResume();
-        Calendar calendar = Calendar.getInstance();
-        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-//        
         biteCounterSetLimitTest();
-
-//       counter.setLimit(counter.retrieveLimit(context));
-//       counter.saveLimit(context);
 
         //this is the Progress bars update when onStart is called
        circleProgress.setMax(counter.retrieveLimit(context));
@@ -135,41 +135,7 @@ public class BiteCounter extends ActionBarActivity {
             circleProgress.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
         }
 
-//       switch (dayOfWeek) {
-//          case 1:
-//             counter.saveSunday(context);
-//              bmi.saveSundayWeight(context);
-//             break;
-//          case 2:
-//             counter.saveMonday(context);
-//              bmi.saveMondayWeight(context);
-//             break;
-//          case 3:
-//             counter.saveTuesday(context);
-//              bmi.saveTuesdayWeight(context);
-//             break;
-//          case 4:
-//             counter.saveWednesday(context);
-//              bmi.saveWednesdayWeight(context);
-//             break;
-//          case 5:
-//             counter.saveThursday(context);
-//              bmi.saveThursdayWeight(context);
-//             break;
-//          case 6:
-//             counter.saveFriday(context);
-//              counter.saveFriday(context);
-//             break;
-//          case 7:
-//            counter.saveSaturday(context);
-//              bmi.saveSaturdayWeight(context);
-//             break;
-//          default:
-//             Log.i(errMsg, "The day wasn't saved correctly");
-//             break;
-//          }
 
-//        reseter();
     }
 
     /**
@@ -177,43 +143,6 @@ public class BiteCounter extends ActionBarActivity {
      */
     public void onStop() {
         super.onStop();
-//        counter.saveBites(context);
-//        counter.saveLimit(context);
-//        Calendar calendar = Calendar.getInstance();
-//        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-//        switch (dayOfWeek) {
-//            case 1:
-//                counter.saveSunday(context);
-//                bmi.saveSundayWeight(context);
-//                break;
-//            case 2:
-//                counter.saveMonday(context);
-//                bmi.saveMondayWeight(context);
-//                break;
-//            case 3:
-//                counter.saveTuesday(context);
-//                bmi.saveTuesdayWeight(context);
-//                break;
-//            case 4:
-//                counter.saveWednesday(context);
-//                bmi.saveWednesdayWeight(context);
-//                break;
-//            case 5:
-//                counter.saveThursday(context);
-//                bmi.saveThursdayWeight(context);
-//                break;
-//            case 6:
-//                counter.saveFriday(context);
-//                counter.saveFriday(context);
-//                break;
-//            case 7:
-//                counter.saveSaturday(context);
-//                bmi.saveSaturdayWeight(context);
-//                break;
-//            default:
-//                Log.i(errMsg, "The day wasn't saved correctly");
-//                break;
-//        }
     }
 
     /**
@@ -221,8 +150,6 @@ public class BiteCounter extends ActionBarActivity {
      */
     public void onDestroy() {
         super.onDestroy();
-//        counter.saveBites(context);
-//        counter.saveLimit(context);
     }
 
     @Override
@@ -236,6 +163,12 @@ public class BiteCounter extends ActionBarActivity {
 
     }
 
+    /**
+     * This function was supposed to be getting called when the activity is restored.
+     * But this function shouldn't be getting used. Default to onStart() if you
+     * wish to change the state of anything in the app.
+     * @param savedInstanceState
+     */
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         // Always call the superclass so it can restore the view hierarchy
         super.onRestoreInstanceState(savedInstanceState);
@@ -263,8 +196,6 @@ public class BiteCounter extends ActionBarActivity {
         circleProgress.setMax(counter.retrieveLimit(context));
 
         counter.incrementBite(context);
-
-//        saveBitesOnDifferentDays();
 
         pStatus = counter.retrieveBitesOnDay();
                 circleProgress.setProgress(pStatus);
@@ -349,13 +280,6 @@ public class BiteCounter extends ActionBarActivity {
         final EditText weight = new EditText(this);
         lila1.addView(weight);
 
-
-//        final TextView heightLargeMessage = new TextView(this);
-//        heightLargeMessage.setText("Please enter your height");
-//        lila1.addView(heightLargeMessage);
-//        final EditText heightLarge = new EditText(this);
-//        lila1.addView(heightLarge);
-
         alertDialog.setView(lila1);
 
         alertDialog.setButton("Cancel", new DialogInterface.OnClickListener() {
@@ -393,7 +317,6 @@ public class BiteCounter extends ActionBarActivity {
                 } else {
                         Float newWeight = Float.valueOf(weightInput);
                         Converter converter = new Converter();
-//                    converter.parser(newHeight);
                         converter.setWeight(newWeight);  //Needs to be implemented after converter.parser
                         bmi.setWeight(converter.getWeight());
 
@@ -426,7 +349,6 @@ public class BiteCounter extends ActionBarActivity {
                                 break;
                         }
 
-//                    saveBitesOnDifferentDays();
                     }
                 }
         });
@@ -484,7 +406,6 @@ public class BiteCounter extends ActionBarActivity {
             case 1:
                 Drawable wall1 = loadReadBitmap(pos);
                 rl.setBackground(wall1);
-//                    wall = wall1.getConstantState().newDrawable();
                 saveCurrentBackground(pos);
                 break;
             case 2:
@@ -565,6 +486,12 @@ public class BiteCounter extends ActionBarActivity {
         }
     }
 
+    /**
+     * THis function saves the weight and number of bites on the current day of the week.
+     * However this function shouldn't be used as the logic conflicts with the other logic in the
+     * above functions when it is used. However, this function was very helpful in the initial
+     * project build.
+     */
     public void saveBitesOnDifferentDays() {
         Calendar calendar = Calendar.getInstance();
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
@@ -603,6 +530,11 @@ public class BiteCounter extends ActionBarActivity {
         }
     }
 
+
+    /**
+     * This function calls calendar in order to find out what day of
+     * the week it is and then it saves that number into sharedPreferences.
+     */
     public void setTodaysDate() {
         Calendar calendar = Calendar.getInstance();
         Integer todaysDate = calendar.get(Calendar.DAY_OF_WEEK);
@@ -614,12 +546,22 @@ public class BiteCounter extends ActionBarActivity {
 
     }
 
+    /**
+     * This function returns what the last date in shared preferences is.
+     * @return integer - todaysDate
+     */
     public Integer getLastDate() {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         int todaysDate = settings.getInt("todaysDate", 0);
         return todaysDate;
     }
 
+    /**
+     * This function tests to see if the data entered is a number
+     * or if it isn't.
+     * @param str
+     * @return boolean
+     */
     public static boolean isNumeric(String str)    {
         try        {
             double d = Double.parseDouble(str);
@@ -629,6 +571,13 @@ public class BiteCounter extends ActionBarActivity {
         return true;
     }
 
+    /**
+     * This function tests to see if the number passed in
+     * exceeds the value of a double. If it does they probablly entered
+     * the wrong number.
+     * @param str
+     * @return
+     */
     public static boolean isTooLarge(String str) {
         try {
             double d = Double.parseDouble(str);
@@ -638,6 +587,12 @@ public class BiteCounter extends ActionBarActivity {
         return false;
     }
 
+    /**
+     * THis function checks to see if a number is greater
+     * than a thousand.
+     * @param str
+     * @return boolean
+     */
     public static boolean greaterThan1000(String str) {
         double d = Double.parseDouble(str);
         if (d > 1000) {
@@ -647,6 +602,12 @@ public class BiteCounter extends ActionBarActivity {
         }
     }
 
+    /**
+     * This function was a tester function used in a button
+     * in order to reset the counter. But, the code for this is also
+     * found in the reseter function.
+     * @param view
+     */
     public void reset(View view) {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         SharedPreferences.Editor editor = settings.edit();
@@ -659,6 +620,10 @@ public class BiteCounter extends ActionBarActivity {
         toast.show();
     }
 
+    /**
+     * This function increments the number of days that the app has
+     * been running and then saves that value into shared Preferences.
+     */
     public void setDaysRun() {
         int newDaysRun = getDaysRun() + 1;
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
@@ -667,17 +632,23 @@ public class BiteCounter extends ActionBarActivity {
         editor.apply();
     }
 
+
+    /**
+     * This function returns whatever value is in shared preferences
+     * for how many days the app has been running.
+     * @return int - daysRun
+     */
     public  int getDaysRun() {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         int numDaysRun = settings.getInt("daysRun", 0);
         return numDaysRun;
     }
 
-    public int howManyDaysHavePassed()  {
-        int howManyDays = getDaysRun();
-        return howManyDays;
-    }
-
+    /**
+     * This function runs when the app is on. It finds out if
+     * the app is running for the first time. If it is it
+     * displays the firstRunDialog.
+     */
     public void checkFirstRunBiteCounter() {
         boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRunBiteCounter", true);
         if (isFirstRun){
@@ -693,6 +664,12 @@ public class BiteCounter extends ActionBarActivity {
         }
     }
 
+    /**
+     * This function is called the first time
+     * that the user uses the app. When it is called it
+     * prompts the user for their weight.
+     * @param view
+     */
     public void firstRunDialog (View view) {
 
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
@@ -706,13 +683,6 @@ public class BiteCounter extends ActionBarActivity {
         lila1.addView(weightMessage);
         final EditText weight = new EditText(this);
         lila1.addView(weight);
-
-
-//        final TextView heightLargeMessage = new TextView(this);
-//        heightLargeMessage.setText("Please enter your height");
-//        lila1.addView(heightLargeMessage);
-//        final EditText heightLarge = new EditText(this);
-//        lila1.addView(heightLarge);
 
         alertDialog.setView(lila1);
         alertDialog.setButton2("Confirm", new DialogInterface.OnClickListener() {
@@ -744,7 +714,6 @@ public class BiteCounter extends ActionBarActivity {
                 } else {
                     Float newWeight = Float.valueOf(weightInput);
                     Converter converter = new Converter();
-//                    converter.parser(newHeight);
                     converter.setWeight(newWeight);  //Needs to be implemented after converter.parser
                     bmi.setWeight(converter.getWeight());
 
@@ -777,7 +746,6 @@ public class BiteCounter extends ActionBarActivity {
                             break;
                     }
 
-//                    saveBitesOnDifferentDays();
                 }
 
             }
@@ -785,6 +753,12 @@ public class BiteCounter extends ActionBarActivity {
         alertDialog.show();
     }
 
+    /**
+     * This function takes a boolean that is passed into it
+     * and then saves that value into shared preferences as
+     * to whether or not the buzzer should buzz.
+     * @param buzz
+     */
     public void saveBuzzer(boolean buzz) {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         SharedPreferences.Editor editor = settings.edit();
@@ -792,12 +766,25 @@ public class BiteCounter extends ActionBarActivity {
         editor.apply();
     }
 
+    /**
+     * This function returns the boolean value of buzz
+     * from shared preferences.
+     * @return boolean - shouldBuzz
+     */
     public boolean retrieveBuzzer() {
         SharedPreferences settings = context.getSharedPreferences("PREFS_NAME", 0);
         boolean shouldBuzz = settings.getBoolean("buzz", true);
         return shouldBuzz;
     }
 
+    /**
+     * Super awesome background thread that runs while the
+     * app is running. It checks to find out if the date
+     * has changed. If the date has changed it resets the
+     * counter and fixes the date. This function also calls
+     * setDaysRun() which increments the amount of days this app
+     * has been running.
+     */
     public void reseter() {
         Thread thread = new Thread(){
             public void run(){
@@ -812,7 +799,6 @@ public class BiteCounter extends ActionBarActivity {
                         counter.resetCounter();
                         setTodaysDate();
                         counter.setDayToZero();
-//                        biteCounterSetLimitTest();
                         setDaysRun();
                     }
                 }
@@ -821,9 +807,15 @@ public class BiteCounter extends ActionBarActivity {
         thread.start();
     }
 
+    /**
+     * Checks to see if the app has been running less then
+     * 8 days, if it has the limit is set to 1000.
+     * If the app has been running for 8 days, it
+     * calls counters reduceBy20 function which
+     * takes the average number of bites and
+     * reduces this amount by 20%
+     */
     public void biteCounterSetLimitTest () {
-
-//        setDaysRun();
         if (getDaysRun() == 8) {
             counter.reduceBy20(context);
         } else if (getDaysRun() < 8) {
