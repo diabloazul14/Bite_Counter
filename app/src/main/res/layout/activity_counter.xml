@@ -13,6 +13,7 @@
         android:orientation="vertical"
         android:gravity="center">
 
+        <!-- Counter Textview has a default -->
         <TextView
             android:id="@+id/countView"
             android:layout_width="wrap_content"
@@ -27,6 +28,7 @@
 
     </LinearLayout>
 
+    <!-- this is the background progress view drawable should be white -->
     <ProgressBar
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
@@ -38,6 +40,7 @@
         android:progressDrawable="@drawable/circle_progress_background"
         android:id="@+id/progressBar" />
 
+    <!-- this is the front progress bar which should be blue -->
     <ProgressBar
         android:id="@+id/circle_progress_bar"
         style="?android:attr/progressBarStyleHorizontal"
@@ -49,7 +52,7 @@
         android:indeterminate="false"
         android:progressDrawable="@drawable/circle_progress_foreground" />
 
-
+    <!-- Bmi button -->
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -60,6 +63,7 @@
         android:layout_below="@+id/button_circle"
         android:layout_centerHorizontal="true" />
 
+    <!-- Counter circle button -->
     <ImageButton
         android:layout_width="235dp"
         android:layout_height="235dp"
@@ -71,17 +75,12 @@
         android:layout_centerHorizontal="true"
         android:gravity="center_vertical|center_horizontal"/>
 
+    <!-- Wallpaper button -->
     <ImageButton
         android:id="@+id/button_image"
         android:background="@drawable/white_gallery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
-    <android.support.v4.view.ViewPager
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
 
 </RelativeLayout>
