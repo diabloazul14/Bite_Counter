@@ -7,7 +7,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-
+/**
+ * This class helps the AboutUs activities xml exist, other than this
+ * it has no other purposes.
+ */
 public class AboutUs extends ActionBarActivity {
 
     @Override

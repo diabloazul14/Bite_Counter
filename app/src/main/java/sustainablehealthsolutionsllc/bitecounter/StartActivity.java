@@ -6,6 +6,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+
+/**
+ * This class controls the StartActivity page. This is crucial because it can only
+ * be used the first time that the app is used.
+ */
 public class StartActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {

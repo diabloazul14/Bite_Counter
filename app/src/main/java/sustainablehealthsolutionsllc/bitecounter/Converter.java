@@ -63,12 +63,7 @@ public class Converter {
      * @param newWeight
      */
     public void setWeight(float newWeight) {
-//        if(getIsMetric()) {
             this.weight = newWeight;
-//        } else {
-//            this.weight = .453592f * newWeight;
-//        }
-
     }
 
     /**
